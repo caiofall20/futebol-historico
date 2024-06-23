@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }} - Histórico de Futebol</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                <img src="{% static 'blog/images/logo.png' %}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+                Histórico de Futebol
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'selecoes' %}">Seleções Históricas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'times' %}">Times Históricos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'jogadores' %}">Jogadores Lendários</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Section -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <article>
+                    <h1 class="display-4">{{ post.title }}</h1>
+                    <p class="text-muted">{{ post.created_at }}</p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="content">
+                        {{ post.content|safe }}
+                    </div>
+                </article>
+                
+                <!-- Comments Section -->
+                <div class="comments mt-5">
+                    <h3>Comentários</h3>
+                    {% for comment in comments %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ comment.author }}</h5>
+                                <p class="card-text">{{ comment.text }}</p>
+                                <p class="text-muted">{{ comment.created_date }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <h4>Deixe um comentário</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic">Sobre</h4>
+                    <p class="mb-0">Este blog é dedicado a celebrar a rica história do futebol, destacando seleções, clubes e jogadores lendários que marcaram época.</p>
+                </div>
+                
+                <div class="p-4">
+                    <h4 class="fst-italic">Categorias</h4>
+                    <ol class="list-unstyled">
+                        <li><a href="{% url 'selecoes' %}">Seleções Históricas</a></li>
+                        <li><a href="{% url 'times' %}">Times Históricos</a></li>
+                        <li><a href="{% url 'jogadores' %}">Jogadores Lendários</a></li>
+                    </ol>
+                </div>
+                
+                <div class="p-4">
+                    <h4 class="fst-italic">Últimos Posts</h4>
+                    <ol class="list-unstyled">
+                        {% for recent_post in recent_posts %}
+                            <li><a href="{% url 'post_detail' recent_post.pk %}">{{ recent_post.title }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-3 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 Histórico de Futebol. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
