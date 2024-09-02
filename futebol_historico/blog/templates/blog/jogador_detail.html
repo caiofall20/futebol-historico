@@ -8,6 +8,78 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+    <!-- Fonte Bebas Neue -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- Flag Icons CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        .hero-section {
+            background: linear-gradient(to right, #000000, #000033);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            font-family: 'Bebas Neue', cursive;
+        }
+        .player-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .player-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .player-card img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+        }
+        .player-info {
+            font-family: 'Bebas Neue', cursive;
+        }
+        .player-info h2 {
+            margin-bottom: 20px;
+        }
+        .player-info p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .player-info .flag {
+            width: 32px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        .biography-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .comments {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .comments h3 {
+            margin-bottom: 20px;
+        }
+        .comments .card {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -29,56 +101,77 @@
                         <a class="nav-link" href="{% url 'selecoes' %}">Seleções Históricas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'times' %}">Times Históricos</a>
-                    </li>
+                        <a class="nav-link" href="{% url 'times' %}">Times Históricos</a></li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'jogadores' %}">Jogadores Lendários</a>
-                    </li>
+                        <a class="nav-link active" href="{% url 'jogadores_page' %}">Jogadores Lendários</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>{{ jogador.nome }}</h1>
+        </div>
+    </section>
+
     <!-- Player Detail Section -->
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-8">
-                <article>
-                    <h1 class="display-4">{{ jogador.nome }}</h1>
-                    {% if jogador.imagem %}
-                        <img src="{{ jogador.imagem.url }}" class="img-fluid rounded mb-4" alt="{{ jogador.nome }}">
-                    {% endif %}
-                    <div class="content">
-                        {{ jogador.biografia|safe }}
+        <div class="player-section">
+            <div class="player-card">
+                {% if jogador.carta %}
+                    <img src="{{ jogador.carta.url }}" alt="Carta do {{ jogador.nome }}">
+                {% endif %}
+                <div class="player-info">
+                    <h2>{{ jogador.nome }}</h2>
+                    <p><strong>Data de Nascimento:</strong> {{ jogador.nascimento }}</p>
+                    <p><strong>Nacionalidade:</strong>
+                        {% if jogador.nacionalidade == "Brasil" %}
+                            <span class="flag-icon flag-icon-br"></span>
+                        {% elif jogador.nacionalidade == "Argentina" %}
+                            <span class="flag-icon flag-icon-ar"></span>
+                        {% elif jogador.nacionalidade == "Portugal" %}
+                            <span class="flag-icon flag-icon-pt"></span>
+                        {% elif jogador.nacionalidade == "França" %}
+                            <span class="flag-icon flag-icon-fr"></span>
+                        {% elif jogador.nacionalidade == "Espanha" %}
+                            <span class="flag-icon flag-icon-es"></span>
+                        {% else %}
+                            <span class="flag-icon flag-icon-un"></span>
+                        {% endif %}
+                        {{ jogador.nacionalidade }}
+                    </p>
+                    <p><strong>Início da Carreira:</strong> {{ jogador.inicio_carreira }}</p>
+                    <p><strong>Fim da Carreira:</strong> {{ jogador.fim_carreira }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="biography-section">
+            <h3>Biografia</h3>
+            <div>
+                {{ jogador.biografia|safe }}
+            </div>
+        </div>
+        <!-- Comments Section -->
+        <div class="comments">
+            <h3>Comentários</h3>
+            {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ comment.author }}</h5>
+                        <p class="card-text">{{ comment.text }}</p>
+                        <p class="text-muted">{{ comment.created_date }}</p>
                     </div>
-                </article>
-            </div>
+                </div>
+            {% endfor %}
             
-            <!-- Sidebar -->
-            <div class="col-lg-4">
-                <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">Sobre</h4>
-                    <p class="mb-0">Este blog é dedicado a celebrar a rica história do futebol, destacando seleções, clubes e jogadores lendários que marcaram época.</p>
-                </div>
-                
-                <div class="p-4">
-                    <h4 class="fst-italic">Categorias</h4>
-                    <ol class="list-unstyled">
-                        <li><a href="{% url 'selecoes' %}">Seleções Históricas</a></li>
-                        <li><a href="{% url 'times' %}">Times Históricos</a></li>
-                        <li><a href="{% url 'jogadores' %}">Jogadores Lendários</a></li>
-                    </ol>
-                </div>
-                
-                <div class="p-4">
-                    <h4 class="fst-italic">Últimos Posts</h4>
-                    <ol class="list-unstyled">
-                        {% for recent_post in recent_posts %}
-                            <li><a href="{% url 'post_detail' recent_post.pk %}">{{ recent_post.title }}</a></li>
-                        {% endfor %}
-                    </ol>
-                </div>
-            </div>
+            <h4>Deixe um comentário</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
         </div>
     </div>
 

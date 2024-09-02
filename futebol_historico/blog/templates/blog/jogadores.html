@@ -32,7 +32,7 @@
                         <a class="nav-link" href="{% url 'times' %}">Times Históricos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'jogadores' %}">Jogadores Lendários</a>
+                        <a class="nav-link active" href="{% url 'jogadores_page' %}">Jogadores Lendários</a>
                     </li>
                 </ul>
             </div>
@@ -61,7 +61,7 @@
                 <div class="col-md-4 jogador-card" data-nome="{{ jogador.nome }}" data-nacionalidade="{{ jogador.nacionalidade }}" data-periodo="{{ jogador.inicio_carreira.year }}-{{ jogador.fim_carreira.year }}">
                     <div class="card mb-4 shadow-sm">
                         {% if jogador.imagem %}
-                            <img src="{{ jogador.imagem.url }}" class="card-img-top img-fluid" alt="{{ jogador.nome }}">
+                            <img src="{{ jogador.imagem.url }}" class="card-img-top-jogador img-fluid" alt="{{ jogador.nome }}">
                         {% else %}
                             <img src="{% static 'blog/images/default.jpg' %}" class="card-img-top img-fluid" alt="Imagem padrão">
                         {% endif %}

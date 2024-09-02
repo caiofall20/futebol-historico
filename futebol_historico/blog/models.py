@@ -28,26 +28,11 @@ class Image(models.Model):
     def __str__(self):
         return f"Image for post: {self.post.title}"
 
-class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
-    name = models.CharField(max_length=80)
-    email = models.EmailField()
-    body = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    active = models.BooleanField(default=True)
-
-    class Meta:
-        ordering = ['created_on']
-
-    def __str__(self):
-        return f'Comment by {self.name} on {self.post}'
-
-from django.db import models
-
 class Jogador(models.Model):
     nome = models.CharField(max_length=200)
     imagem = models.ImageField(upload_to='jogadores/', blank=True, null=True)
     biografia = RichTextField()
+    carta = models.ImageField(upload_to='cartas/', blank=True, null=True)
     nacionalidade = models.CharField(max_length=100, default='Desconhecida')
     inicio_carreira = models.DateField(default='1900-01-01')
     fim_carreira = models.DateField(default='2000-01-01')
@@ -95,3 +80,19 @@ class Time(models.Model):
 
     def __str__(self):
         return self.nome
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, )
+    jogador = models.ForeignKey(Jogador, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+    name = models.CharField(max_length=80)
+    email = models.EmailField()
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return f'Comment by {self.name} on {self.post}'
+
+from django.db import models

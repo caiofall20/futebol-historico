@@ -1,13 +1,24 @@
 # blog/views.py
 
+import logging
 from django.shortcuts import render, get_object_or_404
 from .models import Jogador, Post, Comment, Selecao,Time
 from .forms import CommentForm
 
+# def index(request):
+#     # Obter as 3 últimas postagens
+#     recent_posts = Post.objects.order_by('-created_at')[:3]
+#     return render(request, 'blog/index.html', {'recent_posts': recent_posts})
+
+logger = logging.getLogger(__name__)
+
 def index(request):
-    # Obter as 3 últimas postagens
-    recent_posts = Post.objects.order_by('-created_at')[:3]
-    return render(request, 'blog/index.html', {'recent_posts': recent_posts})
+    jogadores = Jogador.objects.all()[:3]
+    logger.info(f'Jogadores carregados: {jogadores}')
+    context = {
+        'jogadores': jogadores
+    }
+    return render(request, 'blog/index.html', context)
 
 def selecoes(request):
     query = request.GET.get('q')
@@ -39,11 +50,49 @@ def times(request):
 
 def jogadores(request):
     jogadores = Jogador.objects.all()
+    print(jogadores)
     return render(request, 'blog/jogadores.html', {'jogadores': jogadores})
 
-def jogador_detail(request, jogador_id):
-    jogador = get_object_or_404(Jogador, pk=jogador_id)
-    return render(request, 'blog/jogador_detail.html', {'jogador': jogador})
+# def jogadores_index(request):
+#     jogadores = Jogador.objects.all()
+#     print(jogadores)  # Adicione esta linha para depurar
+#     return render(request, 'blog/index.html', {'jogadores': jogadores})
+def render_jogadores(request, template_name):
+    jogadores = Jogador.objects.all()
+    print(f"Jogadores encontrados: {jogadores}")  # Linha de depuração
+    return render(request, template_name, {'jogadores': jogadores})
+
+def jogadores_index(request):
+    jogadores = Jogador.objects.all()
+    print(f"Jogadores encontrados: {jogadores}")  # Linha de depuração
+    return render(request, 'blog/index.html', {'jogadores': jogadores})
+
+def jogadores_page(request):
+    jogadores = Jogador.objects.all()
+    print(f"Jogadores encontrados: {jogadores}")  # Linha de depuração
+    return render(request, 'blog/jogadores.html', {'jogadores': jogadores})
+
+def jogador_detail(request, pk):
+    jogador = get_object_or_404(Jogador, pk=pk)
+    comments = Comment.objects.filter(jogador=jogador)
+    recent_posts = Post.objects.order_by('-created_at')[:5]
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.jogador = jogador
+            comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'blog/jogador_detail.html', {
+        'jogador': jogador,
+        'comments': comments,
+        'comment_form': comment_form,
+        'recent_posts': recent_posts
+    })
+
 
 def times(request):
     query = request.GET.get('q')
