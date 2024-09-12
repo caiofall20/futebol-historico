@@ -11,3 +11,5 @@ function showSlides() {
     slideIndex = (slideIndex + 1) % slides.length;
     setTimeout(showSlides, 3000); // Troca de slide a cada 3 segundos
 }
+
+

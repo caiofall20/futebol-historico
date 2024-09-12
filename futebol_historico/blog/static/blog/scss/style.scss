@@ -1,0 +1,406 @@
+@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wdth,wght@0,87.5,100..900;1,87.5,100..900&family=Gilda+Display&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import 'variables';
+
+// Estilos Globais
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px!important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-y: auto; 
+    overflow-x: hidden;                                                    
+    box-sizing: border-box;
+    text-align: center;
+    background: $background-gradient;
+    color: $secondary-color!important;
+
+    a {
+        color: $secondary-color!important;
+
+        &:hover {
+            background-color: $hover-bg-color;
+            border-radius: 5px;
+        }
+    }
+
+    header{
+        nav {
+            padding: 10px 20px;
+            background-color: rgba(220, 220, 220, 0.1);
+            text-transform: uppercase;
+            font-family: 'Georama', sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            line-height: 130%; 
+            letter-spacing: 0.02em;
+            color: $secondary-color;
+        
+            ul {        
+                &.menu-items{
+                    display: flex;
+                    li {
+                        display: flex;
+                        align-items: center;
+                        &:not(:last-child)::after {
+                            content: "";
+                            display: inline-block;
+                            width: 16px;
+                            height: 16px;
+                            background-image: url("#{$svg-icon}");
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                            margin-left: 8px; 
+                            vertical-align: middle; 
+
+                            @media(max-width:576px){
+                                &{
+                                    background-image:none;
+                                }
+                            }
+                        }
+                    }
+                }   
+            }
+
+            .menu-idioms {
+                cursor: pointer;
+                font-size: 0.6rem;
+                
+                .dropdown-toggle {
+                    padding: 5px 6px;
+                    text-transform: none;
+                    background: linear-gradient(45deg, #150633, #662C0C);
+                    border-radius: 6rem;
+                    width: 2.6rem;
+                    height: 2.6rem;
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+
+                    &:hover{
+                        pointer-events: none; 
+                        background-color: inherit; 
+                    }    
+                }
+
+                .dropdown-menu {
+                    border: none;
+                    border-radius: 5px;
+                }
+
+                .dropdown-item {
+                    color: #212529!important;
+                    font-size: 0.7rem;
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.2);
+                    }
+                }
+            }    
+        } 
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 2rem;
+            position: relative;
+            font-family: 'Georama', sans-serif;
+
+           &-content {
+                padding: 0 5rem;
+
+                h1 {
+                    text-transform: uppercase;
+                    color: $secondary-color;
+                    text-shadow: 1px 1px 3px black;
+                    font-size: 5rem;
+                    width: 15rem;
+
+                    span{
+                        font-size: 3rem;
+                        text-transform: lowercase;
+                        font-family: 'Gilda Display', sans-serif;
+                        position: relative;
+                        bottom: 1rem;
+                    }
+                }
+        
+                p {
+                    font-size: 1rem;
+                    font-weight: 200;
+                    width: 25rem;
+                    color: $secondary-color;
+                    font-family: 'Poppins', sans-serif;
+                    span{
+                        font-weight: bold;
+                    }
+                }
+                
+                &-img {
+                    &-bola{
+                        position: absolute;
+                        width: 20rem;
+                        right: 21rem;
+                        top: 8rem;
+                        z-index: 1; 
+                        animation: spin 80s linear infinite;
+                    }
+    
+                   &::before {
+                        content: "";
+                        position: absolute;
+                        width: 25rem;
+                        height: 25rem;
+                        right: 17rem;
+                        top: 5rem;
+                        background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D); 
+                        filter: blur(50px); 
+                        z-index: -1;
+                        border-radius: 50%; 
+                        opacity: 0.3;
+                    }
+    
+                    &-mosaico{
+                        width: 22rem;
+                    }
+                }
+            }
+        }  
+    }
+
+    .highlight-players {
+        &-header{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-family: 'Georama', sans-serif;
+
+            &-seeMore{
+                a {
+                    font-weight: bold;
+                    padding: 0.5rem;
+
+                    img{
+                        width: 1rem;
+                    }
+                }
+
+            }
+        }
+
+        &-content{
+            .carousel-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+
+                .player-card {
+                    background: $card-background-color;
+                    padding: 10px;
+                    border-radius: 4px;
+                    width: 15rem; 
+        
+                    img {
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: transform 0.3s ease;
+        
+                        &:hover {
+                            transform: scale(1.1);
+                        }
+                    }
+
+                    &.highlighted {
+                        width: 18rem;  
+                        transition: width 0.3s ease;
+                    }
+                }
+            }
+        }
+    }
+
+    .nations-of-world{
+        &-header{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-family: 'Georama', sans-serif;
+        }
+        &-icons{
+            text-align: center;
+            margin-top: 20px;
+            .icon{
+                display: inline-block;
+                margin: 0 10px;
+
+                img{
+                    width: 50px;
+                    height: 50px;
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+
+                    &:hover{
+                       transform: scale(1.1);
+                    }
+                }
+            }
+        }
+
+        &-card{
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+
+            button{
+                margin-top: 10px;
+                padding: 5px 10px;
+                background-color: #FFD600;
+                color: #000;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: #FFC107;
+                }
+            }
+        }
+        
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+            max-width: 100%;
+            margin: 50px auto;
+            pointer-events: none;
+        }
+    }
+
+    
+}
+
+/* Animações */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg); /* Início da rotação */
+    }
+    100% {
+        transform: rotate(360deg); /* Rotação completa */
+    }
+}
+
+/* Estiliza a barra de rolagem */
+::-webkit-scrollbar {
+    width: 10px; /* Largura da barra de rolagem */
+    height: 10px; /* Altura da barra de rolagem para rolagem horizontal */
+}
+
+/* Estiliza o fundo da barra de rolagem */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+    border-radius: 10px; /* Arredondamento das bordas */
+}
+
+/* Estiliza o polegar da barra de rolagem */
+::-webkit-scrollbar-thumb {
+    background: #888; /* Cor do polegar da barra de rolagem */
+    border-radius: 10px; /* Arredondamento das bordas do polegar */
+}
+
+/* Estiliza o polegar da barra de rolagem ao passar o mouse sobre ele */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor do polegar quando o mouse está sobre ele */
+}
+
+    // // Info Card
+    // .info-card {
+    //     display: none;
+    //     position: fixed;
+    //     top: 50%;
+    //     left: 50%;
+    //     transform: translate(-50%, -50%);
+    //     background-color: $info-card-bg;
+    //     color: $secondary-color;
+    //     padding: 20px;
+    //     border-radius: 10px;
+    //     width: 300px;
+    //     box-shadow: $info-card-shadow;
+    //     z-index: 1000;
+
+    //     button {
+    //         margin-top: 10px;
+    //         padding: 5px 10px;
+    //         background-color: $highlight-color;
+    //         color: #000;
+    //         border: none;
+    //         border-radius: 5px;
+    //         cursor: pointer;
+
+    //         &:hover {
+    //             background-color: #FFC107;
+    //         }
+    //     }
+    // }
+
+    // // Icons Container
+    // .icons-container {
+    //     text-align: center;
+    //     margin-top: 20px;
+
+    //     .icon {
+    //         display: inline-block;
+    //         margin: 0 10px;
+
+    //         img {
+    //             width: $icon-size;
+    //             height: $icon-size;
+    //             cursor: pointer;
+    //             transition: transform 0.3s ease;
+
+    //             &:hover {
+    //                 transform: scale($icon-hover-scale);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // // Banners
+    // .banner {
+    //     position: relative;
+    //     width: 100%;
+    //     height: $banner-height;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     background: url('../images/banner-fifa.png') no-repeat center center;
+    //     background-size: cover;
+
+    //     .banner-text {
+    //         color: $secondary-color;
+    //         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    //         text-align: center;
+    //     }
+    // }
+
+    // // Footer
+    // footer {
+    //     background-color: $primary-color;
+    //     color: $secondary-color;
+    //     text-align: center;
+    //     padding: 10px 0;
+
+    //     .container {
+    //         max-width: 1200px;
+    //         margin: 0 auto;
+    //     }
+    // }
