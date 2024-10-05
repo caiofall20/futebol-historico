@@ -1,23 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wdth,wght@0,87.5,100..900;1,87.5,100..900&family=Gilda+Display&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wdth,wght@0,87.5,100..900;1,87.5,100..900&family=Gilda+Display&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
 @import 'variables';
 
 // Estilos Globais
 body {
     font-family: 'Poppins', sans-serif;
-    font-size: 16px!important;
+    font-size: 16px !important;
     margin: 0;
     padding: 0;
     width: 100%;
-    overflow-y: auto; 
-    overflow-x: hidden;                                                    
+    overflow-y: auto;
+    overflow-x: hidden;
     box-sizing: border-box;
     text-align: center;
     background: $background-gradient;
-    color: $secondary-color!important;
+    color: $secondary-color !important;
 
     a {
-        color: $secondary-color!important;
+        color: $secondary-color !important;
 
         &:hover {
             background-color: $hover-bg-color;
@@ -25,7 +25,7 @@ body {
         }
     }
 
-    header{
+    header {
         nav {
             padding: 10px 20px;
             background-color: rgba(220, 220, 220, 0.1);
@@ -33,16 +33,18 @@ body {
             font-family: 'Georama', sans-serif;
             font-size: 0.8rem;
             font-weight: bold;
-            line-height: 130%; 
+            line-height: 130%;
             letter-spacing: 0.02em;
             color: $secondary-color;
-        
-            ul {        
-                &.menu-items{
+
+            ul {
+                &.menu-items {
                     display: flex;
+
                     li {
                         display: flex;
                         align-items: center;
+
                         &:not(:last-child)::after {
                             content: "";
                             display: inline-block;
@@ -51,23 +53,23 @@ body {
                             background-image: url("#{$svg-icon}");
                             background-size: contain;
                             background-repeat: no-repeat;
-                            margin-left: 8px; 
-                            vertical-align: middle; 
+                            margin-left: 8px;
+                            vertical-align: middle;
 
-                            @media(max-width:576px){
-                                &{
-                                    background-image:none;
+                            @media(max-width:576px) {
+                                & {
+                                    background-image: none;
                                 }
                             }
                         }
                     }
-                }   
+                }
             }
 
             .menu-idioms {
                 cursor: pointer;
                 font-size: 0.6rem;
-                
+
                 .dropdown-toggle {
                     padding: 5px 6px;
                     text-transform: none;
@@ -79,10 +81,10 @@ body {
                     align-items: center;
                     width: 100%;
 
-                    &:hover{
-                        pointer-events: none; 
-                        background-color: inherit; 
-                    }    
+                    &:hover {
+                        pointer-events: none;
+                        background-color: inherit;
+                    }
                 }
 
                 .dropdown-menu {
@@ -91,14 +93,15 @@ body {
                 }
 
                 .dropdown-item {
-                    color: #212529!important;
+                    color: #212529 !important;
                     font-size: 0.7rem;
+
                     &:hover {
                         background-color: rgba(255, 255, 255, 0.2);
                     }
                 }
-            }    
-        } 
+            }
+        }
 
         .header {
             display: flex;
@@ -108,7 +111,7 @@ body {
             position: relative;
             font-family: 'Georama', sans-serif;
 
-           &-content {
+            &-content {
                 padding: 0 5rem;
 
                 h1 {
@@ -118,7 +121,7 @@ body {
                     font-size: 5rem;
                     width: 15rem;
 
-                    span{
+                    span {
                         font-size: 3rem;
                         text-transform: lowercase;
                         font-family: 'Gilda Display', sans-serif;
@@ -126,63 +129,64 @@ body {
                         bottom: 1rem;
                     }
                 }
-        
+
                 p {
                     font-size: 1rem;
                     font-weight: 200;
                     width: 25rem;
                     color: $secondary-color;
                     font-family: 'Poppins', sans-serif;
-                    span{
+
+                    span {
                         font-weight: bold;
                     }
                 }
-                
+
                 &-img {
-                    &-bola{
+                    &-bola {
                         position: absolute;
                         width: 20rem;
                         right: 21rem;
                         top: 8rem;
-                        z-index: 1; 
+                        z-index: 1;
                         animation: spin 80s linear infinite;
                     }
-    
-                   &::before {
+
+                    &::before {
                         content: "";
                         position: absolute;
                         width: 25rem;
                         height: 25rem;
                         right: 17rem;
                         top: 5rem;
-                        background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D); 
-                        filter: blur(50px); 
+                        background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
+                        filter: blur(50px);
                         z-index: -1;
-                        border-radius: 50%; 
+                        border-radius: 50%;
                         opacity: 0.3;
                     }
-    
-                    &-mosaico{
+
+                    &-mosaico {
                         width: 22rem;
                     }
                 }
             }
-        }  
+        }
     }
 
     .highlight-players {
-        &-header{
+        &-header {
             display: flex;
             align-items: center;
             justify-content: space-around;
             font-family: 'Georama', sans-serif;
 
-            &-seeMore{
+            &-seeMore {
                 a {
                     font-weight: bold;
                     padding: 0.5rem;
 
-                    img{
+                    img {
                         width: 1rem;
                     }
                 }
@@ -190,7 +194,7 @@ body {
             }
         }
 
-        &-content{
+        &-content {
             .carousel-item {
                 display: flex;
                 align-items: center;
@@ -200,20 +204,20 @@ body {
                     background: $card-background-color;
                     padding: 10px;
                     border-radius: 4px;
-                    width: 15rem; 
-        
+                    width: 15rem;
+
                     img {
                         border-radius: 4px;
                         cursor: pointer;
                         transition: transform 0.3s ease;
-        
+
                         &:hover {
                             transform: scale(1.1);
                         }
                     }
 
                     &.highlighted {
-                        width: 18rem;  
+                        width: 18rem;
                         transition: width 0.3s ease;
                     }
                 }
@@ -221,34 +225,36 @@ body {
         }
     }
 
-    .nations-of-world{
-        &-header{
+    .nations-of-world {
+        &-header {
             display: flex;
             align-items: center;
             justify-content: space-around;
             font-family: 'Georama', sans-serif;
         }
-        &-icons{
+
+        &-icons {
             text-align: center;
             margin-top: 20px;
-            .icon{
+
+            .icon {
                 display: inline-block;
                 margin: 0 10px;
 
-                img{
+                img {
                     width: 50px;
                     height: 50px;
                     cursor: pointer;
                     transition: transform 0.3s ease;
 
-                    &:hover{
-                       transform: scale(1.1);
+                    &:hover {
+                        transform: scale(1.1);
                     }
                 }
             }
         }
 
-        &-card{
+        &-card {
             display: none;
             position: fixed;
             top: 50%;
@@ -262,7 +268,7 @@ body {
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             z-index: 1000;
 
-            button{
+            button {
                 margin-top: 10px;
                 padding: 5px 10px;
                 background-color: #FFD600;
@@ -271,12 +277,12 @@ body {
                 border-radius: 5px;
                 cursor: pointer;
 
-                &:hover{
+                &:hover {
                     background-color: #FFC107;
                 }
             }
         }
-        
+
         #chartdiv {
             width: 100%;
             height: 500px;
@@ -285,122 +291,227 @@ body {
             pointer-events: none;
         }
     }
-
-    
 }
 
-/* Animações */
+.container {
+    margin-bottom: 40px;
+}
+
+/* Filtro Listagem jogadores */
+.filter-input {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.filter-input input {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 30px;
+    background-color: #2b2e33;
+    /* Fundo mais claro para melhorar contraste */
+    color: #FFD700;
+    /* Cor dourada para um bom contraste */
+    outline: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-input input:focus {
+    background-color: #333740;
+    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
+    /* Brilho ao redor do campo */
+}
+
+.filter-input input::placeholder {
+    color: #FFD700;
+    /* Placeholder com uma cor clara visível */
+}
+
+/* Adicionar display flex para alinhar as cards uniformemente */
+.jogador-card {
+    background: linear-gradient(135deg, #1d253c, #151a30);
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    margin-bottom: 30px;
+    
+    box-shadow: none;
+}
+
+.jogador-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.jogador-card .card-img-top-jogador {
+    border-radius: 15px 15px 0 0;
+    transition: all 0.3s ease;
+    max-height: 400px;
+    /* Controla a altura máxima da imagem */
+    object-fit: cover;
+    /* Garante que a imagem preencha o espaço sem distorções */
+    width: 100%;
+}
+
+.jogador-card:hover .card-img-top-jogador {
+    opacity: 0.9;
+    transform: rotate(-2deg) scale(1.05);
+            /* Rotação leve e aumento no hover */
+}
+
+.jogador-card .card-body {
+    text-align: center;
+    background: linear-gradient(135deg, #1d253c, #151a30);
+    padding: 15px;
+    flex-grow: 1;
+    /* Garante que o conteúdo do card preencha o espaço disponível */
+}
+
+.jogador-card h5 {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    min-height: 60px;
+    /* Define um tamanho mínimo para o título */
+}
+
+/* Ajustes na informação do jogador */
+.jogador-card .card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    color: #FFD700;
+}
+
+.jogador-card .card-info span {
+    font-size: 0.9rem;
+}
+
+.jogador-card .card-info .nickname {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.jogador-card .card-info .position {
+    background-color: rgba(255, 215, 0, 0.2);
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+/* Botão Leia Mais */
+.jogador-card .btn-primary {
+    background-color: #FFD700;
+    color: #000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    /* Garante que o botão fique centralizado */
+}
+
+.jogador-card .btn-primary:hover {
+    background-color: #FFBF00;
+    color: #000;
+    box-shadow: 0px 4px 15px rgba(255, 223, 0, 0.7);
+    /* Efeito de luz no botão */
+    transform: translateY(-2px);
+    /* Efeito de leve elevação */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .filter-input {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .jogador-card {
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+
+    .jogador-card h5 {
+        font-size: 1.2rem;
+    }
+
+    .jogador-card .card-img-top-jogador {
+        max-height: 250px;
+        transition: all 0.4s ease;
+    }
+}
+/* Animação */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 @keyframes spin {
     0% {
-        transform: rotate(0deg); /* Início da rotação */
+        transform: rotate(0deg);
+        /* Início da rotação */
     }
+
     100% {
-        transform: rotate(360deg); /* Rotação completa */
+        transform: rotate(360deg);
+        /* Rotação completa */
     }
 }
 
-/* Estiliza a barra de rolagem */
-::-webkit-scrollbar {
-    width: 10px; /* Largura da barra de rolagem */
-    height: 10px; /* Altura da barra de rolagem para rolagem horizontal */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
-/* Estiliza o fundo da barra de rolagem */
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
-    border-radius: 10px; /* Arredondamento das bordas */
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }
 
-/* Estiliza o polegar da barra de rolagem */
-::-webkit-scrollbar-thumb {
-    background: #888; /* Cor do polegar da barra de rolagem */
-    border-radius: 10px; /* Arredondamento das bordas do polegar */
+input#nome,
+input#nacionalidade,
+input#periodo {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    font-size: 1rem;
 }
 
-/* Estiliza o polegar da barra de rolagem ao passar o mouse sobre ele */
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Cor do polegar quando o mouse está sobre ele */
+input#nome:focus,
+input#nacionalidade:focus,
+input#periodo:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-    // // Info Card
-    // .info-card {
-    //     display: none;
-    //     position: fixed;
-    //     top: 50%;
-    //     left: 50%;
-    //     transform: translate(-50%, -50%);
-    //     background-color: $info-card-bg;
-    //     color: $secondary-color;
-    //     padding: 20px;
-    //     border-radius: 10px;
-    //     width: 300px;
-    //     box-shadow: $info-card-shadow;
-    //     z-index: 1000;
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
 
-    //     button {
-    //         margin-top: 10px;
-    //         padding: 5px 10px;
-    //         background-color: $highlight-color;
-    //         color: #000;
-    //         border: none;
-    //         border-radius: 5px;
-    //         cursor: pointer;
-
-    //         &:hover {
-    //             background-color: #FFC107;
-    //         }
-    //     }
-    // }
-
-    // // Icons Container
-    // .icons-container {
-    //     text-align: center;
-    //     margin-top: 20px;
-
-    //     .icon {
-    //         display: inline-block;
-    //         margin: 0 10px;
-
-    //         img {
-    //             width: $icon-size;
-    //             height: $icon-size;
-    //             cursor: pointer;
-    //             transition: transform 0.3s ease;
-
-    //             &:hover {
-    //                 transform: scale($icon-hover-scale);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // // Banners
-    // .banner {
-    //     position: relative;
-    //     width: 100%;
-    //     height: $banner-height;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     background: url('../images/banner-fifa.png') no-repeat center center;
-    //     background-size: cover;
-
-    //     .banner-text {
-    //         color: $secondary-color;
-    //         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    //         text-align: center;
-    //     }
-    // }
-
-    // // Footer
-    // footer {
-    //     background-color: $primary-color;
-    //     color: $secondary-color;
-    //     text-align: center;
-    //     padding: 10px 0;
-
-    //     .container {
-    //         max-width: 1200px;
-    //         margin: 0 auto;
-    //     }
-    // }
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
