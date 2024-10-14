@@ -1,0 +1,50 @@
+section .highlight-players {
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-family: 'Georama', sans-serif;
+
+        &-seeMore {
+            a {
+                font-weight: bold;
+                padding: 0.5rem;
+
+                img {
+                    width: 1rem;
+                }
+            }
+
+        }
+    }
+
+    &-content {
+        .carousel-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+            .player-card {
+                background: $card-background-color;
+                padding: 10px;
+                border-radius: 4px;
+                width: 15rem;
+
+                img {
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: transform 0.3s ease;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+
+                &.highlighted {
+                    width: 18rem;
+                    transition: width 0.3s ease;
+                }
+            }
+        }
+    }
+}

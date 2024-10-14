@@ -1,17 +1,19 @@
 //Colors
-$primary-color: #1e272e;
-$secondary-color: #fff;
-$background-color: rgb(2,6,13);
-$background-gradient: linear-gradient(94deg, rgba(2,6,13,1) 0%, rgba(6,29,48,1) 70%, rgba(9,51,81,1) 100%);
-$highlight-color: #FFD600;
-$text-shadow-color: #FF004D;
-$hover-bg-color: #34495e;
-$card-background-color: #2f3640;
-$info-card-bg: rgba(0, 0, 0, 0.8);
-$info-card-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+$primary-color: oklch(25.37% 0.03 259.27);
+$secondary-color: oklch(99.99% 0 0);
+$background-color: oklch(4.68% 0.03 260.74)!important;
+$background-gradient: linear-gradient(94deg, oklch(5.5% 0.04 261.73) 0%, oklch(12.3% 0.06 258.95) 70%, oklch(21.8% 0.08 255.65) 100%);
+$highlight-color: oklch(94.17% 0.15 99.48);
+$text-shadow-color: oklch(60.55% 0.24 28.34);
+$hover-bg-color: oklch(36.12% 0.07 248.22);
+$hover-menu-color: oklch(85% 0.1 190);
+$card-background-color: oklch(22.18% 0.05 252.91);
+$info-card-bg: oklch(0% 0 0 / 80%);
+$info-card-shadow: 0 0 15px oklch(0% 0 0 / 50%);
+
 $icon-size: 50px;
 $icon-hover-scale: 1.1;
 $banner-height: 400px;
 
-//Data uri
+//Data URI
 $svg-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 60,40 90,50 60,60 50,90 40,60 10,50 40,40' fill='%23808080'/%3E%3C/svg%3E";

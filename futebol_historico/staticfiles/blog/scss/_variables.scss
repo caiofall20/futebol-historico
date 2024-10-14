@@ -1,0 +1,17 @@
+//Colors
+$primary-color: #1e272e;
+$secondary-color: #fff;
+$background-color: rgb(2,6,13);
+$background-gradient: linear-gradient(94deg, rgba(2,6,13,1) 0%, rgba(6,29,48,1) 70%, rgba(9,51,81,1) 100%);
+$highlight-color: #FFD600;
+$text-shadow-color: #FF004D;
+$hover-bg-color: #34495e;
+$card-background-color: #2f3640;
+$info-card-bg: rgba(0, 0, 0, 0.8);
+$info-card-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+$icon-size: 50px;
+$icon-hover-scale: 1.1;
+$banner-height: 400px;
+
+//Data uri
+$svg-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 60,40 90,50 60,60 50,90 40,60 10,50 40,40' fill='%23808080'/%3E%3C/svg%3E";

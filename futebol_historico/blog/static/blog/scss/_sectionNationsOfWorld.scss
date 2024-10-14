@@ -1,0 +1,58 @@
+section .nations-of-world {
+    &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-family: 'Georama', sans-serif;
+    }
+
+    &-icons {
+        text-align: center;
+        margin-top: 20px;
+
+        .icon {
+            display: inline-block;
+            margin: 0 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    &-card {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #FFD600;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #FFC107;
+            }
+        }
+    }
+}
