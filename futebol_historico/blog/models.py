@@ -1,9 +1,7 @@
-# blog/models.py
-
 from django.db import models
-from django.utils import timezone
 from ckeditor_uploader.fields import RichTextUploadingField
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 
 class Post(models.Model):
     CATEGORY_CHOICES = [
@@ -11,12 +9,17 @@ class Post(models.Model):
         ('times', 'Times Históricos'),
         ('jogadores', 'Jogadores Lendários'),
     ]
-    
+
     title = models.CharField(max_length=200)
     content = RichTextField()
-    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='selecoes')
+    capa = models.ImageField(upload_to='capa_posts/', blank=True, null=True)
+
+    # Relacionamento genérico com Jogador, Selecao ou Time
+    jogador = models.OneToOneField('Jogador', on_delete=models.SET_NULL, null=True, blank=True)
+    selecao = models.OneToOneField('Selecao', on_delete=models.SET_NULL, null=True, blank=True)
+    time = models.OneToOneField('Time', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -24,7 +27,7 @@ class Post(models.Model):
 class Image(models.Model):
     post = models.ForeignKey(Post, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/')
-    
+
     def __str__(self):
         return f"Image for post: {self.post.title}"
 
@@ -42,46 +45,42 @@ class Jogador(models.Model):
         return self.nome
 
 class Selecao(models.Model):
-    REGIAO_CHOICES = [
+    nome = models.CharField(max_length=200)
+    imagem = models.ImageField(upload_to='selecoes/', blank=True, null=True)
+    descricao = RichTextField()
+    regiao = models.CharField(max_length=20, choices=[
         ('América do Sul', 'América do Sul'),
         ('América Central', 'América Central'),
         ('Europa', 'Europa'),
         ('África', 'África'),
         ('Ásia', 'Ásia'),
-    ]
-    
-    nome = models.CharField(max_length=200)
-    imagem = models.ImageField(upload_to='selecoes/', blank=True, null=True)
-    descricao = RichTextField()
-    regiao = models.CharField(max_length=20, choices=REGIAO_CHOICES)
+    ])
     titulos = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nome
-    
 
 class Time(models.Model):
-    REGIAO_CHOICES = [
-        ('América do Sul', 'América do Sul'),
-        ('América Central', 'América Central'),
-        ('Europa', 'Europa'),
-        ('África', 'África'),
-        ('Ásia', 'Ásia'),
-    ]
-
     nome = models.CharField(max_length=200)
     imagem = models.ImageField(upload_to='times/', blank=True, null=True)
     descricao = RichTextUploadingField()
     fundacao = models.DateField(default=timezone.now)
     titulos = models.IntegerField(default=0)
-    regiao = models.CharField(max_length=100, choices=REGIAO_CHOICES, default='Europa')
+    regiao = models.CharField(max_length=100, choices=[
+        ('América do Sul', 'América do Sul'),
+        ('América Central', 'América Central'),
+        ('Europa', 'Europa'),
+        ('África', 'África'),
+        ('Ásia', 'Ásia'),
+    ], default='Europa')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nome
+
 class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, )
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     jogador = models.ForeignKey(Jogador, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     name = models.CharField(max_length=80)
     email = models.EmailField()
@@ -94,5 +93,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
-
-from django.db import models

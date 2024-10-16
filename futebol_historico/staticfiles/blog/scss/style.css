@@ -1,383 +1,132 @@
-@charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Georama:ital,wdth,wght@0,87.5,100..900;1,87.5,100..900&family=Gilda+Display&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap");
 body {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px !important;
+  font-family: Arial, sans-serif;
+  background-color: red;
   margin: 0;
   padding: 0;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-sizing: border-box;
-  text-align: center;
   background: linear-gradient(94deg, #02060d 0%, #061d30 70%, #093351 100%);
-  color: #fff !important; }
-  body a {
-    color: #fff !important; }
-    body a:hover {
-      background-color: #34495e;
-      border-radius: 5px; }
-  body header nav {
-    padding: 10px 20px;
-    background-color: rgba(220, 220, 220, 0.1);
-    text-transform: uppercase;
-    font-family: 'Georama', sans-serif;
-    font-size: 0.8rem;
-    font-weight: bold;
-    line-height: 130%;
-    letter-spacing: 0.02em;
-    color: #fff; }
-    body header nav ul.menu-items {
-      display: flex; }
-      body header nav ul.menu-items li {
-        display: flex;
-        align-items: center; }
-        body header nav ul.menu-items li:not(:last-child)::after {
-          content: "";
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 60,40 90,50 60,60 50,90 40,60 10,50 40,40' fill='%23808080'/%3E%3C/svg%3E");
-          background-size: contain;
-          background-repeat: no-repeat;
-          margin-left: 8px;
-          vertical-align: middle; }
-          @media (max-width: 576px) {
-            body header nav ul.menu-items li:not(:last-child)::after {
-              background-image: none; } }
-    body header nav .menu-idioms {
-      cursor: pointer;
-      font-size: 0.6rem; }
-      body header nav .menu-idioms .dropdown-toggle {
-        padding: 5px 6px;
-        text-transform: none;
-        background: linear-gradient(45deg, #150633, #662C0C);
-        border-radius: 6rem;
-        width: 2.6rem;
-        height: 2.6rem;
-        display: flex;
-        align-items: center;
-        width: 100%; }
-        body header nav .menu-idioms .dropdown-toggle:hover {
-          pointer-events: none;
-          background-color: inherit; }
-      body header nav .menu-idioms .dropdown-menu {
-        border: none;
+  color: #fff; }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #1e272e; }
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; }
+    .navbar ul li {
+      margin-right: 20px; }
+    .navbar ul a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      display: block; }
+      .navbar ul a:hover {
+        background-color: #34495e;
         border-radius: 5px; }
-      body header nav .menu-idioms .dropdown-item {
-        color: #212529 !important;
-        font-size: 0.7rem; }
-        body header nav .menu-idioms .dropdown-item:hover {
-          background-color: rgba(255, 255, 255, 0.2); }
-  body header .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 2rem;
-    position: relative;
-    font-family: 'Georama', sans-serif; }
-    body header .header-content {
-      padding: 0 5rem; }
-      body header .header-content h1 {
-        text-transform: uppercase;
-        color: #fff;
-        text-shadow: 1px 1px 3px black;
-        font-size: 5rem;
-        width: 15rem; }
-        body header .header-content h1 span {
-          font-size: 3rem;
-          text-transform: lowercase;
-          font-family: 'Gilda Display', sans-serif;
-          position: relative;
-          bottom: 1rem; }
-      body header .header-content p {
-        font-size: 1rem;
-        font-weight: 200;
-        width: 25rem;
-        color: #fff;
-        font-family: 'Poppins', sans-serif; }
-        body header .header-content p span {
-          font-weight: bold; }
-      body header .header-content-img-bola {
-        position: absolute;
-        width: 20rem;
-        right: 21rem;
-        top: 8rem;
-        z-index: 1;
-        animation: spin 80s linear infinite; }
-      body header .header-content-img::before {
-        content: "";
-        position: absolute;
-        width: 25rem;
-        height: 25rem;
-        right: 17rem;
-        top: 5rem;
-        background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
-        filter: blur(50px);
-        z-index: -1;
-        border-radius: 50%;
-        opacity: 0.3; }
-      body header .header-content-img-mosaico {
-        width: 22rem; }
-  body .highlight-players-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-family: 'Georama', sans-serif; }
-    body .highlight-players-header-seeMore a {
-      font-weight: bold;
-      padding: 0.5rem; }
-      body .highlight-players-header-seeMore a img {
-        width: 1rem; }
-  body .highlight-players-content .carousel-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly; }
-    body .highlight-players-content .carousel-item .player-card {
-      background: #2f3640;
-      padding: 10px;
-      border-radius: 4px;
-      width: 15rem; }
-      body .highlight-players-content .carousel-item .player-card img {
-        border-radius: 4px;
-        cursor: pointer;
-        transition: transform 0.3s ease; }
-        body .highlight-players-content .carousel-item .player-card img:hover {
-          transform: scale(1.1); }
-      body .highlight-players-content .carousel-item .player-card.highlighted {
-        width: 18rem;
-        transition: width 0.3s ease; }
-  body .nations-of-world-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-family: 'Georama', sans-serif; }
-  body .nations-of-world-icons {
-    text-align: center;
-    margin-top: 20px; }
-    body .nations-of-world-icons .icon {
-      display: inline-block;
-      margin: 0 10px; }
-      body .nations-of-world-icons .icon img {
-        width: 50px;
-        height: 50px;
-        cursor: pointer;
-        transition: transform 0.3s ease; }
-        body .nations-of-world-icons .icon img:hover {
-          transform: scale(1.1); }
-  body .nations-of-world-card {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    z-index: 1000; }
-    body .nations-of-world-card button {
-      margin-top: 10px;
-      padding: 5px 10px;
-      background-color: #FFD600;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer; }
-      body .nations-of-world-card button:hover {
-        background-color: #FFC107; }
-  body .nations-of-world #chartdiv {
-    width: 100%;
-    height: 500px;
-    max-width: 100%;
-    margin: 50px auto;
-    pointer-events: none; }
 
-.container {
-  margin-bottom: 40px; }
-
-/* Filtro Listagem jogadores */
-.filter-input {
+.header {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  gap: 15px; }
-
-.filter-input input {
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 30px;
-  background-color: #2b2e33;
-  /* Fundo mais claro para melhorar contraste */
-  color: #FFD700;
-  /* Cor dourada para um bom contraste */
-  outline: none;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; }
-
-.filter-input input:focus {
-  background-color: #333740;
-  box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
-  /* Brilho ao redor do campo */ }
-
-.filter-input input::placeholder {
-  color: #FFD700;
-  /* Placeholder com uma cor clara visível */ }
-
-/* Adicionar display flex para alinhar as cards uniformemente */
-.jogador-card {
-  background: linear-gradient(135deg, #1d253c, #151a30);
-  border-radius: 15px;
-  padding: 15px;
-  color: white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 100%;
-  margin-bottom: 30px;
-  box-shadow: none; }
-
-.jogador-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); }
-
-.jogador-card .card-img-top-jogador {
-  border-radius: 15px 15px 0 0;
-  transition: all 0.3s ease;
-  max-height: 400px;
-  /* Controla a altura máxima da imagem */
-  object-fit: cover;
-  /* Garante que a imagem preencha o espaço sem distorções */
-  width: 100%; }
-
-.jogador-card:hover .card-img-top-jogador {
-  opacity: 0.9;
-  transform: rotate(-2deg) scale(1.05);
-  /* Rotação leve e aumento no hover */ }
-
-.jogador-card .card-body {
-  text-align: center;
-  background: linear-gradient(135deg, #1d253c, #151a30);
-  padding: 15px;
-  flex-grow: 1;
-  /* Garante que o conteúdo do card preencha o espaço disponível */ }
-
-.jogador-card h5 {
-  margin-top: 10px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  min-height: 60px;
-  /* Define um tamanho mínimo para o título */ }
-
-/* Ajustes na informação do jogador */
-.jogador-card .card-info {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  color: #FFD700; }
-
-.jogador-card .card-info span {
-  font-size: 0.9rem; }
-
-.jogador-card .card-info .nickname {
-  color: #FFD700;
-  font-weight: bold; }
-
-.jogador-card .card-info .position {
-  background-color: rgba(255, 215, 0, 0.2);
-  padding: 5px 10px;
-  border-radius: 20px; }
-
-/* Botão Leia Mais */
-.jogador-card .btn-primary {
-  background-color: #FFD700;
-  color: #000;
-  border-radius: 20px;
-  padding: 10px 20px;
-  margin-top: 15px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  align-self: center;
-  /* Garante que o botão fique centralizado */ }
-
-.jogador-card .btn-primary:hover {
-  background-color: #FFBF00;
-  color: #000;
-  box-shadow: 0px 4px 15px rgba(255, 223, 0, 0.7);
-  /* Efeito de luz no botão */
-  transform: translateY(-2px);
-  /* Efeito de leve elevação */ }
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .filter-input {
-    flex-direction: column;
-    gap: 10px; }
-  .jogador-card {
+  justify-content: center;
+  padding: 50px 20px;
+  position: relative;
+  flex-direction: row;
+  text-align: left; }
+  .header .header-content {
+    margin-right: 20px; }
+  .header h1 {
+    font-size: 48px;
     margin-bottom: 20px;
-    padding: 10px; }
-  .jogador-card h5 {
-    font-size: 1.2rem; }
-  .jogador-card .card-img-top-jogador {
-    max-height: 250px;
-    transition: all 0.4s ease; } }
+    color: #FFD600;
+    text-shadow: 1px 1px 3px #FF004D; }
+  .header p {
+    font-size: 18px; }
 
-/* Animação */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px); }
-  100% {
-    opacity: 1;
-    transform: translateY(0); } }
+.highlight-players {
+  text-align: center;
+  padding: 50px 20px; }
+  .highlight-players h2 {
+    font-size: 24px;
+    margin-bottom: 20px; }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-    /* Início da rotação */ }
-  100% {
-    transform: rotate(360deg);
-    /* Rotação completa */ } }
+.carousel-item {
+  display: flex;
+  justify-content: center; }
+  .carousel-item .player-card {
+    background: #2f3640;
+    padding: 10px;
+    border-radius: 10px;
+    width: 200px; }
+    .carousel-item .player-card img {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease; }
+      .carousel-item .player-card img:hover {
+        transform: scale(1.1); }
 
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff; }
+.info-card {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 1000; }
+  .info-card button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #FFD600;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; }
+    .info-card button:hover {
+      background-color: #FFC107; }
 
-.btn-primary:hover {
-  background-color: #0056b3;
-  border-color: #0056b3; }
+.icons-container {
+  text-align: center;
+  margin-top: 20px; }
+  .icons-container .icon {
+    display: inline-block;
+    margin: 0 10px; }
+    .icons-container .icon img {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease; }
+      .icons-container .icon img:hover {
+        transform: scale(1.1); }
 
-input#nome,
-input#nacionalidade,
-input#periodo {
-  border-radius: 5px;
-  border: 1px solid #ced4da;
-  padding: 10px;
-  font-size: 1rem; }
+.banner {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url("../images/banner-fifa.png") no-repeat center center;
+  background-size: cover; }
+  .banner .banner-text {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center; }
 
-input#nome:focus,
-input#nacionalidade:focus,
-input#periodo:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); }
-
-.card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease; }
-
-/* Footer */
 footer {
-  background-color: #343a40;
-  color: #ffffff;
-  padding: 10px 0;
-  text-align: center; }
+  background-color: #1e272e;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0; }
+  footer .container {
+    max-width: 1200px;
+    margin: 0 auto; }
 
 /*# sourceMappingURL=style.css.map */
