@@ -12,6 +12,11 @@
 //     setTimeout(showSlides, 3000); // Troca de slide a cada 3 segundos
 // }
 
+
+function isMobile() {
+    return window.innerWidth <= 768; 
+}
+
 $(document).ready(function() {
     $(".mobile-menu-button").on("click", function() {
         // Adiciona ou remove a classe "ativo" do header
@@ -21,7 +26,16 @@ $(document).ready(function() {
         $(this).find('.hamburger-icon').toggle();
         $(this).find('.close-icon').toggle();
         
-        console.log("oi");
+    });
+
+    $(window).on('scroll', function() {
+        if (!isMobile()) {
+            if ($(this).scrollTop() > 50) {
+                $('.header-principal').addClass('scroll-on');
+            } else {
+                $('.header-principal').removeClass('scroll-on');
+            }
+        }
     });
 });
 

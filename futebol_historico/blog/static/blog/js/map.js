@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Estado para país "selecionado" com uma cor destacada
         polygonSeries.mapPolygons.template.states.create("selected", {
-            fill: am5.color(0xff0000)  // Cor vermelha para o país selecionado (mude conforme desejado)
+            fill: am5.color(0x6e6ea9)  
         });
 
         polygonSeries.mapPolygons.template.states.create("hover", {

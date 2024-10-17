@@ -1,6 +1,4 @@
 :root {
-    /* Colors */
-    --color-cyan: oklch(85% 0.1 190);
     --color-text-bright: #fff;
 }
   
@@ -25,6 +23,12 @@ header {
             text-transform: uppercase;
             letter-spacing: 0.02em;
             background-color: rgba(1, 8, 14, .9);
+
+            &.scroll-on{
+                position: fixed;
+                backdrop-filter: blur(3px);
+                background-color: rgba(1, 8, 14, .9);
+            }
 
             &.ativo{
                 @media(max-width:768px) {
@@ -115,7 +119,7 @@ header {
                     &:focus {
                         &::before,
                         &::after {
-                            --color-text-bright: var(--color-cyan);
+                            --color-text-bright: #6e6ea9;
                         }
                     }
                 }

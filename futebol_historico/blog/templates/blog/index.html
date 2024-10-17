@@ -7,13 +7,14 @@
         <title>Universo da Bola</title>
         <title>Universo da Bola</title>
         {% load sass_tags %}
-        <link rel="icon" type="image/x-icon" href="../static/blog/images/favicon.ico">
+        <link rel="icon" type="image/png" sizes="32x32" href="../static/blog/images/favicon.ico">
+        <!-- <link rel="icon" type="image/x-icon" href="../static/blog/images/favicon.ico"> -->
         <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
         <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body>
-        <main class="home stars">
+        <main class="home">
             <div id="stars"></div>
             <div id="stars2"></div>
             <div id="stars3"></div>
@@ -36,17 +37,20 @@
                                     <a href="{% url 'selecoes' %}">Seleções</a>
                                 </li>
                                 <li>
+                                    <a href="{% url 'times' %}">Times</a>
+                                </li>
+                                <li>
                                     <a href="{% url 'jogadores_page' %}">Jogadores</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'times' %}">Times</a>
+                                    <a href="{% url 'jogadores_page' %}">Estádios</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="header__nav--change-language">
                             <ul class="dropdown dropdown-language">
                                 <li class="nav-item dropdown menu-idioms">
-                                    <a class="dropdown-toggle" href="#"
+                                    <a class="dropdown-toggle p-4" href="#"
                                         id="dropdownMenuLink" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         PT-BR
@@ -92,65 +96,124 @@
                         src="{% static 'blog/images/bola-adidas.png' %}"
                         alt="Bola" class="ball">
                     <img class="section-home-content__info-img-mosaico"
-                        src="{% static 'blog/images/players-img-home.svg' %}"
+                        src="{% static 'blog/images/img-home.svg' %}"
                         alt="Triângulos">
                 </div>
             </section>
         </main>
-        <section class="highlight-players">
-            <div class="highlight-players-header mb-3">
-                <h2>JOGADORES DE DESTAQUE</h2>
-                <div class="highlight-players-header-seeMore">
-                    <a href="#">
-                        Veja mais
-                        <img src="{% static 'blog/images/next-page.png' %}"
-                            alt="Próxima página">
+        <section class="options-content p-5">
+            <ul class="options-content--list">
+                <li class="options-content--item">
+                    <a class="w-100" href="{% url 'jogadores_page' %}">
+                        <div class="shadow"></div>
+                        <img src="{% static 'blog/images/copa-do-mundo.png' %}" data-src="{% static 'blog/images/copa-do-mundo.png' %}" alt="Taça da Copa da Mundo" loading="lazy">
+                        <h2 class="options-content--title">Copas do Mundo</h2>
+                        <p class="options-content--text">São mais de <strong>90 anos de história</strong> desde a primeira Copa do Mundo realizada em 1930, trazendo momentos inesquecíveis para o futebol mundial. Ao longo das edições, <strong>grandes seleções</strong> e <strong>lendários jogadores</strong> deixaram sua marca nos gramados, encantando torcedores e fazendo do torneio o evento esportivo mais assistido do planeta. Nesta página, você encontrará detalhes sobre as edições mais marcantes, curiosidades, estatísticas e tudo o que envolve esse grande espetáculo do futebol.</p>
+                    </a>
+                </li>
+                <li class="options-content--item">
+                    <a href="{% url 'jogadores_page' %}">
+                        <div class="shadow"></div>
+                        <img src="{% static 'blog/images/futebol-mundial.png' %}" data-src="{% static 'blog/images/futebol-mundial.png' %}" alt="Seleções" loading="lazy">
+                        <h2 class="options-content--title">Seleções Históricas</h2>
+                        <p class="options-content--text">São <strong>centenas de seleções</strong> que participaram das Copas do Mundo, mas algumas se tornaram verdadeiras <strong>lendas do futebol</strong>. Times como o Brasil de 1970, a Argentina de 1986 e a Alemanha de 2014 marcaram gerações e redefiniram o esporte com seus estilos únicos de jogo e conquistas memoráveis. Nesta página, você vai conhecer as histórias dessas <strong>seleções lendárias</strong>, seus feitos, seus craques, e o legado que deixaram para o futebol mundial.</p>
+                    </a>
+                </li>
+                <li class="options-content--item">
+                    <a href="{% url 'jogadores_page' %}">
+                        <div class="shadow"></div>
+                        <img src="{% static 'blog/images/clube-de-futebol.png' %}" data-src="{% static 'blog/images/clube-de-futebol.png' %}" alt="Clube de Futebol" loading="lazy">
+                        <h2 class="options-content--title">Times Lendários</h2>
+                        <p class="options-content--text">São <strong>várias gerações de times lendários</strong> que marcaram a história do futebol, desde as primeiras competições até os dias de hoje. Equipes como o <strong>Brasil de 1970</strong>, o <strong>Barcelona de Guardiola</strong>, e o <strong>Real Madrid dos Galácticos</strong> deixaram uma herança inesquecível, com suas táticas inovadoras e jogadores excepcionais. Nesta página, você vai explorar essas formações icônicas que redefiniram o esporte e influenciaram gerações de torcedores e profissionais ao redor do mundo.</p>
+                    </a>
+                </li>
+                <li class="options-content--item">
+                    <a href="{% url 'jogadores_page' %}">
+                        <div class="shadow"></div>
+                        <img src="{% static 'blog/images/camisa-de-futebol(1).png' %}" data-src="{% static 'blog/images/camisa-de-futebol(1).png' %}" alt="Camisa de Jogador" loading="lazy">
+                        <h2 class="options-content--title">Jogadores lendários</h2>
+                        <p class="options-content--text">São mais de <strong>100 anos de talentos</strong> que brilharam nos campos, deixando sua marca na história do futebol. Jogadores lendários como <strong>Pelé, Maradona, e Zidane</strong> emocionaram o mundo com sua habilidade e liderança, conquistando títulos e o coração de milhões de fãs. Nesta página, você vai conhecer as trajetórias dos maiores craques de todos os tempos, suas conquistas inesquecíveis, e o legado que deixaram para as futuras gerações do esporte.</p>
+                    </a>
+                </li>
+                <li class="options-content--item">
+                    <a href="{% url 'jogadores_page' %}">
+                        <div class="shadow"></div>
+                        <img src="{% static 'blog/images/estadio.png' %}" data-src="{% static 'blog/images/estadio.png' %}" alt="Estádio" loading="lazy">
+                        <h2 class="options-content--title">Estádios Renomados</h2>
+                        <p class="options-content--text">São mais de <strong>200 estádios renomados</strong> ao redor do mundo, cada um com sua própria história e características únicas. Esses espaços não apenas abrigam <strong>grandes eventos esportivos</strong>, mas também servem como <strong>centros culturais</strong> e <strong>pontos de encontro</strong> para torcedores apaixonados. Nesta página, você encontrará informações sobre os estádios mais icônicos, suas capacidades, arquiteturas e os momentos inesquecíveis que marcaram a história do esporte.</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <section class="highlight-players w-100">
+            <div class="shadow"></div>
+            <div class="highlight-players--content p-5">
+                <div class="highlight-players--content-header mx-5">
+                    <h2 class="highlight-players--content-title">Jogadores de Destaque</h2>
+                    <p class="highlight-players--content-text">Confira os craques que estão dominando os campos com suas habilidades e performances incríveis.</p>  
+                    <a href="#" class="highlight-players--content-seeMore">
+                        <span>Veja mais</span>
                     </a>
                 </div>
             </div>
-
-            <div id="highlightCarousel"
-                class="highlight-players-content carousel slide"
-                data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for jogador in jogadores %}
-                    {% if forloop.counter0|divisibleby:3 %}
-                    <div
-                        class="carousel-item {% if forloop.first %}active{% endif %}">
-                        {% endif %}
-
-                        <!-- Define classe 'highlighted' manualmente para o segundo jogador do grupo -->
-                        <div
-                            class="player-card {% if forloop.counter0|add:'1'|divisibleby:3 %}highlighted{% endif %}">
-                            {% if jogador.imagem %}
-                            <img src="{{ jogador.imagem.url }}"
-                                class="d-block w-100" alt="{{ jogador.nome }}">
-                            {% else %}
-                            <img src="{% static 'blog/images/default.jpg' %}"
-                                class="d-block w-100" alt="Imagem padrão">
-                            {% endif %}
-                        </div>
-
-                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+            <div class="highlight-players--content-carousel">
+                <button class="highlight-players--content-slideLeft glider-prev disabled" aria-label="Botão para voltar um item do carrossel" aria-disabled="true">
+                <img src="{% static 'blog/images/arrow-left.png' %}" alt="Arrow left" loading="lazy">
+                </button>
+                    <nav class="highlight-players--content-list-cards glider draggable">
+                        <div class="glider-track" style="width: 1872px;">
+                            <article class="highlight-player-item glider-slide active center visible" data-gslide="0" style="height: auto; width: 312px;">
+                                <div class="highlight-players-card" style="background-image: url('/assets/img/home/homeNova/cases/roberta_arcoverde.1720710818.jpg');">
+                                    <a class="highlight-players--content-card-link" href="https://www.alura.com.br/cases/stack-overflow-e-a-aplicacao-web-monolitica-de-alta-performance-z1069" aria-label="Clique aqui para acessar a página da Alura Cases da empresa StackOverflow"></a>
+                                </div>
+                            </article>
+                            <button class="highlight-players--content-slideRight glider-next" aria-label="Botão para avançar um item do carrossel" aria-disabled="false">
+                                <img src="/assets/img/home/homeNova/cases/arrow-right.1720710818.svg" alt="Arrow right" loading="lazy">
+                            </button>
                     </div>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-
-                <button class="carousel-control-prev" type="button"
-                    data-bs-target="#highlightCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"
-                        aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button"
-                    data-bs-target="#highlightCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"
-                        aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                </nav>
             </div>
         </section>
+        <div id="highlightCarousel" class="highlight-players--content-carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for jogador in jogadores %}
+                {% if forloop.counter0|divisibleby:3 %}
+                <div
+                    class="carousel-item {% if forloop.first %}active{% endif %}">
+                    {% endif %}
+
+                    <!-- Define classe 'highlighted' manualmente para o segundo jogador do grupo -->
+                    <div
+                        class="player-card {% if forloop.counter0|add:'1'|divisibleby:3 %}highlighted{% endif %}">
+                        {% if jogador.imagem %}
+                        <img src="{{ jogador.imagem.url }}"
+                            class="d-block w-100" alt="{{ jogador.nome }}">
+                        {% else %}
+                        <img src="{% static 'blog/images/default.jpg' %}"
+                            class="d-block w-100" alt="Imagem padrão">
+                        {% endif %}
+                    </div>
+
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button"
+                data-bs-target="#highlightCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"
+                    aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                data-bs-target="#highlightCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"
+                    aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
         <section class="nations-of-world">
             <div class="nations-of-world-header mb-3">
                 <h2>NAÇÕES CAMPEÃES DO MUNDO</h2>
@@ -199,6 +262,7 @@
                 <button onclick="closeInfoCard()">Fechar</button>
             </div>
         </section>
+       
     </body>
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -209,21 +273,5 @@
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="{% static 'blog/js/scripts.js' %}"></script>
-           
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("DOM completamente carregado.");
-            
-            const icons = document.querySelectorAll('.nations-of-world-icons .icon');
-            console.log("Ícones encontrados:", icons.length);
-            
-            icons.forEach(function(icon) {
-                console.log("Ícone encontrado:", icon);
-                icon.addEventListener('click', function() {
-                    console.log("Bandeira clicada:", icon.getAttribute('data-country-id'));
-                });
-            });
-        });
-    </script>
     <script src="{% static 'blog/js/map.js' %}"></script>
 </html>
