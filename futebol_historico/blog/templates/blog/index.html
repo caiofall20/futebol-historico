@@ -155,65 +155,25 @@
                         <span>Veja mais</span>
                     </a>
                 </div>
-            </div>
-            <div class="highlight-players--content-carousel">
-                <button class="highlight-players--content-slideLeft glider-prev disabled" aria-label="Botão para voltar um item do carrossel" aria-disabled="true">
-                <img src="{% static 'blog/images/arrow-left.png' %}" alt="Arrow left" loading="lazy">
-                </button>
-                    <nav class="highlight-players--content-list-cards glider draggable">
-                        <div class="glider-track" style="width: 1872px;">
-                            <article class="highlight-player-item glider-slide active center visible" data-gslide="0" style="height: auto; width: 312px;">
-                                <div class="highlight-players-card" style="background-image: url('/assets/img/home/homeNova/cases/roberta_arcoverde.1720710818.jpg');">
-                                    <a class="highlight-players--content-card-link" href="https://www.alura.com.br/cases/stack-overflow-e-a-aplicacao-web-monolitica-de-alta-performance-z1069" aria-label="Clique aqui para acessar a página da Alura Cases da empresa StackOverflow"></a>
-                                </div>
-                            </article>
-                            <button class="highlight-players--content-slideRight glider-next" aria-label="Botão para avançar um item do carrossel" aria-disabled="false">
-                                <img src="/assets/img/home/homeNova/cases/arrow-right.1720710818.svg" alt="Arrow right" loading="lazy">
-                            </button>
-                    </div>
-                </nav>
+                 <div class="highlight-players--content-carousel">
+                    <button class="highlight-players--content-slideLeft glider-prev disabled" aria-label="Botão para voltar um item do carrossel" aria-disabled="true">
+                    <img src="{% static 'blog/images/arrow-left.png' %}" alt="Arrow left" loading="lazy">
+                    </button>
+                        <nav class="highlight-players--content-list-cards glider draggable">
+                            <div class="glider-track" style="width: 1872px;">
+                                <article class="highlight-player-item glider-slide active center visible" data-gslide="0" style="height: auto; width: 312px;">
+                                    <div class="highlight-players-card" style="background-image: url('../../media/jogadores/rivaldo.jpg');">
+                                        <a class="highlight-players--content-card-link" href="https://www.alura.com.br/cases/stack-overflow-e-a-aplicacao-web-monolitica-de-alta-performance-z1069" aria-label="Clique aqui para acessar a página da Alura Cases da empresa StackOverflow"></a>
+                                    </div>
+                                </article>
+                                <button class="highlight-players--content-slideRight glider-next" aria-label="Botão para avançar um item do carrossel" aria-disabled="false">
+                                    <img src="{% static 'blog/images/arrow-right.svg' %}" alt="Arrow right" loading="lazy">
+                                </button>
+                        </div>
+                    </nav>
+                </div>
             </div>
         </section>
-        <div id="highlightCarousel" class="highlight-players--content-carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {% for jogador in jogadores %}
-                {% if forloop.counter0|divisibleby:3 %}
-                <div
-                    class="carousel-item {% if forloop.first %}active{% endif %}">
-                    {% endif %}
-
-                    <!-- Define classe 'highlighted' manualmente para o segundo jogador do grupo -->
-                    <div
-                        class="player-card {% if forloop.counter0|add:'1'|divisibleby:3 %}highlighted{% endif %}">
-                        {% if jogador.imagem %}
-                        <img src="{{ jogador.imagem.url }}"
-                            class="d-block w-100" alt="{{ jogador.nome }}">
-                        {% else %}
-                        <img src="{% static 'blog/images/default.jpg' %}"
-                            class="d-block w-100" alt="Imagem padrão">
-                        {% endif %}
-                    </div>
-
-                    {% if forloop.counter|divisibleby:3 or forloop.last %}
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-
-            <button class="carousel-control-prev" type="button"
-                data-bs-target="#highlightCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"
-                    aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button"
-                data-bs-target="#highlightCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"
-                    aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
         <section class="nations-of-world">
             <div class="nations-of-world-header mb-3">
                 <h2>NAÇÕES CAMPEÃES DO MUNDO</h2>
