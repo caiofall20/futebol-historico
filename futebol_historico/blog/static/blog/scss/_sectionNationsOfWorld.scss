@@ -1,9 +1,13 @@
-section .nations-of-world {
+.nations-of-world {
     &-header {
+        font-family: "Chakra Petch", sans-serif;
         display: flex;
         align-items: center;
-        justify-content: space-around;
-        font-family: 'Georama', sans-serif;
+        justify-content: center;
+    }
+
+    #chartdiv{
+        pointer-events: none;
     }
 
     &-icons {
@@ -41,17 +45,11 @@ section .nations-of-world {
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         z-index: 1000;
 
-        button {
-            margin-top: 10px;
-            padding: 5px 10px;
-            background-color: #FFD600;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #FFC107;
+        button{
+            #btnCloseInfoCard{
+                &:hover{
+                    color: $hover-menu-color;
+                }
             }
         }
     }

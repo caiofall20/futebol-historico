@@ -1,13 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
     console.log("DOM carregado, verificando ícones.");
 
-    const icons = document.querySelectorAll('.nations-of-world-icons .icon');
+    const icons = $('.nations-of-world-icons .icon');
     console.log("Ícones encontrados:", icons.length);
 
     // Adicionando evento de clique para cada bandeira
-    icons.forEach(function (icon) {
-        icon.addEventListener('click', function () {
-            const countryId = this.getAttribute('data-country-id');
+    icons.each(function () {
+        $(this).on('click', function () {
+            const countryId = $(this).data('country-id');
             console.log("Bandeira clicada: ", countryId);
 
             // Chama a função para animar o mapa e mostrar o card do país
@@ -24,27 +24,74 @@ document.addEventListener("DOMContentLoaded", function () {
     function selectCountry(countryId) {
         console.log("Selecionando o país: ", countryId);
 
-        // Dados do país
         const countryData = {
-            "BR": { name: "Brasil", info: "O Brasil ganhou a Copa do Mundo 5 vezes." },
-            "DE": { name: "Alemanha", info: "A Alemanha ganhou a Copa do Mundo 4 vezes." },
-            "AR": { name: "Argentina", info: "A Argentina ganhou a Copa do Mundo 3 vezes." },
-            "IT": { name: "Itália", info: "A Itália ganhou a Copa do Mundo 4 vezes." },
-            "FR": { name: "França", info: "A França ganhou a Copa do Mundo 2 vezes." },
-            "GB": { name: "Inglaterra", info: "A Inglaterra ganhou a Copa do Mundo 1 vez." },
-            "UY": { name: "Uruguai", info: "O Uruguai ganhou a Copa do Mundo 2 vezes." },
-            "ES": { name: "Espanha", info: "A Espanha ganhou a Copa do Mundo 1 vez." }
-        };
+            "BR": { 
+                name: "Brasil", 
+                stars: 5, 
+                rivals: ["Argentina", "Uruguai", "Holanda", "Alemanha", "Itália"], 
+                nickname: "Canarinho, Verde e Amarela", 
+                mascot: "Canarinho"
+            },
+            "DE": { 
+                name: "Alemanha", 
+                stars: 4, 
+                rivals: ["Brasil", "Argentina", "Itália", "França"], 
+                nickname: "Die Mannschaft", 
+                mascot: "Águia"
+            },
+            "AR": { 
+                name: "Argentina", 
+                stars: 3, 
+                rivals: ["Brasil", "Inglaterra", "Uruguai", "Alemanha"], 
+                nickname: "La Albiceleste", 
+                mascot: "Sábio"
+            },
+            "IT": { 
+                name: "Itália", 
+                stars: 4, 
+                rivals: ["Alemanha", "França", "Brasil", "Espanha"], 
+                nickname: "Gli Azzurri", 
+                mascot: "Ciao"
+            },
+            "FR": { 
+                name: "França", 
+                stars: 2, 
+                rivals: ["Alemanha", "Itália", "Inglaterra", "Argentina"], 
+                nickname: "Les Bleus", 
+                mascot: "Footix"
+            },
+            "GB": { 
+                name: "Inglaterra", 
+                stars: 1, 
+                rivals: ["Argentina", "Alemanha", "França"], 
+                nickname: "The Three Lions", 
+                mascot: "Willie"
+            },
+            "UY": { 
+                name: "Uruguai", 
+                stars: 2, 
+                rivals: ["Brasil", "Argentina"], 
+                nickname: "La Celeste", 
+                mascot: "Pelusa"
+            },
+            "ES": { 
+                name: "Espanha", 
+                stars: 1, 
+                rivals: ["Itália", "França", "Portugal"], 
+                nickname: "La Roja", 
+                mascot: "Naranjito"
+            }
+        };        
 
         // Verifica se o país está na lista
         const country = countryData[countryId] || { name: "Desconhecido", info: "Informações não disponíveis." };
 
         // Atualiza o conteúdo do card de informações
-        document.getElementById('country-name').textContent = country.name;
-        document.getElementById('country-info').textContent = country.info;
+        $('#country-name').text(country.name);
+        $('#country-info').text(country.info);
 
         // Exibe o card de informações
-        document.getElementById('info-card').style.display = 'block';
+        $('#info-card').show();
 
         // Focar no país no mapa
         var dataItem = polygonSeries.getDataItemById(countryId);
@@ -76,19 +123,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para fechar o card de informações
-    function closeInfoCard() {
-        document.getElementById('info-card').style.display = 'none';
-    }
+    $("#btnCloseInfoCard").on("click", function(){
+        $('#info-card').hide();
+    });
 
-    // Adiciona o evento de clique para o botão de fechar
-    document.getElementById('info-card').querySelector('button').addEventListener('click', closeInfoCard);
-
-    // Configuração do mapa amCharts
     am5.ready(function () {
         var root = am5.Root.new("chartdiv");
 
         root.setThemes([am5themes_Animated.new(root)]);
+        root._logo.dispose();
 
         chart = root.container.children.push(am5map.MapChart.new(root, {
             panX: "rotateX",
@@ -100,6 +143,10 @@ document.addEventListener("DOMContentLoaded", function () {
             paddingRight: 20
         }));
 
+        if(chart.logo) {
+            chart.logo.disabled = true;
+        }
+
         polygonSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {
             geoJSON: am5geodata_worldLow
         }));
@@ -109,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
             toggleKey: "active",
             interactive: true
         });
+
 
         // Estado para país "selecionado" com uma cor destacada
         polygonSeries.mapPolygons.template.states.create("selected", {
@@ -156,3 +204,4 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+

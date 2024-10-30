@@ -2,37 +2,49 @@
     position: relative;
     background: $background-gradient;
 
-    .shadow {
-        position: absolute;
-        width: 100%;
-        height: 5rem;
-        left: -8px;
-        z-index: 2;
-        bottom: 0rem;
-        background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
-        filter: blur(50px);
-        border-radius: 50%;
-        opacity: 0.3;
-        transition: opacity 0.3s ease-in-out;
-   }
+//     .shadow {
+//         position: absolute;
+//         width: 100%;
+//         height: 4rem;
+//         left: 27rem;
+//         bottom: 1.5rem;
+//         z-index: 2;
+//         background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
+//         filter: blur(50px);
+//         border-radius: 50%;
+//         opacity: 0.5;
+//         transition: opacity 0.3s ease-in-out;
+//    }
     
 
     &--content{
-        display: -webkit-flex;
         display: flex;
         z-index: 5;
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
         flex-direction: row;
         position: relative;
-        max-width: 80%;
-        width: 100%;
-        padding-right: 2rem;
-        padding-left: .625rem;
+        gap: 3rem;
+        padding: 3.5rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
 
         &-header {
             max-width: 416px;
             min-width: 416px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+
+                
+            @media (max-width: 768px) {
+                min-width: 100%;
+                margin: 0 auto;
+            }
+                
         }
         &-title{
             font-family: "Chakra Petch", sans-serif;
@@ -40,6 +52,13 @@
             line-height: 3.125rem;
             font-weight: 700;
             margin: 1rem 0;
+            mix-blend-mode: difference;
+            color: $secondary-color;
+
+            span{
+                color:$hover-menu-color;
+            }
+           
         }
         &-text{
             margin-top: 1rem;
@@ -83,121 +102,13 @@
             }
         }
 
-    
-        &-carousel {
-            margin-right: calc((100vw - 1200px) / 2* -1);
-            margin-right: -2.5rem;
-            margin-left: 0;
-            padding-left: 0;
-            margin-top: 0;
-            position: relative;
-            padding-bottom: 1.75rem;
-            padding-left: 0;
-            margin: 2.125rem -1rem 0;
-            overflow: hidden;
-            min-height: 410px;
-            // &-item {
-            //     display: flex;
-            //     align-items: center;
-            //     justify-content: space-evenly;
-    
-            //     .player-card {
-            //         background: $card-background-color;
-            //         padding: 10px;
-            //         border-radius: 4px;
-            //         width: 15rem;
-    
-            //         img {
-            //             border-radius: 4px;
-            //             cursor: pointer;
-            //             transition: transform 0.3s ease;
-    
-            //             &:hover {
-            //                 transform: scale(1.1);
-            //             }
-            //         }
-    
-            //         &.highlighted {
-            //             width: 18rem;
-            //             transition: width 0.3s ease;
-            //         }
-            //     }
-            // }
-        }
-
-        &-slideLeft{
-            cursor: pointer;
-            z-index: 200;
-            position: absolute;
-            bottom: 222px;
-            left: 1rem;
-            display: block;
-            position: absolute;
-            background: 0 0;
-            z-index: 2;
-            font-size: 40px;
-            text-decoration: none;
-            left: -23px;
-            top: 30%;
-            cursor: pointer;
-            color: #666;
-            opacity: 1;
-            line-height: 1;
-            -webkit-transition: opacity .5s cubic-bezier(.17,.67,.83,.67), color .5s cubic-bezier(.17,.67,.83,.67);
-        }
-
         &-list-cards{
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: flex;
-            list-style: none;
-            padding: 0 1rem;
-            min-height: 410px;
-            scrollbar-width: none;
-
-            .glider-track{
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: flex;
-                z-index: 1;
-            }
-
             article{
                 margin: 0 .625rem;
-
-                .highlight-players-card{
-                    position: relative;
-                    background-size: cover;
-                    background-position: center;
-                    width: 100%;
-                    min-height: 370px;
-                    display: -webkit-box;
-                    display: -webkit-flex;
-                    display: flex;
-                    -webkit-box-orient: vertical;
-                    -webkit-box-direction: normal;
-                    flex-direction: column;
-                    -webkit-box-align: center;
-                    align-items: center;
-                    -webkit-box-pack: end;
-                    justify-content: end;
-                    border-radius: 9px;
-                    overflow: hidden;
-                    border: 2px solid #A56CFF;
-                    padding: 1.5rem;
-                    box-shadow: 11px 11px 24px rgba(120, 135, 182, .15);
-
-                    &:before {
-                        content: "";
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 51.68%, rgba(2, 9, 16, .95) 84.6%);
+                // height: 25rem;
+                > div{
+                    img{
+                        border-radius: 9px;
                     }
                 }
             }

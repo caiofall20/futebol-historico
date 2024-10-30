@@ -3,7 +3,6 @@
 @import '_variables';
 @import '_functions';
 @import '_header';
-@import '_footer';
 @import '_sectionHome';
 @import '_sectionOptionsContent';
 @import '_sectionHighlightPlayers';
@@ -40,7 +39,7 @@ html {
         overflow-x: hidden;
         box-sizing: border-box;
         text-align: center;
-        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)!important;
         color: $secondary-color !important;
         box-sizing: border-box;
 
@@ -65,71 +64,158 @@ html {
             overflow: hidden;
         }
 
-    #stars {
-        width: 1px;
-        height: 1px;
-        background: transparent;
-        box-shadow: $shadows-small;
-        animation: animStar 50s linear infinite;
-
-        &:after {
-            content: " ";
-            position: absolute;
-            top: 2000px;
+        #stars {
             width: 1px;
             height: 1px;
             background: transparent;
             box-shadow: $shadows-small;
+            animation: animStar 50s linear infinite;
+
+            &:after {
+                content: " ";
+                position: absolute;
+                top: 2000px;
+                width: 1px;
+                height: 1px;
+                background: transparent;
+                box-shadow: $shadows-small;
+            }
         }
-    }
 
-    #stars2 {
-        width: 2px;
-        height: 2px;
-        background: transparent;
-        box-shadow: $shadows-medium;
-        animation: animStar 100s linear infinite;
-
-        &:after {
-            content: " ";
-            position: absolute;
-            top: 2000px;
+        #stars2 {
             width: 2px;
             height: 2px;
             background: transparent;
             box-shadow: $shadows-medium;
+            animation: animStar 100s linear infinite;
+
+            &:after {
+                content: " ";
+                position: absolute;
+                top: 2000px;
+                width: 2px;
+                height: 2px;
+                background: transparent;
+                box-shadow: $shadows-medium;
+            }
         }
-    }
 
-    #stars3 {
-        width: 3px;
-        height: 3px;
-        background: transparent;
-        box-shadow: $shadows-big;
-        animation: animStar 150s linear infinite;
-
-        &:after {
-            content: " ";
-            position: absolute;
-            top: 2000px;
+        #stars3 {
             width: 3px;
             height: 3px;
             background: transparent;
             box-shadow: $shadows-big;
-        }
-    }
+            animation: animStar 150s linear infinite;
 
-    @keyframes animStar {
-        from {
-            transform: translateY(0px);
+            &:after {
+                content: " ";
+                position: absolute;
+                top: 2000px;
+                width: 3px;
+                height: 3px;
+                background: transparent;
+                box-shadow: $shadows-big;
+            }
         }
 
-        to {
-            transform: translateY(-2000px);
+        footer{
+            // background-color: #0D1117;
+            font-family: 'Poppins', sans-serif;
+            color: #6e6d7a;
+            font-size: .8rem;
+            
+            .footer-content{
+                position: relative;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;  
+                    left: 0;
+                    width: 100%;  
+                    height: 1px;  
+                    opacity: 0.3;
+                    background-color: #6e6d7a;  
+                }
+                .icons {
+                    cursor: pointer;
+                    .instagram-icon{
+                        margin-right: .5rem;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+            }
+        }
+
+        @keyframes animStar {
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(-2000px);
+            }
+        }
+
+        .amcharts-chart-div .amcharts-logo {
+            display: none; 
         }
     }
-    }
+    
 }
+
+#slick {
+    display: none;
+
+    &.slick-initialized {
+        display: block;
+    }
+    // .slick-list {
+    //     margin-left: -15px;
+    //     margin-right: -15px;
+    // }
+    // .slick-slide {
+    //   padding-right: 15px;
+    //   padding-left: 15px;
+    // }
+    
+    .slick-arrow {
+        position: absolute;
+        width: 17px;
+        height: 1.8rem;
+        top: 50%;
+        background-color: transparent;
+        border: none;
+        -webkit-appearance: none;
+        padding: 0;
+        z-index: 100;
+        transform: translateY(-50%);
+        overflow: hidden;
+        text-indent: 1000px;
+
+        &:hover {
+            cursor: pointer;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    .slick-prev {
+      background-image: url('../images/arrow-left.svg');
+    }
+    
+    .slick-next {
+      background-image: url('../images/arrow-right.svg');
+    }
+    
+  }
+  
+      
+  
+  
 
 
 /* Filtro Listagem jogadores */

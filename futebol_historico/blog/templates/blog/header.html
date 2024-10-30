@@ -1,0 +1,66 @@
+<header>
+    <div class="header-principal">
+        <nav class="container header__nav">
+            <div class="header__nav--menu-hamburguer">
+                <label class="mobile-menu-button hamburger-icon"></label>
+                <label class="mobile-menu-button close-icon"></label>
+            </div>
+            <div class="header__nav--menu">
+                <ul class="menu-items">
+                    <li>
+                        <a href="{% url 'index' %}">Início</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'selecoes' %}">Copas</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'selecoes' %}">Seleções</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'times' %}">Times</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'jogadores_page' %}">Jogadores</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'jogadores_page' %}">Estádios</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="header__nav--change-language">
+                <ul class="dropdown dropdown-language">
+                    <li class="nav-item dropdown menu-idioms">
+                        <a class="dropdown-toggle p-4" href="#"
+                            id="dropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            PT-BR
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end"
+                            aria-labelledby="dropdownMenuLink">
+                            <li>
+                                
+                                <a class="dropdown-item" href="#">
+                                    PT-BR
+                                    <img src="../static/blog/images/icon-br.png" alt="Bandeira do Brasil">
+                                </a>
+                            </li>
+                            <li>
+                              
+                                <a class="dropdown-item" href="#">
+                                    EN-US
+                                    <img src="../static/blog/images/icon-us.png" alt="Bandeira dos Estados Unidos">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    ES-ES
+                                    <img src="../static/blog/images/icon-es.png" alt="Bandeira da Espanha">
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
