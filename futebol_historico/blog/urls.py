@@ -17,4 +17,6 @@ urlpatterns = [
     path('jogadores/<int:pk>/', views.jogador_detail, name='jogador_detail'),
     path('', views.jogadores_index, name='index'),
     path('jogadores/', views.jogadores_page, name='jogadores_page'),
+    path('estadios/', views.estadio_list, name='estadio_list'),
+    path('estadios/<int:estadio_id>/', views.estadio_detail, name='estadio_detail'),
 ]

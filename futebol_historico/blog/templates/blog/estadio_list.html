@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Estádios Históricos - Universo da Bola{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <h1>Estádios Históricos</h1>
+        <p>Descubra os maiores e mais históricos estádios do mundo.</p>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row">
+        {% for estadio in estadios %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if estadio.imagem %}
+                        <img src="{{ estadio.imagem.url }}" class="card-img-top" alt="{{ estadio.nome }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ estadio.nome }}</h5>
+                        <p><strong>Cidade:</strong> {{ estadio.cidade }}</p>
+                        <p><strong>País:</strong> {{ estadio.pais }}</p>
+                        <p><strong>Capacidade:</strong> {{ estadio.capacidade }} espectadores</p>
+                        <a href="{% url 'estadio_detail' estadio.id %}" class="btn btn-primary">Leia mais</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 import logging
 from django.shortcuts import render, get_object_or_404
-from .models import Jogador, Post, Comment, Selecao,Time
+from .models import Jogador, Post, Comment, Selecao,Time, Estadio
 from .forms import CommentForm
 
 # def index(request):
@@ -138,3 +138,12 @@ def post_detail(request, pk):
         'comment_form': comment_form,
         'recent_posts': recent_posts
     })
+# View para a lista de estádios
+def estadio_list(request):
+    estadios = Estadio.objects.all()
+    return render(request, 'blog/estadio_list.html', {'estadios': estadios})
+
+# View para detalhes do estádio
+def estadio_detail(request, estadio_id):
+    estadio = get_object_or_404(Estadio, id=estadio_id)
+    return render(request, 'blog/estadio_detail.html', {'estadio': estadio})

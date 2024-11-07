@@ -1,192 +1,183 @@
+{% extends 'blog/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ jogador.nome }} - Universo da Bola</title>
-    {% load sass_tags %}
-    <link rel="icon" type="image/x-icon" sizes="32x32" href="../static/blog/images/favicon.ico">
-    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
-    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-    <!-- Fonte Bebas Neue -->
+
+{% block title %}{{ jogador.nome }} - Universo da Bola{% endblock %}
+
+{% block extra_head %}
+    <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- Flag Icons CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
+            background: url("{% static 'blog/images/star_background.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
         }
         .hero-section {
-            background: linear-gradient(to right, #000000, #000033);
+            background: linear-gradient(to right, rgba(0, 47, 95, 0.9), rgba(0, 74, 143, 0.9));
             color: white;
-            padding: 50px 0;
+            padding: 30px 0;
             text-align: center;
         }
         .hero-section h1 {
             font-size: 3rem;
             font-family: 'Bebas Neue', cursive;
         }
-        .player-section {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        .player-card {
+        .player-profile {
             display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            background: white;
+            max-width: 1200px;
+            margin: 30px auto;
+            background: rgba(0, 0, 0, 0.6);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            color: #fff;
+        }
+        .player-image {
+            width: 40%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
             padding: 20px;
         }
-        .player-card img {
-            width: 100%;
+        .player-image img {
+            width: 90%;
             max-width: 300px;
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        .player-details {
+            width: 60%;
+            padding: 20px 30px;
+        }
+        .player-summary h2 {
+            font-size: 2.5rem;
+            font-family: 'Bebas Neue', cursive;
+            color: #66aaff;
+            margin-bottom: 20px;
         }
         .player-info {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .player-info .label {
+            font-weight: bold;
+            color: #aad4ff;
+        }
+        .biography-section, .comments {
+            max-width: 1200px;
+            margin: 20px auto;
+            
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+        .biography-section h3, .comments h3 {
+            font-size: 1.8rem;
             font-family: 'Bebas Neue', cursive;
-        }
-        .player-info h2 {
-            margin-bottom: 20px;
-        }
-        .player-info p {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        .player-info .flag {
-            width: 32px;
-            height: 24px;
-            margin-left: 10px;
-        }
-        .biography-section {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .comments {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-        .comments h3 {
-            margin-bottom: 20px;
-        }
-        .comments .card {
+            color: #66aaff;
             margin-bottom: 15px;
         }
+        .comment-card {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .comment-card:last-child {
+            border-bottom: none;
+        }
+        .comment-form h4 {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-family: 'Bebas Neue', cursive;
+            color: #66aaff;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .player-profile {
+                flex-direction: column;
+                align-items: center;
+            }
+            .player-image, .player-details {
+                width: 100%;
+            }
+        }
     </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'blog/images/logo.png' %}" alt="Logo" width="30" height="30" class="d-inline-block align-top">
-                Histórico de Futebol
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'selecoes' %}">Seleções Históricas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'times' %}">Times Históricos</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'jogadores_page' %}">Jogadores Lendários</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% endblock %}
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <h1>{{ jogador.nome }}</h1>
-        </div>
-    </section>
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>{{ jogador.nome }}</h1>
+    </div>
+</section>
 
-    <!-- Player Detail Section -->
-    <div class="container mt-5">
-        <div class="player-section">
-            <div class="player-card">
-                {% if jogador.carta %}
-                    <img src="{{ jogador.carta.url }}" alt="Carta do {{ jogador.nome }}">
-                {% endif %}
-                <div class="player-info">
-                    <h2>{{ jogador.nome }}</h2>
-                    <p><strong>Data de Nascimento:</strong> {{ jogador.nascimento }}</p>
-                    <p><strong>Nacionalidade:</strong>
-                        {% if jogador.nacionalidade == "Brasil" %}
-                            <span class="flag-icon flag-icon-br"></span>
-                        {% elif jogador.nacionalidade == "Argentina" %}
-                            <span class="flag-icon flag-icon-ar"></span>
-                        {% elif jogador.nacionalidade == "Portugal" %}
-                            <span class="flag-icon flag-icon-pt"></span>
-                        {% elif jogador.nacionalidade == "França" %}
-                            <span class="flag-icon flag-icon-fr"></span>
-                        {% elif jogador.nacionalidade == "Espanha" %}
-                            <span class="flag-icon flag-icon-es"></span>
-                        {% else %}
-                            <span class="flag-icon flag-icon-un"></span>
-                        {% endif %}
-                        {{ jogador.nacionalidade }}
-                    </p>
-                    <p><strong>Início da Carreira:</strong> {{ jogador.inicio_carreira }}</p>
-                    <p><strong>Fim da Carreira:</strong> {{ jogador.fim_carreira }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="biography-section">
-            <h3>Biografia</h3>
-            <div>
-                {{ jogador.biografia|safe }}
-            </div>
-        </div>
-        <!-- Comments Section -->
-        <div class="comments">
-            <h3>Comentários</h3>
-            {% for comment in comments %}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ comment.author }}</h5>
-                        <p class="card-text">{{ comment.text }}</p>
-                        <p class="text-muted">{{ comment.created_date }}</p>
-                    </div>
-                </div>
-            {% endfor %}
-            
-            <h4>Deixe um comentário</h4>
-            <form method="post">
-                {% csrf_token %}
-                {{ comment_form.as_p }}
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </form>
-        </div>
+<!-- Player Profile Section -->
+<div class="player-profile">
+    <!-- Player Image Section -->
+    <div class="player-image">
+        {% if jogador.carta %}
+            <img src="{{ jogador.carta.url }}" alt="Imagem de {{ jogador.nome }}">
+        {% endif %}
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-3 mt-5">
-        <div class="container text-center">
-            <p>&copy; 2024 Histórico de Futebol. Todos os direitos reservados.</p>
+    <!-- Player Details Section -->
+    <div class="player-details">
+        <div class="player-summary">
+            <h2>Resumo do Jogador</h2>
+            <div class="player-info">
+                <p><span class="label">Nome:</span> {{ jogador.nome }}</p>
+                <p><span class="label">Posição:</span> {{ jogador.posicao }}</p>
+                <p><span class="label">Nacionalidade:</span> 
+                    {% if jogador.nacionalidade == "Brasil" %}
+                        <span class="flag-icon flag-icon-br"></span> Brasil
+                    {% elif jogador.nacionalidade == "Argentina" %}
+                        <span class="flag-icon flag-icon-ar"></span> Argentina
+                    {% else %}
+                        {{ jogador.nacionalidade }}
+                    {% endif %}
+                </p>
+                <p><span class="label">Início da Carreira:</span> {{ jogador.inicio_carreira }}</p>
+                <p><span class="label">Fim da Carreira:</span> {{ jogador.fim_carreira }}</p>
+            </div>
         </div>
-    </footer>
+    </div>
+</div>
 
-    <!-- Bootstrap JS -->
+<!-- Biography Section -->
+<div class="biography-section">
+    <h3>Biografia</h3>
+    <p>{{ jogador.biografia|safe }}</p>
+</div>
+
+<!-- Comments Section -->
+<div class="comments">
+    <h3>Comentários</h3>
+    {% for comment in comments %}
+        <div class="comment-card">
+            <h5>{{ comment.author }}</h5>
+            <p>{{ comment.text }}</p>
+            <small class="text-muted">{{ comment.created_date }}</small>
+        </div>
+    {% empty %}
+        <p class="text-muted">Nenhum comentário disponível.</p>
+    {% endfor %}
+
+    <h4 class="comment-form">Deixe um comentário</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
