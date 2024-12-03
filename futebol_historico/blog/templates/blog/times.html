@@ -1,62 +1,339 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}Times Lendários - Universo da Bola{% endblock %}
+{% block title %}Times - Futebol Histórico{% endblock %}
+
+{% block extra_css %}
+<style>
+    .content-container {
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .filters-container {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-group label {
+        color: #b0b0b0;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .filter-group input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.5rem;
+        border-radius: 5px;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .filter-group input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .clear-filters {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #b0b0b0;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 1rem;
+    }
+
+    .clear-filters:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .times-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+
+    .time-card {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        backdrop-filter: blur(10px);
+    }
+
+    .time-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-body h5 {
+        color: white;
+        margin: 0 0 1rem 0;
+        font-size: 1.2rem;
+    }
+
+    .card-info {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .card-info-row {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 1rem;
+    }
+
+    .info-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+    }
+
+    .info-value {
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background: linear-gradient(45deg, #1a1a1a, #333);
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #333, #1a1a1a);
+        transform: translateY(-2px);
+    }
+
+    .no-results {
+        width: 100%;
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 1rem 0;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+        .times-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 1rem;
+        }
+
+        .times-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filters-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <h1>Times Históricos</h1>
-            <p>Conheça os grandes times que marcaram época no futebol.</p>
-        </div>
-    </section>
-
-    <!-- Filtro -->
-    <div class="container mt-5">
-        <form method="GET" action="{% url 'times' %}">
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <input type="text" name="q" class="form-control" placeholder="Buscar por nome" value="{{ request.GET.q }}">
-                </div>
-                <div class="col-md-4">
-                    <select name="region" class="form-control">
-                        <option value="">Todos os Continentes</option>
-                        <option value="Europa" {% if request.GET.region == "Europa" %}selected{% endif %}>Europa</option>
-                        <option value="América do Sul" {% if request.GET.region == "América do Sul" %}selected{% endif %}>América do Sul</option>
-                        <option value="África" {% if request.GET.region == "África" %}selected{% endif %}>África</option>
-                        <option value="Ásia" {% if request.GET.region == "Ásia" %}selected{% endif %}>Ásia</option>
-                        <option value="América do Norte" {% if request.GET.region == "América do Norte" %}selected{% endif %}>América do Norte</option>
-                        <option value="Oceania" {% if request.GET.region == "Oceania" %}selected{% endif %}>Oceania</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
-                </div>
+<div class="content-container">
+    <!-- Filtros -->
+    <div class="filters-container">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label for="nome">Nome do Time</label>
+                <input type="text" id="nome" placeholder="Digite o nome do time...">
             </div>
-        </form>
+            <div class="filter-group">
+                <label for="pais">País</label>
+                <input type="text" id="pais" placeholder="Digite o país...">
+            </div>
+            <div class="filter-group">
+                <label for="fundacao">Ano de Fundação</label>
+                <input type="text" id="fundacao" placeholder="Digite o ano...">
+            </div>
+        </div>
+        <button id="clearFilters" class="clear-filters">Limpar Filtros</button>
     </div>
 
-    <!-- Times Listagem -->
-    <div class="container mt-5">
-        <h1 class="mb-4">Times Históricos</h1>
-        <div class="row">
-            {% for time in times %}
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        {% if time.imagem %}
-                            <img src="{{ time.imagem.url }}" class="card-img-top" alt="{{ time.nome }}">
-                        
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ time.nome }}</h5>
-                            <p class="card-text">{{ time.descricao|truncatewords:20|safe }}</p>
-                            <p class="card-text"><strong>Região:</strong> {{ time.regiao }}</p>
-                            <p class="card-text"><strong>Títulos:</strong> {{ time.titulos }}</p>
-                            <a href="{% url 'time_detail' time.id %}" class="btn btn-primary">Leia mais</a>
+    <!-- Listagem de Times -->
+    <div class="times-grid" id="times-container">
+        {% for time in times %}
+            <div class="time-card">
+                {% if time.imagem %}
+                    <img src="{{ time.imagem.url }}" class="card-img-top" alt="{{ time.nome }}">
+                {% endif %}
+                <div class="card-body">
+                    <div>
+                        <h5>{{ time.nome }}</h5>
+                        <div class="card-info">
+                            <div class="card-info-row">
+                                <span class="info-label">País</span>
+                                <span class="info-value">{{ time.pais }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Fundação</span>
+                                <span class="info-value">{{ time.fundacao|date:"Y" }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Estádio</span>
+                                <span class="info-value">{{ time.estadio|default:" --" }}</span>
+                            </div>
                         </div>
                     </div>
+                    <a href="{% url 'time_detail' time.id %}" class="btn btn-primary">Leia mais</a>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do DOM
+        const nomeInput = document.getElementById('nome');
+        const paisInput = document.getElementById('pais');
+        const fundacaoInput = document.getElementById('fundacao');
+        const timesContainer = document.getElementById('times-container');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        const timeCards = document.querySelectorAll('.time-card');
+
+        function aplicarFiltros() {
+            const termoBusca = nomeInput.value.toLowerCase().trim();
+            const paisBusca = paisInput.value.toLowerCase().trim();
+            const fundacaoBusca = fundacaoInput.value.trim();
+
+            let encontrouResultados = false;
+
+            timeCards.forEach(card => {
+                // Buscar todos os textos relevantes do card
+                const nome = card.querySelector('h5').textContent.toLowerCase();
+                const pais = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('País'))
+                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
+                
+                const fundacao = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Fundação'))
+                    ?.querySelector('.info-value').textContent.trim() || '';
+
+                // Verificar nome
+                const nomeMatch = !termoBusca || nome.includes(termoBusca);
+
+                // Verificar país
+                const paisMatch = !paisBusca || pais.includes(paisBusca);
+
+                // Verificar fundação
+                let fundacaoMatch = true;
+                if (fundacaoBusca) {
+                    const anoFundacao = parseInt(fundacao);
+                    const anoBusca = parseInt(fundacaoBusca);
+                    
+                    if (!isNaN(anoBusca) && !isNaN(anoFundacao)) {
+                        fundacaoMatch = anoFundacao === anoBusca;
+                    }
+                }
+
+                // Aplicar filtros combinados
+                const mostrarCard = nomeMatch && paisMatch && fundacaoMatch;
+                
+                if (mostrarCard) {
+                    card.style.display = '';
+                    encontrouResultados = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Mostrar ou esconder mensagem de "nenhum resultado"
+            atualizarMensagemSemResultados(encontrouResultados);
+        }
+
+        function atualizarMensagemSemResultados(encontrouResultados) {
+            let mensagem = document.querySelector('.no-results');
+            
+            if (!encontrouResultados) {
+                if (!mensagem) {
+                    mensagem = document.createElement('div');
+                    mensagem.className = 'no-results';
+                    mensagem.textContent = 'Nenhum time encontrado';
+                    timesContainer.appendChild(mensagem);
+                }
+            } else if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        function limparFiltros() {
+            // Limpar inputs
+            nomeInput.value = '';
+            paisInput.value = '';
+            fundacaoInput.value = '';
+
+            // Mostrar todos os cards
+            timeCards.forEach(card => {
+                card.style.display = '';
+            });
+
+            // Remover mensagem de "nenhum resultado"
+            const mensagem = document.querySelector('.no-results');
+            if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        // Event Listeners
+        nomeInput.addEventListener('input', aplicarFiltros);
+        paisInput.addEventListener('input', aplicarFiltros);
+        fundacaoInput.addEventListener('input', aplicarFiltros);
+        clearFiltersBtn.addEventListener('click', limparFiltros);
+
+        // Estilização do botão de limpar
+        clearFiltersBtn.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            this.style.color = '#fff';
+        });
+        
+        clearFiltersBtn.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.color = '#b0b0b0';
+        });
+    });
+</script>
 {% endblock %}

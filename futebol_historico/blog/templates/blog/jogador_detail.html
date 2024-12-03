@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 
-{% block title %}{{ jogador.nome }} - Universo da Bola{% endblock %}
+{% block title %}{{ jogador.nome }} - Futebol Histórico{% endblock %}
 
 {% block extra_head %}
     <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
@@ -12,169 +12,417 @@
             font-family: 'Arial', sans-serif;
             background: url("{% static 'blog/images/star_background.png' %}") no-repeat center center fixed;
             background-size: cover;
-            color: #333;
+            color: #fff;
+            line-height: 1.6;
         }
+
+        .header-principal {
+            margin-top: 76px; /* Ajuste para evitar sobreposição com o menu */
+        }
+
         .hero-section {
-            background: linear-gradient(to right, rgba(0, 47, 95, 0.9), rgba(0, 74, 143, 0.9));
+            background: transparent;
             color: white;
-            padding: 30px 0;
+            padding: 40px 0;
             text-align: center;
+            margin-bottom: 30px;
         }
+
         .hero-section h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-family: 'Bebas Neue', cursive;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         .player-profile {
             display: flex;
-            max-width: 1200px;
             margin: 30px auto;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            color: #fff;
+            backdrop-filter: blur(10px);
         }
+
         .player-image {
             width: 40%;
-            position: relative;
+            padding: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
         }
+
         .player-image img {
-            width: 90%;
-            max-width: 300px;
+            width: 100%;
+            max-width: 400px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
         }
+
+        .player-image img:hover {
+            transform: scale(1.02);
+        }
+
         .player-details {
             width: 60%;
-            padding: 20px 30px;
+            padding: 30px;
         }
+
         .player-summary h2 {
             font-size: 2.5rem;
             font-family: 'Bebas Neue', cursive;
             color: #66aaff;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         .player-info {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            line-height: 1.6;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.8;
         }
+
         .player-info .label {
             font-weight: bold;
-            color: #aad4ff;
+            color: #66aaff;
+            margin-right: 10px;
         }
-        .biography-section, .comments {
-            max-width: 1200px;
-            margin: 20px auto;
-            
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        .biography-section {
+            background: rgba(0, 0, 0, 0.8);
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .biography-section h3 {
+            font-size: 2rem;
+            font-family: 'Bebas Neue', cursive;
+            color: #66aaff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .biography-section p {
+            font-size: 1.3rem;
+            line-height: 1.8;
             color: #fff;
+            text-align: justify;
+            margin-bottom: 15px;
         }
-        .biography-section h3, .comments h3 {
+
+        .comments {
+            background: rgba(0, 0, 0, 0.8);
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .comments h3 {
+            font-size: 2.5rem;
+            font-family: 'Bebas Neue', cursive;
+            color: #66aaff;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(102, 170, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-card h5 {
+            color: #66aaff;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .comment-card p {
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-card small {
+            color: #b3d9ff;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .no-comments {
+            color: #ffffff;
+            font-size: 1.4rem;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .comment-form {
+            margin-top: 40px;
+        }
+
+        .comment-form h4 {
             font-size: 1.8rem;
             font-family: 'Bebas Neue', cursive;
             color: #66aaff;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-        .comment-card {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
+
+        .comment-form textarea,
+        .comment-form input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
-        .comment-card:last-child {
-            border-bottom: none;
+
+        .comment-form input {
+            height: 50px;
         }
-        .comment-form h4 {
-            margin-top: 30px;
-            font-size: 1.5rem;
-            font-family: 'Bebas Neue', cursive;
+
+        .comment-form textarea {
+            min-height: 150px;
+        }
+
+        .comment-form label {
             color: #66aaff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
         }
-        /* Responsividade */
-        @media (max-width: 768px) {
+
+        .comment-form textarea:focus,
+        .comment-form input:focus {
+            outline: none;
+            border-color: #66aaff;
+            box-shadow: 0 0 10px rgba(102, 170, 255, 0.3);
+        }
+
+        .comment-form textarea::placeholder,
+        .comment-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #004a8f, #0066cc);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #003366, #004a8f);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+        }
+
+        @media (max-width: 991px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
             .player-profile {
                 flex-direction: column;
-                align-items: center;
             }
+
             .player-image, .player-details {
                 width: 100%;
+            }
+
+            .player-image {
+                padding: 20px;
+            }
+
+            .player-image img {
+                max-width: 300px;
+            }
+
+            .player-summary h2 {
+                font-size: 2rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-principal {
+                margin-top: 66px;
+            }
+
+            .hero-section {
+                padding: 30px 0;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .biography-section, .comments {
+                padding: 20px;
+            }
+
+            .player-info {
+                font-size: 1.2rem;
+            }
+
+            .biography-section p {
+                font-size: 1.2rem;
+            }
+
+            .comment-card p {
+                font-size: 1.2rem;
+            }
+
+            .comment-card h5 {
+                font-size: 1.3rem;
+            }
+
+            .comment-card small {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .player-image img {
+                max-width: 250px;
+            }
+
+            .player-details {
+                padding: 20px;
+            }
+
+            .comment-card {
+                padding: 15px;
             }
         }
     </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
+<div class="header-principal">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>{{ jogador.nome }}</h1>
+        </div>
+    </section>
+
     <div class="container">
-        <h1>{{ jogador.nome }}</h1>
-    </div>
-</section>
+        <!-- Player Profile Section -->
+        <div class="player-profile">
+            <!-- Player Image Section -->
+            <div class="player-image">
+                {% if jogador.carta %}
+                    <img src="{{ jogador.carta.url }}" alt="Imagem de {{ jogador.nome }}">
+                {% endif %}
+            </div>
 
-<!-- Player Profile Section -->
-<div class="player-profile">
-    <!-- Player Image Section -->
-    <div class="player-image">
-        {% if jogador.carta %}
-            <img src="{{ jogador.carta.url }}" alt="Imagem de {{ jogador.nome }}">
-        {% endif %}
-    </div>
+            <!-- Player Details Section -->
+            <div class="player-details">
+                <div class="player-summary">
+                    <h2>Resumo do Jogador</h2>
+                    <div class="player-info">
+                        <p><span class="label">Nome:</span> {{ jogador.nome }}</p>
+                        <p><span class="label">Posição:</span> {{ jogador.posicao }}</p>
+                        <p><span class="label">Nacionalidade:</span> 
+                            {% if jogador.nacionalidade == "Brasil" %}
+                                <span class="flag-icon flag-icon-br"></span> Brasil
+                            {% elif jogador.nacionalidade == "Argentina" %}
+                                <span class="flag-icon flag-icon-ar"></span> Argentina
+                            {% else %}
+                                {{ jogador.nacionalidade }}
+                            {% endif %}
+                        </p>
+                        <p><span class="label">Início da Carreira:</span> {{ jogador.inicio_carreira }}</p>
+                        <p><span class="label">Fim da Carreira:</span> {{ jogador.fim_carreira }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Player Details Section -->
-    <div class="player-details">
-        <div class="player-summary">
-            <h2>Resumo do Jogador</h2>
-            <div class="player-info">
-                <p><span class="label">Nome:</span> {{ jogador.nome }}</p>
-                <p><span class="label">Posição:</span> {{ jogador.posicao }}</p>
-                <p><span class="label">Nacionalidade:</span> 
-                    {% if jogador.nacionalidade == "Brasil" %}
-                        <span class="flag-icon flag-icon-br"></span> Brasil
-                    {% elif jogador.nacionalidade == "Argentina" %}
-                        <span class="flag-icon flag-icon-ar"></span> Argentina
-                    {% else %}
-                        {{ jogador.nacionalidade }}
-                    {% endif %}
-                </p>
-                <p><span class="label">Início da Carreira:</span> {{ jogador.inicio_carreira }}</p>
-                <p><span class="label">Fim da Carreira:</span> {{ jogador.fim_carreira }}</p>
+        <!-- Biography Section -->
+        <div class="biography-section">
+            <h3>Biografia</h3>
+            <div class="biography-content">
+                {{ jogador.biografia|safe }}
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments">
+            <h3>Comentários</h3>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment-card">
+                        <h5>{{ comment.name }}</h5>
+                        <p>{{ comment.body }}</p>
+                        <small>{{ comment.created_on|date:"d/m/Y H:i" }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-comments">
+                    <p>Nenhum comentário disponível. Seja o primeiro a comentar!</p>
+                </div>
+            {% endif %}
+
+            <div class="comment-form">
+                <h4>Deixe um comentário</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in comment_form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="error-message">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Enviar comentário</button>
+                </form>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Biography Section -->
-<div class="biography-section">
-    <h3>Biografia</h3>
-    <p>{{ jogador.biografia|safe }}</p>
-</div>
-
-<!-- Comments Section -->
-<div class="comments">
-    <h3>Comentários</h3>
-    {% for comment in comments %}
-        <div class="comment-card">
-            <h5>{{ comment.author }}</h5>
-            <p>{{ comment.text }}</p>
-            <small class="text-muted">{{ comment.created_date }}</small>
-        </div>
-    {% empty %}
-        <p class="text-muted">Nenhum comentário disponível.</p>
-    {% endfor %}
-
-    <h4 class="comment-form">Deixe um comentário</h4>
-    <form method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
 </div>
 {% endblock %}
 

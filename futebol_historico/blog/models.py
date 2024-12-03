@@ -80,9 +80,12 @@ class Time(models.Model):
 
     def __str__(self):
         return self.nome
+
 class Comment(models.Model):
-    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, )
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE, null=True, blank=True)
     jogador = models.ForeignKey(Jogador, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+    selecao = models.ForeignKey(Selecao, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
+    time = models.ForeignKey(Time, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
@@ -90,10 +93,16 @@ class Comment(models.Model):
     active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
 
     def __str__(self):
-        return f'Comment by {self.name} on {self.post}'
+        if self.jogador:
+            return f'Comment by {self.name} on Jogador: {self.jogador.nome}'
+        elif self.selecao:
+            return f'Comment by {self.name} on Seleção: {self.selecao.nome}'
+        elif self.time:
+            return f'Comment by {self.name} on Time: {self.time.nome}'
+        return f'Comment by {self.name}'
 
 from django.db import models
 

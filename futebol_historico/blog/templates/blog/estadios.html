@@ -1,107 +1,343 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estádios Renomados - Universo da Bola</title>
-    {% load sass_tags %}
-    <link rel="icon" type="image/x-icon" sizes="32x32" href="../static/blog/images/favicon.ico">
-    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
-    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-</head>
-<body>
-    <main>
-        <header>
-            <div class="header-principal">
-                <nav class="container header__nav">
-                    <div class="header__nav--menu-hamburguer">
-                        <label class="mobile-menu-button hamburger-icon"></label>
-                        <label class="mobile-menu-button close-icon"></label>
-                    </div>
-                    <div class="header__nav--menu">
-                        <ul class="menu-items">
-                            <li>
-                                <a href="{% url 'index' %}">Início</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'selecoes' %}">Copas</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'selecoes' %}">Seleções</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'times' %}">Times</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'jogadores_page' %}">Jogadores</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'jogadores_page' %}">Estádios</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="header__nav--change-language">
-                        <ul class="dropdown dropdown-language">
-                            <li class="nav-item dropdown menu-idioms">
-                                <a class="dropdown-toggle p-4" href="#"
-                                    id="dropdownMenuLink" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    PT-BR
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="dropdownMenuLink">
-                                    <li>
-                                        
-                                        <a class="dropdown-item" href="#">
-                                            PT-BR
-                                            <img src="../static/blog/images/icon-br.png" alt="Bandeira do Brasil">
-                                        </a>
-                                    </li>
-                                    <li>
-                                      
-                                        <a class="dropdown-item" href="#">
-                                            EN-US
-                                            <img src="../static/blog/images/icon-us.png" alt="Bandeira dos Estados Unidos">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            ES-ES
-                                            <img src="../static/blog/images/icon-es.png" alt="Bandeira da Espanha">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+{% extends 'blog/base.html' %}
+
+{% block title %}Estádios - Futebol Histórico{% endblock %}
+
+{% block extra_css %}
+<style>
+    .content-container {
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .filters-container {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-group label {
+        color: #b0b0b0;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .filter-group input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.5rem;
+        border-radius: 5px;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .filter-group input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .clear-filters {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #b0b0b0;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 1rem;
+    }
+
+    .clear-filters:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+
+    .estadios-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 1rem 0;
+    }
+
+    .estadio-card {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        backdrop-filter: blur(10px);
+    }
+
+    .estadio-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .card-body h5 {
+        color: white;
+        margin: 0 0 1rem 0;
+        font-size: 1.2rem;
+    }
+
+    .card-info {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .card-info-row {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 1rem;
+    }
+
+    .info-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+    }
+
+    .info-value {
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background: linear-gradient(45deg, #1a1a1a, #333);
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #333, #1a1a1a);
+        transform: translateY(-2px);
+    }
+
+    .no-results {
+        width: 100%;
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 1rem 0;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+        .estadios-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 1rem;
+        }
+
+        .estadios-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filters-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <!-- Filtros -->
+    <div class="filters-container">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label for="nome">Nome do Estádio</label>
+                <input type="text" id="nome" placeholder="Digite o nome do estádio...">
             </div>
-        </header>
-        <footer class="py-4">
-            <div class="container d-flex align-items-center justify-content-between footer-content">
-                <p class="mb-0 mt-4">Universo da Bola. &copy;2024 - Todos os direitos reservados</p>
-                <div class="icons d-flex align-items-center justify-content-between mt-4">
-                        <div class="instagram-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-                              </svg>
+            <div class="filter-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" placeholder="Digite a cidade...">
+            </div>
+            <div class="filter-group">
+                <label for="capacidade">Capacidade</label>
+                <input type="text" id="capacidade" placeholder="Digite a capacidade...">
+            </div>
+        </div>
+        <button id="clearFilters" class="clear-filters">Limpar Filtros</button>
+    </div>
+
+    <!-- Listagem de Estádios -->
+    <div class="estadios-grid" id="estadios-container">
+        {% for estadio in estadios %}
+            <div class="estadio-card">
+                {% if estadio.imagem %}
+                    <img src="{{ estadio.imagem.url }}" class="card-img-top" alt="{{ estadio.nome }}">
+                {% endif %}
+                <div class="card-body">
+                    <div>
+                        <h5>{{ estadio.nome }}</h5>
+                        <div class="card-info">
+                            <div class="card-info-row">
+                                <span class="info-label">Cidade</span>
+                                <span class="info-value">{{ estadio.cidade }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">País</span>
+                                <span class="info-value">{{ estadio.pais }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Capacidade</span>
+                                <span class="info-value">{{ estadio.capacidade|default:" --" }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Inauguração</span>
+                                <span class="info-value">{{ estadio.inauguracao|date:"Y" }}</span>
+                            </div>
                         </div>
-                        <div class="youtube-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                              <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
-                            </svg>
-                        </div>
+                    </div>
+                    <a href="{% url 'estadio_detail' estadio.id %}" class="btn btn-primary">Leia mais</a>
                 </div>
             </div>
-        </footer>
-    </main>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>  
-</body>
-</html>
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do DOM
+        const nomeInput = document.getElementById('nome');
+        const cidadeInput = document.getElementById('cidade');
+        const capacidadeInput = document.getElementById('capacidade');
+        const estadiosContainer = document.getElementById('estadios-container');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        const estadioCards = document.querySelectorAll('.estadio-card');
+
+        function aplicarFiltros() {
+            const termoBusca = nomeInput.value.toLowerCase().trim();
+            const cidadeBusca = cidadeInput.value.toLowerCase().trim();
+            const capacidadeBusca = capacidadeInput.value.trim();
+
+            let encontrouResultados = false;
+
+            estadioCards.forEach(card => {
+                // Buscar todos os textos relevantes do card
+                const nome = card.querySelector('h5').textContent.toLowerCase();
+                const cidade = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Cidade'))
+                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
+                
+                const capacidade = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Capacidade'))
+                    ?.querySelector('.info-value').textContent.trim() || '';
+
+                // Verificar nome
+                const nomeMatch = !termoBusca || nome.includes(termoBusca);
+
+                // Verificar cidade
+                const cidadeMatch = !cidadeBusca || cidade.includes(cidadeBusca);
+
+                // Verificar capacidade
+                let capacidadeMatch = true;
+                if (capacidadeBusca) {
+                    const numCapacidade = parseInt(capacidade.replace(/\D/g, ''));
+                    const numBusca = parseInt(capacidadeBusca);
+                    
+                    if (!isNaN(numBusca) && !isNaN(numCapacidade)) {
+                        capacidadeMatch = numCapacidade >= numBusca;
+                    }
+                }
+
+                // Aplicar filtros combinados
+                const mostrarCard = nomeMatch && cidadeMatch && capacidadeMatch;
+                
+                if (mostrarCard) {
+                    card.style.display = '';
+                    encontrouResultados = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Mostrar ou esconder mensagem de "nenhum resultado"
+            atualizarMensagemSemResultados(encontrouResultados);
+        }
+
+        function atualizarMensagemSemResultados(encontrouResultados) {
+            let mensagem = document.querySelector('.no-results');
+            
+            if (!encontrouResultados) {
+                if (!mensagem) {
+                    mensagem = document.createElement('div');
+                    mensagem.className = 'no-results';
+                    mensagem.textContent = 'Nenhum estádio encontrado';
+                    estadiosContainer.appendChild(mensagem);
+                }
+            } else if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        function limparFiltros() {
+            // Limpar inputs
+            nomeInput.value = '';
+            cidadeInput.value = '';
+            capacidadeInput.value = '';
+
+            // Mostrar todos os cards
+            estadioCards.forEach(card => {
+                card.style.display = '';
+            });
+
+            // Remover mensagem de "nenhum resultado"
+            const mensagem = document.querySelector('.no-results');
+            if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        // Event Listeners
+        nomeInput.addEventListener('input', aplicarFiltros);
+        cidadeInput.addEventListener('input', aplicarFiltros);
+        capacidadeInput.addEventListener('input', aplicarFiltros);
+        clearFiltersBtn.addEventListener('click', limparFiltros);
+
+        // Estilização do botão de limpar
+        clearFiltersBtn.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            this.style.color = '#fff';
+        });
+        
+        clearFiltersBtn.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.color = '#b0b0b0';
+        });
+    });
+</script>
+{% endblock %}

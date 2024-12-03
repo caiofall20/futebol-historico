@@ -2,8 +2,324 @@
 
 {% block title %}Jogadores Lendários - Universo da Bola{% endblock %}
 
+{% block extra_head %}
+<style>
+    .hero-section {
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        margin-top: 56px;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #66aaff, #004a8f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        color: #b0b0b0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-section {
+        margin-bottom: 40px;
+        border-radius: 15px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-input {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 0;
+    }
+
+    .filter-input input {
+        background: rgba(30, 30, 30, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .filter-input input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .filter-input input:focus {
+        background: rgba(40, 40, 40, 0.8);
+        border-color: #004a8f;
+        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
+        outline: none;
+    }
+
+    .jogadores-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+    }
+
+    .jogador-card {
+        background: rgba(20, 20, 20, 0.6);
+        color: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+    }
+
+    .jogador-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
+        border-color: rgba(102, 170, 255, 0.3);
+    }
+
+    .jogador-card img {
+        width: 100%;
+        height: 400px;
+        object-fit: contain;
+        border-bottom: 3px solid #004a8f;
+        transition: transform 0.3s ease;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+    }
+
+    .jogador-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .card-body {
+        text-align: center;
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
+    }
+
+    .card-body h5 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        color: #b0b0b0;
+        padding: 15px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .card-info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        color: #66aaff;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .info-label::after {
+        content: ":";
+        margin-right: 5px;
+        color: #66aaff;
+    }
+
+    .info-value {
+        color: #fff;
+        font-size: 0.9rem;
+        margin-left: 5px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #004a8f, #0066cc);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #003366, #004a8f);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+        transition: transform 0.6s;
+    }
+
+    .btn-primary:hover::after {
+        transform: rotate(45deg) translate(50%, 50%);
+    }
+
+    .no-results {
+        width: 100%;
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 1rem 0;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+        .jogadores-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 15px;
+            margin-top: 50px;
+        }
+
+        .hero-section h1 {
+            font-size: 2rem;
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+            padding: 0 15px;
+        }
+
+        .filter-section {
+            margin: 20px 10px 30px;
+            padding: 15px;
+        }
+
+        .filter-input {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .filter-input input {
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .jogadores-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .jogador-card img {
+            height: 220px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-body h5 {
+            font-size: 1.2rem;
+        }
+
+        .card-info {
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+        }
+
+        .info-value {
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section h1 {
+            font-size: 1.8rem;
+        }
+
+        .jogadores-grid {
+            grid-template-columns: 1fr;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .jogador-card img {
+            height: 200px;
+        }
+    }
+
+    /* Loading animation */
+    .loading {
+        opacity: 0.5;
+        pointer-events: none;
+        transition: opacity 0.3s;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<!-- Players Section -->
+<!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
         <h1>Jogadores Lendários</h1>
@@ -13,29 +329,49 @@
 
 <div class="container mt-5">
     <!-- Filtro Moderno -->
-    <div class="filter-input mb-4">
-        <input type="text" class="form-control mb-2" id="nome" placeholder="Nome do Jogador">
-        <input type="text" class="form-control mb-2" id="nacionalidade" placeholder="Nacionalidade">
-        <input type="text" class="form-control mb-2" id="periodo" placeholder="Período de Atuação (ex: 1990-2000)">
+    <div class="filter-section">
+        <div class="filter-input">
+            <input type="text" class="form-control" id="nome" placeholder="Buscar por nome...">
+            <input type="text" class="form-control" id="nacionalidade" placeholder="Filtrar por nacionalidade...">
+            <input type="text" class="form-control" id="periodo" placeholder="Período (ex: 1990-2000)">
+        </div>
+        <button class="btn btn-outline-secondary mt-3" id="clearFilters">Limpar Filtros</button>
     </div>
 
     <!-- Listagem de Jogadores -->
-    <div class="row" id="jogadores-container">
+    <div class="jogadores-grid" id="jogadores-container">
         {% for jogador in jogadores %}
-            <div class="col-md-4 jogador-card" data-nome="{{ jogador.nome }}" data-nacionalidade="{{ jogador.nacionalidade }}" data-periodo="{{ jogador.inicio_carreira.year }}-{{ jogador.fim_carreira.year }}">
-                <div class="mb-4 shadow-sm">
-                    {% if jogador.imagem %}
-                        <img src="{{ jogador.imagem.url }}" class="card-img-top img-fluid" alt="{{ jogador.nome }}">
-                   
-                    {% endif %}
-                    <div class="card-body">
+            <div class="jogador-card">
+                {% if jogador.imagem %}
+                    <img src="{{ jogador.imagem.url }}" class="card-img-top" alt="{{ jogador.nome }}">
+                {% endif %}
+                <div class="card-body">
+                    <div>
                         <h5>{{ jogador.nome }}</h5>
                         <div class="card-info">
-                            <span class="nickname">{{ jogador.apelido }}</span>
-                            <span class="position">{{ jogador.posicao }}</span>
+                            <div class="card-info-row">
+                                <span class="info-label">Apelido</span>
+                                <span class="info-value">{{ jogador.apelido|default:" --" }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Nacionalidade</span>
+                                <span class="info-value">{{ jogador.nacionalidade }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Início de Carreira</span>
+                                <span class="info-value">{{ jogador.inicio_carreira|date:"Y" }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Fim de Carreira</span>
+                                <span class="info-value">{{ jogador.fim_carreira|date:"Y" }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Posição</span>
+                                <span class="info-value">{{ jogador.posicao|default:" --" }}</span>
+                            </div>
                         </div>
-                        <a href="{% url 'jogador_detail' jogador.id %}" class="btn btn-primary">Leia mais</a>
                     </div>
+                    <a href="{% url 'jogador_detail' jogador.id %}" class="btn btn-primary">Leia mais</a>
                 </div>
             </div>
         {% endfor %}
@@ -44,35 +380,120 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- JavaScript para Filtragem -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do DOM
         const nomeInput = document.getElementById('nome');
         const nacionalidadeInput = document.getElementById('nacionalidade');
         const periodoInput = document.getElementById('periodo');
-        const cards = document.querySelectorAll('.jogador-card');
+        const jogadoresContainer = document.getElementById('jogadores-container');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        const jogadorCards = document.querySelectorAll('.jogador-card');
 
-        function filterCards() {
-            const nome = nomeInput.value.toLowerCase();
-            const nacionalidade = nacionalidadeInput.value.toLowerCase();
-            const periodo = periodoInput.value.toLowerCase();
+        function aplicarFiltros() {
+            const termoBusca = nomeInput.value.toLowerCase().trim();
+            const nacionalidadeBusca = nacionalidadeInput.value.toLowerCase().trim();
+            const periodoBusca = periodoInput.value.trim();
 
-            cards.forEach(card => {
-                const cardNome = card.getAttribute('data-nome').toLowerCase();
-                const cardNacionalidade = card.getAttribute('data-nacionalidade').toLowerCase();
-                const cardPeriodo = card.getAttribute('data-periodo').toLowerCase();
+            let encontrouResultados = false;
 
-                if (cardNome.includes(nome) && cardNacionalidade.includes(nacionalidade) && cardPeriodo.includes(periodo)) {
+            jogadorCards.forEach(card => {
+                // Buscar todos os textos relevantes do card
+                const nome = card.querySelector('h5').textContent.toLowerCase();
+                const nacionalidade = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Nacionalidade'))
+                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
+                
+                const inicioCarreira = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Início'))
+                    ?.querySelector('.info-value').textContent.trim() || '';
+                
+                const fimCarreira = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Fim'))
+                    ?.querySelector('.info-value').textContent.trim() || '';
+
+                // Verificar nome
+                const nomeMatch = !termoBusca || nome.includes(termoBusca);
+
+                // Verificar nacionalidade
+                const nacionalidadeMatch = !nacionalidadeBusca || nacionalidade.includes(nacionalidadeBusca);
+
+                // Verificar período
+                let periodoMatch = true;
+                if (periodoBusca) {
+                    const anoBusca = parseInt(periodoBusca);
+                    const anoInicio = parseInt(inicioCarreira);
+                    const anoFim = parseInt(fimCarreira);
+                    
+                    if (!isNaN(anoBusca) && !isNaN(anoInicio) && !isNaN(anoFim)) {
+                        periodoMatch = anoBusca >= anoInicio && anoBusca <= anoFim;
+                    }
+                }
+
+                // Aplicar filtros combinados
+                const mostrarCard = nomeMatch && nacionalidadeMatch && periodoMatch;
+                
+                if (mostrarCard) {
                     card.style.display = '';
+                    encontrouResultados = true;
                 } else {
                     card.style.display = 'none';
                 }
             });
+
+            // Mostrar ou esconder mensagem de "nenhum resultado"
+            atualizarMensagemSemResultados(encontrouResultados);
         }
 
-        nomeInput.addEventListener('input', filterCards);
-        nacionalidadeInput.addEventListener('input', filterCards);
-        periodoInput.addEventListener('input', filterCards);
+        function atualizarMensagemSemResultados(encontrouResultados) {
+            let mensagem = document.querySelector('.no-results');
+            
+            if (!encontrouResultados) {
+                if (!mensagem) {
+                    mensagem = document.createElement('div');
+                    mensagem.className = 'no-results';
+                    mensagem.textContent = 'Nenhum jogador encontrado';
+                    jogadoresContainer.appendChild(mensagem);
+                }
+            } else if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        function limparFiltros() {
+            // Limpar inputs
+            nomeInput.value = '';
+            nacionalidadeInput.value = '';
+            periodoInput.value = '';
+
+            // Mostrar todos os cards
+            jogadorCards.forEach(card => {
+                card.style.display = '';
+            });
+
+            // Remover mensagem de "nenhum resultado"
+            const mensagem = document.querySelector('.no-results');
+            if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        // Event Listeners
+        nomeInput.addEventListener('input', aplicarFiltros);
+        nacionalidadeInput.addEventListener('input', aplicarFiltros);
+        periodoInput.addEventListener('input', aplicarFiltros);
+        clearFiltersBtn.addEventListener('click', limparFiltros);
+
+        // Estilização do botão de limpar
+        clearFiltersBtn.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            this.style.color = '#fff';
+        });
+        
+        clearFiltersBtn.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.color = '#b0b0b0';
+        });
     });
 </script>
 {% endblock %}

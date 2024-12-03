@@ -1,7 +1,7 @@
 # blog/views.py
 
 import logging
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Jogador, Post, Comment, Selecao,Time, Estadio
 from .forms import CommentForm
 
@@ -38,8 +38,23 @@ def selecoes(request):
 
 def selecao_detail(request, selecao_id):
     selecao = get_object_or_404(Selecao, id=selecao_id)
+    comments = Comment.objects.filter(selecao=selecao, active=True)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.selecao = selecao
+            comment.active = True
+            comment.save()
+            return redirect('selecao_detail', selecao_id=selecao_id)
+    else:
+        comment_form = CommentForm()
+
     context = {
         'selecao': selecao,
+        'comments': comments,
+        'comment_form': comment_form,
     }
     return render(request, 'blog/selecao_detail.html', context)
 
@@ -74,15 +89,17 @@ def jogadores_page(request):
 
 def jogador_detail(request, pk):
     jogador = get_object_or_404(Jogador, pk=pk)
-    comments = Comment.objects.filter(jogador=jogador)
-    recent_posts = Post.objects.order_by('-created_at')[:5]
+    comments = Comment.objects.filter(jogador=jogador, active=True)
 
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.jogador = jogador
+            comment.active = True
             comment.save()
+            # Redirecionar para a mesma página após o comentário
+            return redirect('jogador_detail', pk=pk)
     else:
         comment_form = CommentForm()
 
@@ -90,7 +107,6 @@ def jogador_detail(request, pk):
         'jogador': jogador,
         'comments': comments,
         'comment_form': comment_form,
-        'recent_posts': recent_posts
     })
 
 
@@ -112,8 +128,23 @@ def times(request):
 
 def time_detail(request, time_id):
     time = get_object_or_404(Time, id=time_id)
+    comments = Comment.objects.filter(time=time, active=True)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.time = time
+            comment.active = True
+            comment.save()
+            return redirect('time_detail', time_id=time_id)
+    else:
+        comment_form = CommentForm()
+
     context = {
         'time': time,
+        'comments': comments,
+        'comment_form': comment_form,
     }
     return render(request, 'blog/time_detail.html', context)
 

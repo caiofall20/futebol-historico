@@ -1,59 +1,405 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}Seleções Históricas - Universo da Bola{% endblock %}
+{% block title %}Seleções - Futebol Histórico{% endblock %}
+
+{% block extra_head %}
+<style>
+    .hero-section {
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        margin-top: 56px;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #66aaff, #004a8f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        color: #b0b0b0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-section {
+        margin-bottom: 40px;
+        border-radius: 15px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-input {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 0;
+    }
+
+    .filter-input input {
+        background: rgba(30, 30, 30, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .filter-input input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .filter-input input:focus {
+        background: rgba(40, 40, 40, 0.8);
+        border-color: #004a8f;
+        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
+        outline: none;
+    }
+
+    .selecoes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+    }
+
+    .selecao-card {
+        background: rgba(20, 20, 20, 0.6);
+        color: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+    }
+
+    .selecao-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
+        border-color: rgba(102, 170, 255, 0.3);
+    }
+
+    .selecao-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        border-bottom: 3px solid #004a8f;
+        transition: transform 0.3s ease;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+    }
+
+    .selecao-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .card-body {
+        text-align: center;
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
+    }
+
+    .card-body h5 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        color: #b0b0b0;
+        padding: 15px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .card-info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        color: #66aaff;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .info-value {
+        color: #fff;
+        font-size: 0.9rem;
+        margin-left: 5px;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .star-title {
+        color: gold;
+        font-size: 1rem;
+        text-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    .star-empty {
+        color: rgba(255,255,255,0.2);
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, #004a8f, #0066cc);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: white;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #003366, #004a8f);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+    }
+
+    .no-results {
+        width: 100%;
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        margin: 1rem 0;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+        .selecoes-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 60px 0;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+        }
+
+        .filter-input {
+            grid-template-columns: 1fr;
+        }
+
+        .selecoes-grid {
+            grid-template-columns: 1fr;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .selecao-card img {
+            height: 180px;
+        }
+    }
+
+    /* Loading animation */
+    .loading {
+        opacity: 0.5;
+        pointer-events: none;
+        transition: opacity 0.3s;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
-        <h1>Seleções Lendárias</h1>
-        <p>Descubra as seleções que marcaram época no futebol.</p>
+        <h1>Seleções Nacionais</h1>
+        <p>Conheça as seleções que fizeram história no futebol mundial.</p>
     </div>
 </section>
 
 <div class="container mt-5">
-    <form method="GET" action="{% url 'selecoes' %}">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <input type="text" name="q" class="form-control" placeholder="Buscar por nome" value="{{ request.GET.q }}">
-            </div>
-            <div class="col-md-4">
-                <select name="region" class="form-control">
-                    <option value="">Todos os Continentes</option>
-                    <option value="Europa" {% if request.GET.region == "Europa" %}selected{% endif %}>Europa</option>
-                    <option value="América do Sul" {% if request.GET.region == "América do Sul" %}selected{% endif %}>América do Sul</option>
-                    <option value="África" {% if request.GET.region == "África" %}selected{% endif %}>África</option>
-                    <option value="Ásia" {% if request.GET.region == "Ásia" %}selected{% endif %}>Ásia</option>
-                    <option value="América do Norte" {% if request.GET.region == "América do Norte" %}selected{% endif %}>América do Norte</option>
-                    <option value="Oceania" {% if request.GET.region == "Oceania" %}selected{% endif %}>Oceania</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Filtrar</button>
-            </div>
+    <!-- Filtro Moderno -->
+    <div class="filter-section">
+        <div class="filter-input">
+            <input type="text" class="form-control" id="nome" placeholder="Buscar por nome...">
+            <input type="text" class="form-control" id="continente" placeholder="Filtrar por continente...">
+            <input type="text" class="form-control" id="titulos" placeholder="Filtrar por títulos...">
         </div>
-    </form>
-</div>
+        <button class="btn btn-outline-secondary mt-3" id="clearFilters">Limpar Filtros</button>
+    </div>
 
-<div class="container mt-5">
-    <h1 class="mb-4">Seleções Históricas</h1>
-    <div class="row">
+    <!-- Listagem de Seleções -->
+    <div class="selecoes-grid" id="selecoes-container">
         {% for selecao in selecoes %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if selecao.imagem %}
-                        <img src="{{ selecao.imagem.url }}" class="card-img-top" alt="{{ selecao.nome }}">
-                    
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ selecao.nome }}</h5>
-                        <p class="card-text">{{ selecao.descricao|truncatewords:20|safe }}</p>
-                        <p class="card-text"><strong>Região:</strong> {{ selecao.regiao }}</p>
-                        <p class="card-text"><strong>Títulos:</strong> {{ selecao.titulos }}</p>
-                        <a href="{% url 'selecao_detail' selecao.id %}" class="btn btn-primary">Leia mais</a>
+            <div class="selecao-card">
+                {% if selecao.imagem %}
+                    <img src="{{ selecao.imagem.url }}" alt="{{ selecao.nome }}">
+                {% endif %}
+                <div class="card-body">
+                    <div>
+                        <h5>{{ selecao.nome }}</h5>
+                        <div class="card-info">
+                            <div class="card-info-row">
+                                <span class="info-label">Continente</span>
+                                <span class="info-value">{{ selecao.regiao }}</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Títulos Mundiais</span>
+                                <span class="info-value">
+                                    {% with ''|center:selecao.titulos as range %}
+                                        {% for _ in range %}
+                                            <span class="star-title">★</span>
+                                        {% endfor %}
+                                    {% endwith %}
+                                </span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="info-label">Ranking FIFA</span>
+                                <span class="info-value">{{ selecao.ranking }}º</span>
+                            </div>
+                        </div>
                     </div>
+                    <a href="{% url 'selecao_detail' selecao.id %}" class="btn btn-primary">Leia mais</a>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elementos do DOM
+        const nomeInput = document.getElementById('nome');
+        const continenteInput = document.getElementById('continente');
+        const titulosInput = document.getElementById('titulos');
+        const selecoesContainer = document.getElementById('selecoes-container');
+        const clearFiltersBtn = document.getElementById('clearFilters');
+        const selecaoCards = document.querySelectorAll('.selecao-card');
+
+        function aplicarFiltros() {
+            const termoBusca = nomeInput.value.toLowerCase().trim();
+            const continenteBusca = continenteInput.value.toLowerCase().trim();
+            const titulosBusca = titulosInput.value.trim();
+
+            let encontrouResultados = false;
+
+            selecaoCards.forEach(card => {
+                const nome = card.querySelector('h5').textContent.toLowerCase();
+                const continente = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Continente'))
+                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
+                
+                const titulos = Array.from(card.querySelectorAll('.card-info-row'))
+                    .find(row => row.querySelector('.info-label').textContent.includes('Títulos'))
+                    ?.querySelector('.info-value').textContent.trim() || '';
+
+                const nomeMatch = !termoBusca || nome.includes(termoBusca);
+                const continenteMatch = !continenteBusca || continente.includes(continenteBusca);
+                const titulosMatch = !titulosBusca || titulos.includes(titulosBusca);
+
+                const mostrarCard = nomeMatch && continenteMatch && titulosMatch;
+                
+                if (mostrarCard) {
+                    card.style.display = '';
+                    encontrouResultados = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            atualizarMensagemSemResultados(encontrouResultados);
+        }
+
+        function atualizarMensagemSemResultados(encontrouResultados) {
+            let mensagem = document.querySelector('.no-results');
+            
+            if (!encontrouResultados) {
+                if (!mensagem) {
+                    mensagem = document.createElement('div');
+                    mensagem.className = 'no-results';
+                    mensagem.textContent = 'Nenhuma seleção encontrada';
+                    selecoesContainer.appendChild(mensagem);
+                }
+            } else if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        function limparFiltros() {
+            nomeInput.value = '';
+            continenteInput.value = '';
+            titulosInput.value = '';
+
+            selecaoCards.forEach(card => {
+                card.style.display = '';
+            });
+
+            const mensagem = document.querySelector('.no-results');
+            if (mensagem) {
+                mensagem.remove();
+            }
+        }
+
+        // Event Listeners
+        nomeInput.addEventListener('input', aplicarFiltros);
+        continenteInput.addEventListener('input', aplicarFiltros);
+        titulosInput.addEventListener('input', aplicarFiltros);
+        clearFiltersBtn.addEventListener('click', limparFiltros);
+
+        // Estilização do botão de limpar
+        clearFiltersBtn.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            this.style.color = '#fff';
+        });
+        
+        clearFiltersBtn.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.color = '#b0b0b0';
+        });
+    });
+</script>
 {% endblock %}
