@@ -1,28 +1,145 @@
 {% extends 'blog/base.html' %}
+{% load static %}
+{% load humanize %}
 
-{% block title %}{{ estadio.nome }} - Universo da Bola{% endblock %}
+{% block title %}{{ estadio.nome }} - Futebol Histórico{% endblock %}
+
+{% block extra_head %}
+<style>
+    .hero-section {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 60px 0;
+        margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 3.5rem;
+        margin: 0;
+    }
+
+    .location {
+        color: #8D99AE;
+        font-size: 1.2rem;
+        margin-top: 10px;
+    }
+
+    .estadio-content {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 40px;
+        color: white;
+    }
+
+    .estadio-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .info-section {
+        margin-bottom: 30px;
+    }
+
+    .info-section h2 {
+        color: #EF233C;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #EF233C;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .info-item {
+        background: rgba(43, 45, 66, 0.5);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .info-item strong {
+        color: #EDF2F4;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .info-item span {
+        color: #8D99AE;
+    }
+
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #EF233C;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .back-button:hover {
+        background: #D90429;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<section class="hero-section">
+<div class="hero-section">
     <div class="container">
         <h1>{{ estadio.nome }}</h1>
+        <div class="location">
+            <i class="fas fa-map-marker-alt"></i> {{ estadio.cidade }}, {{ estadio.pais }}
+        </div>
     </div>
-</section>
+</div>
 
-<div class="container mt-5">
-    <div class="card player-section">
-        <div class="card-body d-flex">
-            {% if estadio.imagem %}
-                <img src="{{ estadio.imagem.url }}" class="img-fluid me-4" style="max-width: 300px;" alt="{{ estadio.nome }}">
-            {% endif %}
-            <div>
-                <h2>{{ estadio.nome }}</h2>
-                <p><strong>Cidade:</strong> {{ estadio.cidade }}</p>
-                <p><strong>País:</strong> {{ estadio.pais }}</p>
-                <p><strong>Capacidade:</strong> {{ estadio.capacidade }} espectadores</p>
-                <p class="mt-4">{{ estadio.descricao }}</p>
+<div class="container">
+    <div class="estadio-content">
+        {% if estadio.imagem %}
+            <img src="{{ estadio.imagem.url }}" class="estadio-image" alt="{{ estadio.nome }}">
+        {% else %}
+            <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" class="estadio-image" alt="{{ estadio.nome }}">
+        {% endif %}
+
+        <div class="info-section">
+            <h2>Informações Gerais</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <strong>Capacidade</strong>
+                        <span>{{ estadio.capacidade|intcomma }} espectadores</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <strong>Cidade</strong>
+                        <span>{{ estadio.cidade }}</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-item">
+                        <strong>País</strong>
+                        <span>{{ estadio.pais }}</span>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="info-section">
+            <h2>História</h2>
+            <div class="descricao">
+                {{ estadio.descricao|safe }}
+            </div>
+        </div>
+
+        <a href="{% url 'estadio_list' %}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Voltar para Estádios
+        </a>
     </div>
 </div>
 {% endblock %}

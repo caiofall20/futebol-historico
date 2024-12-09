@@ -1,343 +1,360 @@
 {% extends 'blog/base.html' %}
+{% load static %}
+{% load humanize %}
 
 {% block title %}Estádios - Futebol Histórico{% endblock %}
 
-{% block extra_css %}
-<style>
-    .content-container {
-        padding: 2rem;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
-
-    .filters-container {
-        background: rgba(0, 0, 0, 0.2);
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        backdrop-filter: blur(10px);
-    }
-
-    .filters-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-    }
-
-    .filter-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .filter-group label {
-        color: #b0b0b0;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-    }
-
-    .filter-group input {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 0.5rem;
-        border-radius: 5px;
-        color: white;
-        font-size: 1rem;
-    }
-
-    .filter-group input:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .clear-filters {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #b0b0b0;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin-top: 1rem;
-    }
-
-    .clear-filters:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-    }
-
-    .estadios-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 2rem;
-        padding: 1rem 0;
-    }
-
-    .estadio-card {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.3s;
-        backdrop-filter: blur(10px);
-    }
-
-    .estadio-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .card-img-top {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .card-body h5 {
-        color: white;
-        margin: 0 0 1rem 0;
-        font-size: 1.2rem;
-    }
-
-    .card-info {
-        display: grid;
-        gap: 0.5rem;
-    }
-
-    .card-info-row {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        gap: 1rem;
-    }
-
-    .info-label {
-        color: #b0b0b0;
-        font-size: 0.9rem;
-    }
-
-    .info-value {
-        color: white;
-        font-size: 0.9rem;
-    }
-
-    .btn-primary {
-        display: inline-block;
-        background: linear-gradient(45deg, #1a1a1a, #333);
-        color: white;
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        margin-top: 1rem;
-        transition: all 0.3s;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(45deg, #333, #1a1a1a);
-        transform: translateY(-2px);
-    }
-
-    .no-results {
-        width: 100%;
-        text-align: center;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #fff;
-        font-size: 1.1rem;
-    }
-
-    @media (max-width: 1200px) {
-        .estadios-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        }
-    }
-
-    @media (max-width: 768px) {
-        .content-container {
-            padding: 1rem;
+{% block extra_head %}
+    {{ block.super }}
+    <style>
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'blog/images/stars-background.png' %}");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            overflow: hidden;
         }
 
-        .estadios-grid {
-            grid-template-columns: 1fr;
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            z-index: -2;
         }
 
-        .filters-grid {
-            grid-template-columns: 1fr;
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            z-index: -1;
         }
-    }
-</style>
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            text-align: center;
+            color: #EF233C;
+            text-shadow: 0 0 10px rgba(239, 35, 60, 0.5);
+        }
+
+        .continent-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .continent-button {
+            background: transparent;
+            border: 2px solid #8D99AE;
+            color: #8D99AE;
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .continent-button:hover, 
+        .continent-button.active {
+            background: #EF233C;
+            border-color: #EF233C;
+            color: white;
+            box-shadow: 0 0 15px rgba(239, 35, 60, 0.5);
+        }
+
+        main {
+            padding-top: 80px;
+        }
+
+        .estadios-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .estadios-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .estadio-card {
+            background: rgba(43, 45, 66, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(141, 153, 174, 0.2);
+            text-decoration: none;
+            display: block;
+            height: 100%;
+        }
+
+        .estadio-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(141, 153, 174, 0.4);
+            text-decoration: none;
+            background: rgba(43, 45, 66, 0.9);
+        }
+
+        .estadio-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .estadio-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .estadio-card h3 {
+            color: #EDF2F4;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .estadio-card p {
+            color: #8D99AE;
+            margin: 5px 0;
+        }
+
+        .estadio-card .capacidade {
+            color: #EF233C;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .estadio-card .descricao {
+            color: #8D99AE;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .no-stadiums {
+            color: #8D99AE;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .filtros-section {
+            margin-bottom: 20px;
+        }
+
+        .comentarios-section {
+            margin-top: 40px;
+        }
+
+        .comentarios-lista {
+            margin-bottom: 20px;
+        }
+
+        .formulario-comentario {
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class="content-container">
-    <!-- Filtros -->
-    <div class="filters-container">
-        <div class="filters-grid">
-            <div class="filter-group">
-                <label for="nome">Nome do Estádio</label>
-                <input type="text" id="nome" placeholder="Digite o nome do estádio...">
-            </div>
-            <div class="filter-group">
-                <label for="cidade">Cidade</label>
-                <input type="text" id="cidade" placeholder="Digite a cidade...">
-            </div>
-            <div class="filter-group">
-                <label for="capacidade">Capacidade</label>
-                <input type="text" id="capacidade" placeholder="Digite a capacidade...">
+    <div class="hero-section">
+        <div class="container">
+            <h1>ESTÁDIOS HISTÓRICOS</h1>
+            <div class="continent-nav">
+                {% for continent_code, continent_name in continent_map.items %}
+                    <button class="continent-button" data-continent="{{ continent_code }}">
+                        {{ continent_name }}
+                    </button>
+                {% endfor %}
             </div>
         </div>
-        <button id="clearFilters" class="clear-filters">Limpar Filtros</button>
     </div>
 
-    <!-- Listagem de Estádios -->
-    <div class="estadios-grid" id="estadios-container">
-        {% for estadio in estadios %}
-            <div class="estadio-card">
-                {% if estadio.imagem %}
-                    <img src="{{ estadio.imagem.url }}" class="card-img-top" alt="{{ estadio.nome }}">
-                {% endif %}
-                <div class="card-body">
-                    <div>
-                        <h5>{{ estadio.nome }}</h5>
-                        <div class="card-info">
-                            <div class="card-info-row">
-                                <span class="info-label">Cidade</span>
-                                <span class="info-value">{{ estadio.cidade }}</span>
+    <div class="container">
+        <!-- Novo bloco de filtros -->
+        <div class="filtros-section mb-4">
+            <h2>Filtros</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <select id="filtro-continente" class="form-control">
+                        <option value="">Todos os Continentes</option>
+                        <option value="SA">América do Sul</option>
+                        <option value="NA">América do Norte</option>
+                        <option value="EU">Europa</option>
+                        <option value="AF">África</option>
+                        <option value="AS">Ásia</option>
+                        <option value="OC">Oceania</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id="filtro-nome" class="form-control" placeholder="Buscar por nome do estádio">
+                </div>
+                <div class="col-md-4">
+                    <select id="filtro-capacidade" class="form-control">
+                        <option value="">Capacidade</option>
+                        <option value="0-20000">Até 20.000</option>
+                        <option value="20000-50000">20.000 - 50.000</option>
+                        <option value="50000-100000">50.000 - 100.000</option>
+                        <option value="100000+">Mais de 100.000</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        {% for continent_code, continent_name in continent_map.items %}
+            <div class="estadios-section" id="continent-{{ continent_code }}">
+                <h2>{{ continent_name }}</h2>
+                <div class="row">
+                    {% for estadio in estadios %}
+                        {% if estadio.continente == continent_code %}
+                            <div class="col-md-4 mb-4">
+                                <a href="{% url 'estadio_detail' estadio.id %}" class="estadio-card">
+                                    {% if estadio.imagem %}
+                                        <img src="{{ estadio.imagem.url }}" alt="{{ estadio.nome }}" class="img-fluid">
+                                    {% else %}
+                                        <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" alt="{{ estadio.nome }}" class="img-fluid">
+                                    {% endif %}
+                                    <h3>{{ estadio.nome }}</h3>
+                                    <p>{{ estadio.cidade }}, {{ estadio.pais }}</p>
+                                    <p class="capacidade">Capacidade: {{ estadio.capacidade|intcomma }} pessoas</p>
+                                    <div class="descricao">
+                                        {{ estadio.descricao|striptags|truncatewords:30 }}
+                                    </div>
+                                </a>
                             </div>
-                            <div class="card-info-row">
-                                <span class="info-label">País</span>
-                                <span class="info-value">{{ estadio.pais }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Capacidade</span>
-                                <span class="info-value">{{ estadio.capacidade|default:" --" }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Inauguração</span>
-                                <span class="info-value">{{ estadio.inauguracao|date:"Y" }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{% url 'estadio_detail' estadio.id %}" class="btn btn-primary">Leia mais</a>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         {% endfor %}
     </div>
-</div>
-{% endblock %}
 
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
-        const nomeInput = document.getElementById('nome');
-        const cidadeInput = document.getElementById('cidade');
-        const capacidadeInput = document.getElementById('capacidade');
-        const estadiosContainer = document.getElementById('estadios-container');
-        const clearFiltersBtn = document.getElementById('clearFilters');
-        const estadioCards = document.querySelectorAll('.estadio-card');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.continent-button');
+            const sections = document.querySelectorAll('.estadios-section');
 
-        function aplicarFiltros() {
-            const termoBusca = nomeInput.value.toLowerCase().trim();
-            const cidadeBusca = cidadeInput.value.toLowerCase().trim();
-            const capacidadeBusca = capacidadeInput.value.trim();
+            // Mostrar o primeiro continente por padrão
+            if (sections.length > 0) {
+                sections[0].classList.add('active');
+                buttons[0].classList.add('active');
+            }
 
-            let encontrouResultados = false;
-
-            estadioCards.forEach(card => {
-                // Buscar todos os textos relevantes do card
-                const nome = card.querySelector('h5').textContent.toLowerCase();
-                const cidade = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('Cidade'))
-                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
-                
-                const capacidade = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('Capacidade'))
-                    ?.querySelector('.info-value').textContent.trim() || '';
-
-                // Verificar nome
-                const nomeMatch = !termoBusca || nome.includes(termoBusca);
-
-                // Verificar cidade
-                const cidadeMatch = !cidadeBusca || cidade.includes(cidadeBusca);
-
-                // Verificar capacidade
-                let capacidadeMatch = true;
-                if (capacidadeBusca) {
-                    const numCapacidade = parseInt(capacidade.replace(/\D/g, ''));
-                    const numBusca = parseInt(capacidadeBusca);
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const continent = this.dataset.continent;
                     
-                    if (!isNaN(numBusca) && !isNaN(numCapacidade)) {
-                        capacidadeMatch = numCapacidade >= numBusca;
-                    }
-                }
-
-                // Aplicar filtros combinados
-                const mostrarCard = nomeMatch && cidadeMatch && capacidadeMatch;
-                
-                if (mostrarCard) {
-                    card.style.display = '';
-                    encontrouResultados = true;
-                } else {
-                    card.style.display = 'none';
-                }
+                    // Remover classe active de todos os botões e seções
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Adicionar classe active ao botão clicado e seção correspondente
+                    this.classList.add('active');
+                    document.getElementById(`continent-${continent}`).classList.add('active');
+                });
             });
 
-            // Mostrar ou esconder mensagem de "nenhum resultado"
-            atualizarMensagemSemResultados(encontrouResultados);
-        }
+            const filtroContinente = document.getElementById('filtro-continente');
+            const filtroNome = document.getElementById('filtro-nome');
+            const filtroCapacidade = document.getElementById('filtro-capacidade');
+            const estadiosSections = document.querySelectorAll('.estadios-section');
 
-        function atualizarMensagemSemResultados(encontrouResultados) {
-            let mensagem = document.querySelector('.no-results');
-            
-            if (!encontrouResultados) {
-                if (!mensagem) {
-                    mensagem = document.createElement('div');
-                    mensagem.className = 'no-results';
-                    mensagem.textContent = 'Nenhum estádio encontrado';
-                    estadiosContainer.appendChild(mensagem);
-                }
-            } else if (mensagem) {
-                mensagem.remove();
+            function aplicarFiltros() {
+                const continenteSelecionado = filtroContinente.value;
+                const nomeBusca = filtroNome.value.toLowerCase();
+                const capacidadeSelecionada = filtroCapacidade.value;
+
+                // Mapeamento de continentes
+                const continentMap = {
+                    'SA': ['SA', 'SU'],  // América do Sul
+                    'NA': ['NA', 'NO']   // América do Norte
+                };
+
+                estadiosSections.forEach(section => {
+                    const estadios = section.querySelectorAll('.estadio-card');
+                    let sectionTemEstadioVisivel = false;
+                    
+                    estadios.forEach(estadio => {
+                        const continenteEstadio = section.id.replace('continent-', '');
+                        const nomeEstadio = estadio.querySelector('h3').textContent.toLowerCase();
+                        const capacidadeTexto = estadio.querySelector('.capacidade').textContent;
+                        const capacidadeNumero = parseInt(capacidadeTexto.replace(/[^\d]/g, ''));
+
+                        let mostrar = true;
+
+                        // Filtro por continente com mapeamento
+                        if (continenteSelecionado) {
+                            const continentesValidos = continentMap[continenteSelecionado] || [continenteSelecionado];
+                            mostrar = continentesValidos.includes(continenteEstadio);
+                        }
+
+                        // Filtro por nome
+                        if (nomeBusca && !nomeEstadio.includes(nomeBusca)) {
+                            mostrar = false;
+                        }
+
+                        // Filtro por capacidade
+                        if (capacidadeSelecionada) {
+                            const [min, max] = capacidadeSelecionada.split('-').map(Number);
+                            if (capacidadeSelecionada.endsWith('+')) {
+                                mostrar = mostrar && capacidadeNumero >= min;
+                            } else {
+                                mostrar = mostrar && capacidadeNumero >= min && capacidadeNumero < max;
+                            }
+                        }
+
+                        estadio.style.display = mostrar ? 'block' : 'none';
+                        
+                        if (mostrar) {
+                            sectionTemEstadioVisivel = true;
+                        }
+                    });
+
+                    // Esconder seção inteira se não tiver estádios visíveis
+                    section.style.display = sectionTemEstadioVisivel ? 'block' : 'none';
+                });
             }
-        }
 
-        function limparFiltros() {
-            // Limpar inputs
-            nomeInput.value = '';
-            cidadeInput.value = '';
-            capacidadeInput.value = '';
-
-            // Mostrar todos os cards
-            estadioCards.forEach(card => {
-                card.style.display = '';
-            });
-
-            // Remover mensagem de "nenhum resultado"
-            const mensagem = document.querySelector('.no-results');
-            if (mensagem) {
-                mensagem.remove();
-            }
-        }
-
-        // Event Listeners
-        nomeInput.addEventListener('input', aplicarFiltros);
-        cidadeInput.addEventListener('input', aplicarFiltros);
-        capacidadeInput.addEventListener('input', aplicarFiltros);
-        clearFiltersBtn.addEventListener('click', limparFiltros);
-
-        // Estilização do botão de limpar
-        clearFiltersBtn.addEventListener('mouseover', function() {
-            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            this.style.color = '#fff';
+            filtroContinente.addEventListener('change', aplicarFiltros);
+            filtroNome.addEventListener('input', aplicarFiltros);
+            filtroCapacidade.addEventListener('change', aplicarFiltros);
         });
-        
-        clearFiltersBtn.addEventListener('mouseout', function() {
-            this.style.backgroundColor = 'transparent';
-            this.style.color = '#b0b0b0';
-        });
-    });
-</script>
+    </script>
 {% endblock %}

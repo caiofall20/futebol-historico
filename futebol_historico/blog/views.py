@@ -60,8 +60,25 @@ def selecao_detail(request, selecao_id):
 
 
 def times(request):
-    times_posts = Post.objects.filter(category='times').order_by('-created_at')
-    return render(request, 'blog/times.html', {'posts': times_posts})
+    from .initial_data import create_initial_times, update_team_images, create_historical_teams
+    
+    # Criar times históricos independentemente se já existem outros times
+    create_historical_teams()
+    
+    query = request.GET.get('q')
+    region = request.GET.get('region')
+    times = Time.objects.all().order_by('nome')
+
+    if query:
+        times = times.filter(nome__icontains=query)
+
+    if region:
+        times = times.filter(regiao=region)
+
+    context = {
+        'times': times,
+    }
+    return render(request, 'blog/times.html', context)
 
 def jogadores(request):
     jogadores = Jogador.objects.all()
@@ -110,22 +127,6 @@ def jogador_detail(request, pk):
     })
 
 
-def times(request):
-    query = request.GET.get('q')
-    region = request.GET.get('region')
-    times = Time.objects.all()
-
-    if query:
-        times = times.filter(nome__icontains=query)
-
-    if region:
-        times = times.filter(regiao=region)
-
-    context = {
-        'times': times,
-    }
-    return render(request, 'blog/times.html', context)
-
 def time_detail(request, time_id):
     time = get_object_or_404(Time, id=time_id)
     comments = Comment.objects.filter(time=time, active=True)
@@ -172,7 +173,19 @@ def post_detail(request, pk):
 # View para a lista de estádios
 def estadio_list(request):
     estadios = Estadio.objects.all()
-    return render(request, 'blog/estadio_list.html', {'estadios': estadios})
+    continent_map = {
+        'EU': 'Europa',
+        'AS': 'América do Sul',
+        'AN': 'América do Norte',
+        'AF': 'África',
+        'ASI': 'Ásia',
+        'OC': 'Oceania',
+    }
+    
+    return render(request, 'blog/estadios.html', {
+        'estadios': estadios,
+        'continent_map': continent_map
+    })
 
 # View para detalhes do estádio
 def estadio_detail(request, estadio_id):

@@ -27,11 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'blog',
     'ckeditor',
     'ckeditor_uploader',
     'django_seed',
-     'sass_processor',
+    'sass_processor',
 ]
 
 MIDDLEWARE = [

@@ -2,7 +2,6 @@
 
 from django.db import models
 from django.utils import timezone
-from ckeditor_uploader.fields import RichTextUploadingField
 from ckeditor.fields import RichTextField
 
 class Post(models.Model):
@@ -72,7 +71,7 @@ class Time(models.Model):
 
     nome = models.CharField(max_length=200)
     imagem = models.ImageField(upload_to='times/', blank=True, null=True)
-    descricao = RichTextUploadingField()
+    descricao = RichTextField()
     fundacao = models.DateField(default=timezone.now)
     titulos = models.IntegerField(default=0)
     regiao = models.CharField(max_length=100, choices=REGIAO_CHOICES, default='Europa')
@@ -104,15 +103,30 @@ class Comment(models.Model):
             return f'Comment by {self.name} on Time: {self.time.nome}'
         return f'Comment by {self.name}'
 
-from django.db import models
-
 class Estadio(models.Model):
-    nome = models.CharField(max_length=100)
+    CONTINENTES = [
+        ('EU', 'Europa'),
+        ('AS', 'América do Sul'),
+        ('AN', 'América do Norte'),
+        ('AF', 'África'),
+        ('ASI', 'Ásia'),
+        ('OC', 'Oceania'),
+    ]
+
+    nome = models.CharField(max_length=200)
     cidade = models.CharField(max_length=100)
     pais = models.CharField(max_length=100)
+    continente = models.CharField(max_length=3, choices=CONTINENTES, default='EU')
     capacidade = models.IntegerField()
-    imagem = models.ImageField(upload_to='estadio_images/', null=True, blank=True)
-    descricao = models.TextField()
+    descricao = RichTextField()
+    imagem = models.ImageField(upload_to='estadios/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Estádio'
+        verbose_name_plural = 'Estádios'
+        ordering = ['nome']
 
     def __str__(self):
-        return self.nome
+        return f"{self.nome} ({self.cidade}, {self.pais})"

@@ -1,151 +1,223 @@
 {% extends 'blog/base.html' %}
 
-{% block title %}Times - Futebol Histórico{% endblock %}
+{% block title %}Times Históricos - Universo da Bola{% endblock %}
 
-{% block extra_css %}
+{% block extra_head %}
 <style>
-    .content-container {
-        padding: 2rem;
-        max-width: 1400px;
-        margin: 0 auto;
+    .hero-section {
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        margin-top: 56px;
     }
 
-    .filters-container {
-        background: rgba(0, 0, 0, 0.2);
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
+    .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        background: linear-gradient(45deg, #66aaff, #004a8f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        color: #b0b0b0;
+    }
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-section {
+        margin-bottom: 40px;
+        border-radius: 15px;
+        padding: 20px;
         backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .filters-grid {
+    .filter-input {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 0;
     }
 
-    .filter-group {
-        display: flex;
-        flex-direction: column;
+    .filter-input input {
+        background: rgba(30, 30, 30, 0.6);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
     }
 
-    .filter-group label {
-        color: #b0b0b0;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
+    .filter-input input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
     }
 
-    .filter-group input {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 0.5rem;
-        border-radius: 5px;
-        color: white;
-        font-size: 1rem;
-    }
-
-    .filter-group input:focus {
+    .filter-input input:focus {
+        background: rgba(40, 40, 40, 0.8);
+        border-color: #004a8f;
+        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
         outline: none;
-        border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    .clear-filters {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #b0b0b0;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin-top: 1rem;
-    }
-
-    .clear-filters:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
     }
 
     .times-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 2rem;
-        padding: 1rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
     }
 
     .time-card {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
+        background: rgba(20, 20, 20, 0.6);
+        color: #fff;
+        border-radius: 15px;
         overflow: hidden;
-        transition: transform 0.3s;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
     }
 
     .time-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
+        border-color: rgba(102, 170, 255, 0.3);
     }
 
-    .card-img-top {
+    .time-card img {
         width: 100%;
-        height: 200px;
-        object-fit: cover;
+        height: 400px;
+        object-fit: contain;
+        border-bottom: 3px solid #004a8f;
+        transition: transform 0.3s ease;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+    }
+
+    .time-card:hover img {
+        transform: scale(1.05);
     }
 
     .card-body {
-        padding: 1.5rem;
+        text-align: center;
+        padding: 25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
     }
 
     .card-body h5 {
-        color: white;
-        margin: 0 0 1rem 0;
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .card-info {
-        display: grid;
-        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        color: #b0b0b0;
+        padding: 15px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.2);
     }
 
     .card-info-row {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        gap: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-info-row:last-child {
+        border-bottom: none;
     }
 
     .info-label {
-        color: #b0b0b0;
-        font-size: 0.9rem;
+        color: #66aaff;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .info-label::after {
+        content: ":";
+        margin-right: 5px;
+        color: #66aaff;
     }
 
     .info-value {
-        color: white;
+        color: #fff;
         font-size: 0.9rem;
+        margin-left: 5px;
     }
 
     .btn-primary {
-        display: inline-block;
-        background: linear-gradient(45deg, #1a1a1a, #333);
+        background: linear-gradient(45deg, #004a8f, #0066cc);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
         color: white;
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        margin-top: 1rem;
-        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
     }
 
     .btn-primary:hover {
-        background: linear-gradient(45deg, #333, #1a1a1a);
+        background: linear-gradient(45deg, #003366, #004a8f);
         transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg) translate(-100%, -100%);
+        transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover::after {
+        transform: rotate(45deg) translate(50%, 50%);
     }
 
     .no-results {
-        width: 100%;
         text-align: center;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #fff;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 15px;
+        margin: 20px 0;
+        color: #b0b0b0;
         font-size: 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
     }
 
     @media (max-width: 1200px) {
@@ -155,40 +227,52 @@
     }
 
     @media (max-width: 768px) {
-        .content-container {
-            padding: 1rem;
+        .hero-section {
+            padding: 60px 0;
+            margin-top: 48px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-section p {
+            font-size: 1rem;
+        }
+
+        .filter-input {
+            grid-template-columns: 1fr;
         }
 
         .times-grid {
-            grid-template-columns: 1fr;
+            gap: 20px;
         }
 
-        .filters-grid {
-            grid-template-columns: 1fr;
+        .time-card img {
+            height: 300px;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="content-container">
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1>Times Históricos</h1>
+        <p>Conheça os clubes que fizeram história no futebol mundial</p>
+    </div>
+</section>
+
+<div class="container">
     <!-- Filtros -->
-    <div class="filters-container">
-        <div class="filters-grid">
-            <div class="filter-group">
-                <label for="nome">Nome do Time</label>
-                <input type="text" id="nome" placeholder="Digite o nome do time...">
-            </div>
-            <div class="filter-group">
-                <label for="pais">País</label>
-                <input type="text" id="pais" placeholder="Digite o país...">
-            </div>
-            <div class="filter-group">
-                <label for="fundacao">Ano de Fundação</label>
-                <input type="text" id="fundacao" placeholder="Digite o ano...">
-            </div>
+    <div class="filter-section">
+        <div class="filter-input">
+            <input type="text" id="nome" placeholder="Nome do Time...">
+            <input type="text" id="pais" placeholder="País...">
+            <input type="text" id="fundacao" placeholder="Ano de Fundação...">
+            <button id="clearFilters" class="btn-primary">Limpar Filtros</button>
         </div>
-        <button id="clearFilters" class="clear-filters">Limpar Filtros</button>
     </div>
 
     <!-- Listagem de Times -->
@@ -196,126 +280,90 @@
         {% for time in times %}
             <div class="time-card">
                 {% if time.imagem %}
-                    <img src="{{ time.imagem.url }}" class="card-img-top" alt="{{ time.nome }}">
+                    <img src="{{ time.imagem.url }}" alt="{{ time.nome }}">
                 {% endif %}
                 <div class="card-body">
-                    <div>
-                        <h5>{{ time.nome }}</h5>
-                        <div class="card-info">
-                            <div class="card-info-row">
-                                <span class="info-label">País</span>
-                                <span class="info-value">{{ time.pais }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Fundação</span>
-                                <span class="info-value">{{ time.fundacao|date:"Y" }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Estádio</span>
-                                <span class="info-value">{{ time.estadio|default:" --" }}</span>
-                            </div>
+                    <h5>{{ time.nome }}</h5>
+                    <div class="card-info">
+                        <div class="card-info-row">
+                            <span class="info-label">País</span>
+                            <span class="info-value">{{ time.pais }}</span>
+                        </div>
+                        <div class="card-info-row">
+                            <span class="info-label">Fundação</span>
+                            <span class="info-value">{{ time.fundacao }}</span>
+                        </div>
+                        <div class="card-info-row">
+                            <span class="info-label">Estádio</span>
+                            <span class="info-value">{{ time.estadio }}</span>
                         </div>
                     </div>
-                    <a href="{% url 'time_detail' time.id %}" class="btn btn-primary">Leia mais</a>
+                    <a href="{% url 'time_detail' time_id=time.id %}" class="btn-primary">Ver Detalhes</a>
                 </div>
             </div>
         {% endfor %}
     </div>
-</div>
-{% endblock %}
 
-{% block extra_js %}
+    <!-- Mensagem sem resultados -->
+    <div id="noResults" class="no-results" style="display: none;">
+        Nenhum time encontrado com os filtros selecionados.
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
         const nomeInput = document.getElementById('nome');
         const paisInput = document.getElementById('pais');
         const fundacaoInput = document.getElementById('fundacao');
-        const timesContainer = document.getElementById('times-container');
         const clearFiltersBtn = document.getElementById('clearFilters');
+        const timesContainer = document.getElementById('times-container');
+        const noResultsDiv = document.getElementById('noResults');
         const timeCards = document.querySelectorAll('.time-card');
 
         function aplicarFiltros() {
-            const termoBusca = nomeInput.value.toLowerCase().trim();
-            const paisBusca = paisInput.value.toLowerCase().trim();
-            const fundacaoBusca = fundacaoInput.value.trim();
-
+            const nome = nomeInput.value.toLowerCase();
+            const pais = paisInput.value.toLowerCase();
+            const fundacao = fundacaoInput.value.toLowerCase();
             let encontrouResultados = false;
 
             timeCards.forEach(card => {
-                // Buscar todos os textos relevantes do card
-                const nome = card.querySelector('h5').textContent.toLowerCase();
-                const pais = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('País'))
-                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
-                
-                const fundacao = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('Fundação'))
-                    ?.querySelector('.info-value').textContent.trim() || '';
+                const nomeTime = card.querySelector('h5').textContent.toLowerCase();
+                const paisTime = card.querySelector('.card-info-row:nth-child(1) .info-value').textContent.toLowerCase();
+                const fundacaoTime = card.querySelector('.card-info-row:nth-child(2) .info-value').textContent.toLowerCase();
 
-                // Verificar nome
-                const nomeMatch = !termoBusca || nome.includes(termoBusca);
+                const matchNome = nomeTime.includes(nome);
+                const matchPais = paisTime.includes(pais);
+                const matchFundacao = fundacaoTime.includes(fundacao);
 
-                // Verificar país
-                const paisMatch = !paisBusca || pais.includes(paisBusca);
-
-                // Verificar fundação
-                let fundacaoMatch = true;
-                if (fundacaoBusca) {
-                    const anoFundacao = parseInt(fundacao);
-                    const anoBusca = parseInt(fundacaoBusca);
-                    
-                    if (!isNaN(anoBusca) && !isNaN(anoFundacao)) {
-                        fundacaoMatch = anoFundacao === anoBusca;
-                    }
-                }
-
-                // Aplicar filtros combinados
-                const mostrarCard = nomeMatch && paisMatch && fundacaoMatch;
-                
-                if (mostrarCard) {
-                    card.style.display = '';
+                if (matchNome && matchPais && matchFundacao) {
+                    card.style.display = 'flex';
                     encontrouResultados = true;
                 } else {
                     card.style.display = 'none';
                 }
             });
 
-            // Mostrar ou esconder mensagem de "nenhum resultado"
             atualizarMensagemSemResultados(encontrouResultados);
         }
 
         function atualizarMensagemSemResultados(encontrouResultados) {
-            let mensagem = document.querySelector('.no-results');
-            
-            if (!encontrouResultados) {
-                if (!mensagem) {
-                    mensagem = document.createElement('div');
-                    mensagem.className = 'no-results';
-                    mensagem.textContent = 'Nenhum time encontrado';
-                    timesContainer.appendChild(mensagem);
-                }
-            } else if (mensagem) {
-                mensagem.remove();
+            if (encontrouResultados) {
+                noResultsDiv.style.display = 'none';
+            } else {
+                noResultsDiv.style.display = 'block';
             }
         }
 
         function limparFiltros() {
-            // Limpar inputs
             nomeInput.value = '';
             paisInput.value = '';
             fundacaoInput.value = '';
 
-            // Mostrar todos os cards
             timeCards.forEach(card => {
-                card.style.display = '';
+                card.style.display = 'flex';
             });
 
-            // Remover mensagem de "nenhum resultado"
-            const mensagem = document.querySelector('.no-results');
-            if (mensagem) {
-                mensagem.remove();
-            }
+            noResultsDiv.style.display = 'none';
         }
 
         // Event Listeners
@@ -323,17 +371,6 @@
         paisInput.addEventListener('input', aplicarFiltros);
         fundacaoInput.addEventListener('input', aplicarFiltros);
         clearFiltersBtn.addEventListener('click', limparFiltros);
-
-        // Estilização do botão de limpar
-        clearFiltersBtn.addEventListener('mouseover', function() {
-            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            this.style.color = '#fff';
-        });
-        
-        clearFiltersBtn.addEventListener('mouseout', function() {
-            this.style.backgroundColor = 'transparent';
-            this.style.color = '#b0b0b0';
-        });
     });
 </script>
 {% endblock %}
