@@ -1,76 +1,8 @@
 {% extends 'blog/base.html' %}
-
 {% block title %}Jogadores Lendários - Universo da Bola{% endblock %}
 
 {% block extra_head %}
 <style>
-    .hero-section {
-        color: white;
-        padding: 80px 0;
-        text-align: center;
-        position: relative;
-        z-index: 1;
-        margin-top: 56px;
-    }
-
-    .hero-section h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #66aaff, #004a8f);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .hero-section p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        color: #b0b0b0;
-    }
-
-    .container {
-        position: relative;
-        z-index: 2;
-    }
-
-    .filter-section {
-        margin-bottom: 40px;
-        border-radius: 15px;
-        padding: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .filter-input {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
-        margin-bottom: 0;
-    }
-
-    .filter-input input {
-        background: rgba(30, 30, 30, 0.6);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        color: #ffffff !important;
-        padding: 15px 20px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-    }
-
-    .filter-input input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    .filter-input input:focus {
-        background: rgba(40, 40, 40, 0.8);
-        border-color: #004a8f;
-        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
-        outline: none;
-        color: #ffffff !important;
-    }
-
     .jogadores-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -78,62 +10,41 @@
         padding: 20px 0;
     }
 
-    .jogador-card {
-        background: rgba(20, 20, 20, 0.6);
-        color: #fff;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
-        opacity: 1;
-    }
-
-    .jogador-card.hidden {
-        display: none;
-        opacity: 0;
-    }
-
-    .jogador-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
-        border-color: rgba(102, 170, 255, 0.3);
-    }
-
-    .jogador-card img {
-        width: 100%;
+    .flip-card {
+        background-color: transparent;
+        width: 300px;
         height: 400px;
-        object-fit: contain;
-        border-bottom: 3px solid #004a8f;
-        transition: transform 0.3s ease;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 10px;
+        perspective: 1000px;
     }
 
-    .jogador-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .card-body {
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
         text-align: center;
-        padding: 25px;
-        flex-grow: 1;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+    }
+
+    .flip-card-back {
+        color: white;
+        transform: rotateY(180deg);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
-    }
-
-    .card-body h5 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: #fff;
-        font-weight: bold;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 
     .card-info {
@@ -144,7 +55,8 @@
         margin-bottom: 20px;
         color: #b0b0b0;
         padding: 15px;
-        border-radius: 8px;
+        width: 100%;
+        height: 350px;
         background: rgba(0, 0, 0, 0.2);
     }
 
@@ -161,7 +73,7 @@
     }
 
     .info-label {
-        color: #66aaff;
+        color: oklch(53.22% 0.162 282.27);
         font-size: 0.85rem;
         font-weight: 500;
     }
@@ -169,7 +81,7 @@
     .info-label::after {
         content: ":";
         margin-right: 5px;
-        color: #66aaff;
+        color: oklch(53.22% 0.162 282.27);
     }
 
     .info-value {
@@ -178,55 +90,30 @@
         margin-left: 5px;
     }
 
-    .btn-primary {
-        background: linear-gradient(45deg, #004a8f, #0066cc);
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        color: white;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(45deg, #003366, #004a8f);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
-    }
-
-    .btn-primary::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(45deg);
-        transition: transform 0.6s;
-    }
-
-    .btn-primary:hover::after {
-        transform: rotate(45deg) translate(50%, 50%);
-    }
-
-    .no-results {
-        text-align: center;
-        padding: 20px;
-        background: rgba(30, 30, 30, 0.6);
+    .filtros-section{
+        background: #dee2e6;
+        padding: .5rem;
         border-radius: 10px;
-        margin: 20px 0;
-        color: #ffffff;
     }
 
-    .hidden {
-        display: none;
+    .filtros-section input{
+       border: none!important; 
+       background-color: #dee2e6;    
     }
+
+    .filtros-section input:focus{
+        outline: none!important; 
+        box-shadow: none;
+        background-color: #dee2e6;    
+    }
+    .filtros-section .col-md-6 {
+        padding-right: 10px;
+    }
+
+    /* Adiciona o traço entre os inputs */
+    .filtros-section .col-md-6:first-child {
+        border-right:1px solid #919aa3;
+    } 
 
     @media (max-width: 1200px) {
         .jogadores-grid {
@@ -236,87 +123,21 @@
     }
 
     @media (max-width: 768px) {
-        .hero-section {
-            padding: 40px 15px;
-            margin-top: 50px;
-        }
-
-        .hero-section h1 {
-            font-size: 2rem;
-        }
-
-        .hero-section p {
-            font-size: 1rem;
-            padding: 0 15px;
-        }
-
-        .filter-section {
-            margin: 20px 10px 30px;
-            padding: 15px;
-        }
-
-        .filter-input {
-            grid-template-columns: 1fr;
-            gap: 10px;
-        }
-
-        .filter-input input {
-            padding: 12px 15px;
-            font-size: 0.9rem;
-        }
-
         .jogadores-grid {
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 15px;
             padding: 10px;
         }
-
-        .jogador-card img {
-            height: 220px;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-
-        .card-body h5 {
-            font-size: 1.2rem;
-        }
-
-        .card-info {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
-        .info-label {
-            font-size: 0.8rem;
-        }
-
-        .info-value {
-            font-size: 0.85rem;
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            font-size: 0.85rem;
-        }
     }
 
     @media (max-width: 480px) {
-        .hero-section h1 {
-            font-size: 1.8rem;
-        }
-
         .jogadores-grid {
             grid-template-columns: 1fr;
             max-width: 300px;
             margin: 0 auto;
         }
-
-        .jogador-card img {
-            height: 200px;
-        }
     }
+
 
     /* Loading animation */
     .loading {
@@ -329,99 +150,124 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <h1>Jogadores Lendários</h1>
-        <p>Conheça os jogadores que marcaram época no futebol.</p>
-    </div>
-</section>
-
-<div class="container mt-5">
-    <div class="filtros-section mb-4">
-        <h2>Filtros</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <input type="text" id="filtro-nome" class="form-control" placeholder="Buscar por nome do jogador">
-            </div>
-            <div class="col-md-6">
-                <input type="text" id="filtro-nacionalidade" class="form-control" placeholder="Buscar por nacionalidade do jogador">
-            </div>
+<section class="page-box players-content">
+    <div class="header-title">
+        <div class="container">
+            <h1>Jogadores <span>Lendários</span></h1>
+            <div class="filtros-section mt-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" id="filtro-nome" class="form-control" placeholder="Buscar por nome do jogador">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="filtro-nacionalidade" class="form-control" placeholder="Buscar por país de origem">
+                    </div>
+                </div>
+            </div>    
         </div>
     </div>
-
-    <!-- Mensagem de nenhum resultado -->
-    <div class="no-results" style="display: none;">
-        <p>Nenhum jogador encontrado com os filtros selecionados.</p>
-    </div>
-
-    <!-- Listagem de Jogadores -->
-    <div class="jogadores-grid" id="jogadores-container">
-        {% for jogador in jogadores %}
-            <div class="jogador-card">
-                {% if jogador.imagem %}
-                    <img src="{{ jogador.imagem.url }}" class="card-img-top" alt="{{ jogador.nome }}">
-                {% endif %}
-                <div class="card-body">
-                    <div>
-                        <h5 class="jogador-nome">{{ jogador.nome }}</h5>
-                        <div class="card-info">
-                            <div class="card-info-row">
-                                <span class="info-label">Apelido</span>
-                                <span class="info-value">{{ jogador.apelido|default:" --" }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Nacionalidade</span>
-                                <span class="info-value">{{ jogador.nacionalidade }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Início de Carreira</span>
-                                <span class="info-value">{{ jogador.inicio_carreira|date:"Y" }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Fim de Carreira</span>
-                                <span class="info-value">{{ jogador.fim_carreira|date:"Y" }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Posição</span>
-                                <span class="info-value">{{ jogador.posicao }}</span>
+    <section class="container info-box">
+            <!-- Mensagem de nenhum resultado -->
+            <div class="no-results" style="display: none;">
+                <p>Nenhum jogador encontrado com os filtros selecionados.</p>
+            </div>
+        
+            <!-- Listagem de Jogadores -->
+            <div id="jogadores-container" class="jogadores-grid">
+                {% for jogador in jogadores %}
+                <a href="/jogadores/{{ jogador.id }}" class="flip-card card-info-box jogador-card" title="Clique para ver mais">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            {% if jogador.imagem %}
+                            <img src="{{ jogador.imagem.url }}" alt="{{ jogador.nome }}" class="card-img-top" />
+                            {% endif %}
+                        </div>
+                        <div class="flip-card-back">
+                            <div class="card-info">
+                                <h5 class="jogador-nome">{{ jogador.nome }}</h5>
+                                <div class="card-info-row">
+                                    <span class="info-label">Apelido</span>
+                                    <span class="info-value">{{ jogador.apelido|default:" --" }}</span>
+                                </div>
+                                <div class="card-info-row">
+                                    <span class="info-label">Nacionalidade</span>
+                                    <span class="info-value">{{ jogador.nacionalidade }}</span>
+                                </div>
+                                <div class="card-info-row">
+                                    <span class="info-label">Início de Carreira</span>
+                                    <span class="info-value">{{ jogador.inicio_carreira|date:"Y" }}</span>
+                                </div>
+                                <div class="card-info-row">
+                                    <span class="info-label">Fim de Carreira</span>
+                                    <span class="info-value">{{ jogador.fim_carreira|date:"Y" }}</span>
+                                </div>
+                                <div class="card-info-row">
+                                    <span class="info-label">Posição</span>
+                                    <span class="info-value">{{ jogador.posicao }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+                </a>
+                {% endfor %}
+            </div>            
+    </section>
+</section>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const filtroNome = document.getElementById('filtro-nome');
+    const filtroNacionalidade = document.getElementById('filtro-nacionalidade');
+    const jogadores = document.querySelectorAll('.jogador-card');
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const filtroNome = document.getElementById('filtro-nome');
-        const filtroNacionalidade = document.getElementById('filtro-nacionalidade');
-        const jogadores = document.querySelectorAll('.jogador-card');
+    function aplicarFiltros() {
+        console.log("filtrando");
 
-        function aplicarFiltros() {
-            const nomeBusca = filtroNome.value.toLowerCase();
-            const nacionalidadeBusca = filtroNacionalidade.value.toLowerCase();
+        // Obtendo os valores de busca para nome e nacionalidade
+        const nomeBusca = filtroNome.value.toLowerCase();
+        const nacionalidadeBusca = filtroNacionalidade.value.toLowerCase();
 
-            jogadores.forEach(jogador => {
-                const nomeJogador = jogador.querySelector('.jogador-nome').textContent.toLowerCase();
-                const nacionalidadeJogador = jogador.querySelector('.card-info-row:nth-child(2) .info-value').textContent.toLowerCase();
+        // Variável para verificar se algum jogador corresponde aos filtros
+        let resultadosVisiveis = false;
 
-                let mostrar = true;
+        jogadores.forEach(jogador => {
+            // Obtendo o nome e a nacionalidade de cada jogador
+            const nomeJogador = jogador.querySelector('.jogador-nome').textContent.toLowerCase();
+            
+            // Ajuste no seletor para pegar a nacionalidade corretamente
+            const nacionalidadeJogador = jogador.querySelector('.card-info-row:nth-child(2) .info-value').textContent.toLowerCase();
 
-                if (nomeBusca && !nomeJogador.includes(nomeBusca)) {
-                    mostrar = false;
-                }
+            // Determinando se o jogador deve ser mostrado com base nos filtros
+            let mostrar = true;
 
-                if (nacionalidadeBusca && !nacionalidadeJogador.includes(nacionalidadeBusca)) {
-                    mostrar = false;
-                }
+            // Verificando se o nome do jogador corresponde ao filtro de nome
+            if (nomeBusca && !nomeJogador.includes(nomeBusca)) {
+                mostrar = false;
+            }
 
-                jogador.style.display = mostrar ? 'block' : 'none';
-            });
+            // Verificando se a nacionalidade do jogador corresponde ao filtro de nacionalidade
+            if (nacionalidadeBusca && !nacionalidadeJogador.includes(nacionalidadeBusca)) {
+                mostrar = false;
+            }
+
+            // Mostra ou oculta o jogador com base na combinação dos filtros
+            jogador.style.display = mostrar ? 'block' : 'none';
+
+            // Atualiza a variável de visibilidade dos resultados
+            if (mostrar) {
+                resultadosVisiveis = true;
+            }
+        });
+
+        // Exibe ou oculta a mensagem de "Nenhum resultado encontrado"
+        const noResultsMessage = document.querySelector('.no-results');
+        if (noResultsMessage) {
+            noResultsMessage.style.display = resultadosVisiveis ? 'none' : 'block';
         }
+    }
 
-        filtroNome.addEventListener('input', aplicarFiltros);
-        filtroNacionalidade.addEventListener('input', aplicarFiltros);
-    });
-    </script>
+    // Adiciona os eventos para filtrar quando o valor do input mudar
+    filtroNome.addEventListener('input', aplicarFiltros);
+    filtroNacionalidade.addEventListener('input', aplicarFiltros);
+});
+</script>
 {% endblock %}
