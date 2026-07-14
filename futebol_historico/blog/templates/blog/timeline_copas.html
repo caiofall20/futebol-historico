@@ -1,0 +1,1275 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}Linha do Tempo - Copas do Mundo - Universo da Bola{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    {% load sass_tags %}
+    <style>
+        .timeline-page {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            color: #EDF2F4;
+            font-family: 'Georama', 'Poppins', sans-serif;
+            padding-top: 80px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .timeline-page #stars, .timeline-page #stars2, .timeline-page #stars3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .timeline-page #stars {
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+            animation: none;
+        }
+
+        .timeline-page #stars2 {
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+            animation: none;
+        }
+
+        .timeline-page #stars3 {
+            width: 3px;
+            height: 3px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff;
+            animation: none;
+        }
+
+        .hero-timeline {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-timeline h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .hero-timeline p {
+            color: #8D99AE;
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .timeline-container {
+            position: relative;
+            z-index: 10;
+            margin: 0 auto;
+            max-width: 1400px;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Navegação por Décadas */
+        .decades-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .decade-btn {
+            background: linear-gradient(135deg, rgba(102,170,255,.1) 0%, rgba(74,144,226,.05) 100%);
+            border: 1px solid rgba(102,170,255,.3);
+            color: #EDF2F4;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .decade-btn:hover {
+            background: linear-gradient(135deg, rgba(102,170,255,.2) 0%, rgba(74,144,226,.1) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,170,255,.3);
+        }
+
+        .decade-btn.active {
+            background: linear-gradient(135deg, #66AAFF, #4A90E2);
+            border-color: #66AAFF;
+            box-shadow: 0 8px 25px rgba(102,170,255,.4);
+        }
+
+        /* Timeline Vertical Moderna */
+        .modern-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        /* Linha central vertical */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, 
+                rgba(102,170,255,.3) 0%, 
+                rgba(102,170,255,.6) 50%, 
+                rgba(102,170,255,.3) 100%);
+            transform: translateX(-50%);
+            z-index: 2;
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(102,170,255,.3);
+        }
+
+        /* Barra de progresso na linha */
+        .timeline-progress {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #66AAFF, #87CEEB);
+            transform: translateX(-50%);
+            z-index: 3;
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(102,170,255,.6);
+            transition: height 0.3s ease;
+            height: 0%;
+        }
+
+        /* Marcadores de década na linha */
+        .timeline-decade-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(102,170,255,.5);
+            border: 2px solid rgba(15,23,42,.95);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 10px rgba(102,170,255,.4);
+        }
+
+        .timeline-decade-label {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #8D99AE;
+            font-weight: 600;
+            white-space: nowrap;
+            background: rgba(15,23,42,.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid rgba(102,170,255,.2);
+        }
+
+        /* Container dos items */
+        .timeline-items {
+            position: relative;
+            z-index: 3;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Marcador na linha */
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #66AAFF, #4A90E2);
+            border: 4px solid rgba(15,23,42,.95);
+            border-radius: 50%;
+            z-index: 4;
+            box-shadow: 0 0 20px rgba(102,170,255,.6), 0 0 40px rgba(102,170,255,.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .timeline-marker:hover {
+            transform: translateX(-50%) scale(1.3);
+            box-shadow: 0 0 30px rgba(102,170,255,.8), 0 0 60px rgba(102,170,255,.4);
+        }
+
+        .timeline-item.active .timeline-marker {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(102,170,255,.6), 0 0 40px rgba(102,170,255,.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(102,170,255,.9), 0 0 60px rgba(102,170,255,.5);
+            }
+        }
+
+        /* Card de conteúdo */
+        .timeline-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: center;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            grid-template-columns: 1fr 2fr;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        /* Área de imagem destacada (estilo Consilium) */
+        .timeline-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            padding: 2rem;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-visual {
+            order: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-visual {
+            order: 2;
+        }
+
+        .timeline-featured-image {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,.4);
+            transition: all 0.5s ease;
+            background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+            padding: 1rem;
+            will-change: transform;
+        }
+
+        .timeline-featured-image:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 35px 80px rgba(102,170,255,.3);
+        }
+
+        .timeline-featured-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            object-fit: cover;
+            display: block;
+            /* Efeito cartoon/ilustrativo */
+            filter: contrast(1.1) saturate(1.2) brightness(1.05);
+            transition: filter 0.3s ease;
+        }
+
+        .timeline-featured-image:hover img {
+            filter: contrast(1.15) saturate(1.3) brightness(1.1);
+        }
+
+        /* Elementos decorativos tipo cartoon */
+        .timeline-visual-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .decoration-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102,170,255,.2), rgba(74,144,226,.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .decoration-circle:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .decoration-circle:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .decoration-circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        /* Ano e card lado a lado */
+        .timeline-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-info-section {
+            order: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-info-section {
+            order: 1;
+        }
+
+        /* Ano */
+        .timeline-year {
+            text-align: left;
+            position: relative;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(102,170,255,.2);
+        }
+
+        .timeline-item:nth-child(even) .timeline-year {
+            text-align: right;
+        }
+
+        .year-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .year-label {
+            color: #8D99AE;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Card principal */
+        .timeline-card {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(102,170,255,.2);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-card {
+            order: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-card {
+            order: 1;
+        }
+
+        .timeline-card::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 22px;
+            padding: 2px;
+            background: linear-gradient(45deg, rgba(102,170,255,.5), rgba(74,144,226,.35), rgba(102,170,255,.5));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timeline-card:hover::before {
+            opacity: 1;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 55px rgba(0,0,0,.45);
+            border-color: rgba(102,170,255,.4);
+        }
+
+        .timeline-card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #EDF2F4;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .timeline-card-location {
+            color: #8D99AE;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,.25);
+        }
+
+        .timeline-card-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,.03);
+            border: 1px solid rgba(255,255,255,.05);
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255,255,255,.05);
+            border-color: rgba(102,170,255,.3);
+        }
+
+        .info-label {
+            color: #8D99AE;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #EDF2F4;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .timeline-card-description {
+            color: #EDF2F4;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .btn-ver-detalhes {
+            width: 100%;
+            background: linear-gradient(135deg, #66AAFF, #1d4ed8);
+            border: none;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(59,130,246,.35);
+            font-size: 1rem;
+        }
+
+        .btn-ver-detalhes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(59,130,246,.45);
+            background: linear-gradient(135deg, #87CEEB, #3b82f6);
+        }
+
+        /* Responsivo */
+        @media (max-width: 968px) {
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .timeline-content {
+                grid-template-columns: 1fr !important;
+                gap: 2rem;
+                padding-left: 4rem;
+            }
+
+            .timeline-visual {
+                order: 1 !important;
+                min-height: 300px;
+            }
+
+            .timeline-info-section {
+                order: 2 !important;
+            }
+
+            .timeline-year {
+                text-align: left !important;
+                padding-bottom: 1rem;
+            }
+
+            .year-number {
+                font-size: 2.5rem;
+            }
+
+            .timeline-featured-image {
+                max-width: 100%;
+            }
+
+            .timeline-container {
+                padding: 0 1rem 4rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-marker {
+                left: 20px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .timeline-content {
+                padding-left: 3rem;
+                gap: 1.5rem;
+            }
+
+            .timeline-visual {
+                min-height: 250px;
+                padding: 1rem;
+            }
+
+            .timeline-featured-image {
+                padding: 0.5rem;
+            }
+
+            .decoration-circle {
+                display: none; /* Esconder decorações em mobile para economizar espaço */
+            }
+
+            .timeline-card {
+                padding: 1.5rem;
+            }
+
+            .timeline-card-info {
+                grid-template-columns: 1fr;
+            }
+
+            .year-number {
+                font-size: 2rem;
+            }
+
+            .decades-nav {
+                gap: 0.5rem;
+            }
+
+            .decade-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-timeline {
+                padding: 3rem 0 2rem;
+            }
+        }
+
+        /* Loading state */
+        .timeline-loading {
+            text-align: center;
+            padding: 4rem 0;
+            color: #8D99AE;
+            font-size: 1.2rem;
+        }
+
+        /* Badges especiais */
+        .copa-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0.25rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,.2);
+        }
+
+        .badge-first {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+        }
+
+        .badge-brazil {
+            background: linear-gradient(135deg, #009739, #FEDD00);
+            color: #fff;
+        }
+
+        .badge-recent {
+            background: linear-gradient(135deg, #66AAFF, #87CEEB);
+            color: #fff;
+        }
+
+        /* Tooltip para marcadores */
+        .timeline-marker-tooltip {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            top: -10px;
+            background: rgba(15,23,42,.98);
+            color: #EDF2F4;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            border: 1px solid rgba(102,170,255,.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+            margin-bottom: 8px;
+        }
+
+        .timeline-marker:hover .timeline-marker-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-100%) translateY(-5px);
+        }
+
+        /* Botão voltar ao topo */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #66AAFF, #4A90E2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 8px 25px rgba(102,170,255,.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(102,170,255,.6);
+        }
+
+        /* Contador animado */
+        .timeline-counter {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: linear-gradient(135deg, rgba(15,23,42,.95), rgba(30,41,59,.98));
+            border: 1px solid rgba(102,170,255,.2);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            color: #EDF2F4;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .timeline-counter-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .timeline-counter-label {
+            color: #8D99AE;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Efeito parallax nas imagens (já definido acima, apenas comentário para referência) */
+        /* will-change: transform já aplicado em .timeline-featured-image acima */
+
+        /* Animações sequenciais (delay aplicado via inline style --item-index) */
+
+        /* Responsivo para novos elementos */
+        @media (max-width: 968px) {
+            .timeline-counter {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem auto;
+                display: inline-block;
+            }
+
+            .scroll-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .scroll-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .timeline-counter {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .timeline-counter-number {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<main class="timeline-page">
+    <!-- Background Stars -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-timeline">
+        <div class="container">
+            <h1>Linha do Tempo das Copas do Mundo</h1>
+            <p>Explore a história completa das Copas do Mundo desde 1930</p>
+        </div>
+    </section>
+
+    <div class="container timeline-container">
+        <!-- Navegação por Décadas -->
+        <div class="decades-nav">
+            {% for decada in copas_por_decada.keys|dictsort:0 %}
+                <button class="decade-btn" data-decada="{{ decada }}">{{ decada }}s</button>
+            {% endfor %}
+            <button class="decade-btn active" data-decada="all">Todas</button>
+        </div>
+
+        <!-- Contador animado -->
+        <div class="timeline-counter" id="timelineCounter">
+            <span class="timeline-counter-number" id="counterCurrent">1</span>
+            <span class="timeline-counter-label">de <span id="counterTotal">{{ copas|length }}</span> Copas</span>
+        </div>
+
+        <!-- Timeline Vertical Moderna -->
+        <div class="modern-timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-progress" id="timelineProgress"></div>
+            <div class="timeline-items" id="timelineItems">
+            {% for copa in copas %}
+                    <div class="timeline-item" data-ano="{{ copa.ano }}" data-decada="{{ copa.decada }}" style="--item-index: {{ forloop.counter0 }};">
+                        <div class="timeline-marker">
+                            <div class="timeline-marker-tooltip">
+                                {{ copa.ano }} - {{ copa.nome }}
+                        </div>
+                    </div>
+                        <div class="timeline-content">
+                            <!-- Área de imagem destacada (estilo Consilium) -->
+                            <div class="timeline-visual">
+                                <div class="timeline-visual-decoration">
+                                    <div class="decoration-circle"></div>
+                                    <div class="decoration-circle"></div>
+                                    <div class="decoration-circle"></div>
+                                </div>
+                    {% if copa.imagem %}
+                                    <div class="timeline-featured-image">
+                                        <img src="{{ copa.imagem.url }}" alt="{{ copa.nome }}" loading="lazy">
+                                    </div>
+                                {% else %}
+                                    <!-- Placeholder se não houver imagem -->
+                                    <div class="timeline-featured-image">
+                                        <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(102,170,255,.2), rgba(74,144,226,.1)); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: rgba(102,170,255,.5);">
+                                            ⚽
+                                        </div>
+                                    </div>
+                    {% endif %}
+                            </div>
+                            
+                            <!-- Seção de informações (ano + card) -->
+                            <div class="timeline-info-section">
+                                <div class="timeline-year">
+                                    <div class="year-number">{{ copa.ano }}</div>
+                                    <div class="year-label">Copa do Mundo</div>
+                                </div>
+                                <div class="timeline-card">
+                                <div class="timeline-card-header">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                        <h3 class="timeline-card-title" style="margin: 0; flex: 1;">{{ copa.nome }}</h3>
+                                        <div style="display: flex; gap: 0.25rem; flex-wrap: wrap;">
+                                            {% if copa.ano == 1930 %}
+                                                <span class="copa-badge badge-first">🏆 Primeira Copa</span>
+                                            {% endif %}
+                                            {% if copa.pais == "Brasil" %}
+                                                <span class="copa-badge badge-brazil">🇧🇷 No Brasil</span>
+                                            {% endif %}
+                                            {% if forloop.last %}
+                                                <span class="copa-badge badge-recent">⭐ Mais Recente</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="timeline-card-location">
+                                        <span>📍</span>
+                                        <span>{{ copa.pais }}</span>
+                                    </div>
+                                </div>
+
+                                    <div class="timeline-card-info">
+                        <div class="info-item">
+                            <span class="info-label">Campeão</span>
+                            <span class="info-value">{{ copa.campeao|default:"—" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Vice</span>
+                            <span class="info-value">{{ copa.vice_campeao|default:"—" }}</span>
+                        </div>
+                        {% if copa.terceiro_lugar %}
+                        <div class="info-item">
+                            <span class="info-label">3º Lugar</span>
+                            <span class="info-value">{{ copa.terceiro_lugar }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="info-item">
+                            <span class="info-label">Continente</span>
+                            <span class="info-value">
+                                {% if copa.continente == 'EU' %}Europa
+                                {% elif copa.continente == 'AS' %}América do Sul
+                                {% elif copa.continente == 'AN' %}América do Norte
+                                {% elif copa.continente == 'AF' %}África
+                                {% elif copa.continente == 'ASI' %}Ásia
+                                {% elif copa.continente == 'OC' %}Oceania
+                                {% else %}{{ copa.continente }}{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                                    {% if copa.descricao %}
+                                    <div class="timeline-card-description">
+                                        {{ copa.descricao|truncatewords:30|safe }}
+                                    </div>
+                                    {% endif %}
+
+                    <a href="{% url 'copa_detail' copa.id %}" class="btn-ver-detalhes">
+                                        Ver Detalhes Completos
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"/>
+                        </svg>
+                    </a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+
+    <!-- Botão voltar ao topo -->
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Voltar ao topo">
+        ↑
+    </button>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    'use strict';
+    
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const timelineContainer = document.querySelector('.modern-timeline');
+    const progressBar = document.getElementById('timelineProgress');
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    const counterCurrent = document.getElementById('counterCurrent');
+    const counterTotal = document.getElementById('counterTotal');
+    let currentActiveIndex = 0;
+    
+    // Filtro por década
+    function initDecadeFilter() {
+        const decadeButtons = document.querySelectorAll('.decade-btn');
+        if (decadeButtons.length === 0 || timelineItems.length === 0) return;
+
+        decadeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const decada = this.dataset.decada;
+                decadeButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                timelineItems.forEach(item => {
+                    if (decada === 'all' || item.dataset.decada === decada) {
+                        item.style.display = 'block';
+                        setTimeout(() => item.classList.add('visible'), 10);
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('visible');
+                    }
+                });
+
+                const firstVisible = document.querySelector('.timeline-item[style*="display: block"]');
+                if (firstVisible) {
+                    firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
+    // Barra de progresso na linha
+    function updateProgress() {
+        if (!progressBar || !timelineContainer) return;
+        
+        const containerTop = timelineContainer.offsetTop;
+        const containerHeight = timelineContainer.scrollHeight;
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        const progress = Math.max(0, Math.min(100, 
+            ((scrollPosition - containerTop) / containerHeight) * 100
+        ));
+        
+        progressBar.style.height = progress + '%';
+    }
+
+    // Marcadores de década na linha
+    function initDecadeMarkers() {
+        if (!timelineContainer) return;
+        
+        // Remover marcadores existentes
+        document.querySelectorAll('.timeline-decade-marker, .timeline-decade-label').forEach(el => el.remove());
+        
+        const decades = new Set();
+        const decadePositions = new Map();
+        
+        timelineItems.forEach(item => {
+            const decada = item.dataset.decada;
+            if (decada && !decades.has(decada)) {
+                decades.add(decada);
+                const itemRect = item.getBoundingClientRect();
+                const containerRect = timelineContainer.getBoundingClientRect();
+                const relativeTop = itemRect.top - containerRect.top;
+                const percentage = (relativeTop / containerRect.height) * 100;
+                
+                if (!decadePositions.has(decada) || decadePositions.get(decada) > percentage) {
+                    decadePositions.set(decada, percentage);
+                }
+            }
+        });
+        
+        // Criar marcadores
+        decadePositions.forEach((percentage, decada) => {
+            const marker = document.createElement('div');
+            marker.className = 'timeline-decade-marker';
+            marker.style.top = Math.max(0, Math.min(100, percentage)) + '%';
+            
+            const label = document.createElement('div');
+            label.className = 'timeline-decade-label';
+            label.textContent = decada + 's';
+            label.style.top = Math.max(0, Math.min(98, percentage + 2)) + '%';
+            
+            timelineContainer.appendChild(marker);
+            timelineContainer.appendChild(label);
+        });
+    }
+
+    // Animação ao scroll com contador
+    function initScrollAnimation() {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.intersectionRatio > 0.5) {
+                            timelineItems.forEach(item => item.classList.remove('active'));
+                            entry.target.classList.add('active');
+                            
+                            // Atualizar contador
+                            const index = Array.from(timelineItems).indexOf(entry.target);
+                            if (index !== -1 && counterCurrent) {
+                                currentActiveIndex = index + 1;
+                                animateCounter(currentActiveIndex);
+                            }
+                        }
+                    }
+                });
+            }, {
+                threshold: [0, 0.1, 0.5, 1],
+                rootMargin: '-20% 0px -20% 0px'
+            });
+
+            timelineItems.forEach(item => observer.observe(item));
+        } else {
+            timelineItems.forEach(item => item.classList.add('visible'));
+        }
+    }
+
+    // Contador animado
+    function animateCounter(target) {
+        if (!counterCurrent) return;
+        const current = parseInt(counterCurrent.textContent);
+        if (current === target) return;
+        
+        const diff = target - current;
+        const step = diff > 0 ? 1 : -1;
+        let currentVal = current;
+        
+        const interval = setInterval(() => {
+            currentVal += step;
+            counterCurrent.textContent = currentVal;
+            
+            if (currentVal === target) {
+                clearInterval(interval);
+            }
+        }, 50);
+    }
+
+    // Efeito parallax nas imagens
+    function initParallax() {
+        const images = document.querySelectorAll('.timeline-featured-image');
+        
+        function updateParallax() {
+            const scrollY = window.pageYOffset;
+            
+            images.forEach(img => {
+                const rect = img.getBoundingClientRect();
+                const containerTop = rect.top + scrollY;
+                const windowCenter = scrollY + window.innerHeight / 2;
+                const distance = windowCenter - containerTop;
+                const rate = distance * 0.1;
+                
+                if (rect.top < window.innerHeight + 200 && rect.bottom > -200) {
+                    img.style.transform = `translateY(${rate}px)`;
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', updateParallax);
+        updateParallax(); // Inicial
+    }
+
+    // Botão voltar ao topo
+    function initScrollToTop() {
+        if (!scrollToTopBtn) return;
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+                // Navegação por teclado
+    function initKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Só funciona se não estiver em input/textarea
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            const visibleItems = Array.from(timelineItems).filter(
+                item => window.getComputedStyle(item).display !== 'none'
+            );
+            
+            if (visibleItems.length === 0) return;
+            
+            let targetIndex = currentActiveIndex - 1;
+                    
+                    switch(e.key) {
+                case 'ArrowDown':
+                case 'ArrowRight':
+                            e.preventDefault();
+                    targetIndex = Math.min(targetIndex + 1, visibleItems.length - 1);
+                            break;
+                case 'ArrowUp':
+                case 'ArrowLeft':
+                            e.preventDefault();
+                    targetIndex = Math.max(targetIndex - 1, 0);
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                    targetIndex = 0;
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                    targetIndex = visibleItems.length - 1;
+                            break;
+                default:
+                    return;
+            }
+            
+            if (targetIndex >= 0 && targetIndex < visibleItems.length) {
+                visibleItems[targetIndex].scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                currentActiveIndex = targetIndex + 1;
+                animateCounter(currentActiveIndex);
+            }
+        });
+    }
+
+    // Smooth scroll para marcadores
+    function initMarkerClick() {
+        document.querySelectorAll('.timeline-marker').forEach(marker => {
+            marker.addEventListener('click', function() {
+                const item = this.closest('.timeline-item');
+                if (item) {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    }
+
+    // Animações sequenciais iniciais
+    function initSequentialAnimations() {
+        setTimeout(() => {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach((item, index) => {
+                if (item.getBoundingClientRect().top < window.innerHeight) {
+                    setTimeout(() => {
+                        item.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, 100);
+    }
+
+    // Inicialização completa
+    function init() {
+                initDecadeFilter();
+        initScrollAnimation();
+        initMarkerClick();
+        initScrollToTop();
+        initKeyboardNavigation();
+        initParallax();
+        initSequentialAnimations();
+        
+        // Event listeners
+        window.addEventListener('scroll', updateProgress);
+        window.addEventListener('resize', () => {
+            updateProgress();
+            // Recalcular marcadores de década após resize
+            setTimeout(initDecadeMarkers, 100);
+        });
+        
+        // Inicializar progresso e marcadores
+        setTimeout(() => {
+            updateProgress();
+            initDecadeMarkers();
+                }, 500);
+    }
+
+    // Executar quando DOM estiver pronto
+            if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+            } else {
+        init();
+    }
+})();
+</script>
+{% endblock %}

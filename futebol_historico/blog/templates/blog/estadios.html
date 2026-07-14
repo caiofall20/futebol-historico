@@ -7,160 +7,219 @@
 {% block extra_head %}
     {{ block.super }}
     <style>
-        .hero-section {
-            position: relative;
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("{% static 'blog/images/stars-background.png' %}");
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 60px 0;
-            margin-bottom: 40px;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            z-index: -2;
-        }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(#ffffff 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.1;
-            z-index: -1;
-        }
-
-        .hero-section h1 {
-            font-size: 3.5rem;
-            margin: 0;
-            text-align: center;
-            color: #EF233C;
-            text-shadow: 0 0 10px rgba(239, 35, 60, 0.5);
-        }
-
-        .continent-nav {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .continent-button {
-            background: transparent;
-            border: 2px solid #8D99AE;
-            color: #8D99AE;
-            margin: 10px;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .continent-button:hover, 
-        .continent-button.active {
-            background: #EF233C;
-            border-color: #EF233C;
-            color: white;
-            box-shadow: 0 0 15px rgba(239, 35, 60, 0.5);
-        }
-
-        main {
+        .estadios-page {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            color: #EDF2F4;
+            font-family: 'Georama', 'Poppins', sans-serif;
             padding-top: 80px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        .estadios-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            margin-bottom: 30px;
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
+        .estadios-page #stars, .estadios-page #stars2, .estadios-page #stars3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .estadios-section.active {
-            display: block;
+        .estadios-page #stars {
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+            animation: none;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .estadios-page #stars2 {
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+            animation: none;
+        }
+
+        .estadios-page #stars3 {
+            width: 3px;
+            height: 3px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff;
+            animation: none;
+        }
+
+        /* Hero Section */
+        .hero-estadios {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-estadios h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .hero-estadios p {
+            color: #8D99AE;
+            font-size: 1.3rem;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .estadios-container {
+            position: relative;
+            z-index: 10;
+            margin: 0 auto;
+            max-width: 1400px;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Filtros Modernos */
+        .filtros-modernos {
+            background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(102,170,255,.2);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            backdrop-filter: blur(20px);
+        }
+
+        .filtros-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1.5rem;
+            align-items: end;
+        }
+
+        .filtro-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filtro-group label {
+            color: #8D99AE;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filtro-group input,
+        .filtro-group select {
+            background: rgba(27,39,53,.8);
+            border: 1px solid rgba(102,170,255,.2);
+            border-radius: 12px;
+            padding: 0.875rem 1.25rem;
+            color: #EDF2F4;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .filtro-group input:focus,
+        .filtro-group select:focus {
+            outline: none;
+            border-color: rgba(102,170,255,.5);
+            box-shadow: 0 0 0 3px rgba(102,170,255,.1);
+        }
+
+        .filtro-group input::placeholder {
+            color: #6C757D;
+        }
+
+        /* Cards de Estádios */
+        .estadios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
         .estadio-card {
-            background: rgba(43, 45, 66, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            color: white;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(141, 153, 174, 0.2);
+            background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(102,170,255,.2);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             display: block;
             height: 100%;
+            position: relative;
         }
 
         .estadio-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(141, 153, 174, 0.4);
+            transform: translateY(-8px);
+            border-color: rgba(102,170,255,.4);
+            box-shadow: 0 25px 50px rgba(102,170,255,.2);
             text-decoration: none;
-            background: rgba(43, 45, 66, 0.9);
         }
 
-        .estadio-card img {
+        .estadio-card-image {
             width: 100%;
-            height: 200px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
+            display: block;
+            transition: transform 0.4s ease;
         }
 
-        .estadio-card:hover img {
-            transform: scale(1.05);
+        .estadio-card:hover .estadio-card-image {
+            transform: scale(1.1);
+        }
+
+        .estadio-card-content {
+            padding: 1.5rem;
         }
 
         .estadio-card h3 {
             color: #EDF2F4;
             font-family: 'Bebas Neue', cursive;
             font-size: 1.8rem;
-            margin-bottom: 10px;
+            margin: 0 0 0.75rem 0;
+            letter-spacing: 1px;
         }
 
-        .estadio-card p {
+        .estadio-card-location {
             color: #8D99AE;
-            margin: 5px 0;
+            font-size: 0.95rem;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .estadio-card .capacidade {
-            color: #EF233C;
-            font-weight: bold;
-            margin-top: 10px;
+        .estadio-card-capacidade {
+            color: #66AAFF;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .estadio-card .descricao {
+        .estadio-card-descricao {
             color: #8D99AE;
-            margin-top: 10px;
             font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 1rem;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -168,35 +227,80 @@
             -webkit-box-orient: vertical;
         }
 
-        .no-stadiums {
-            color: #8D99AE;
-            font-style: italic;
+        .no-estadios {
             text-align: center;
-            padding: 20px;
+            padding: 4rem 2rem;
+            color: #8D99AE;
+            font-size: 1.2rem;
         }
 
-        .filtros-section {
-            margin-bottom: 20px;
+        /* Botões de Continente */
+        .continent-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
         }
 
-        .comentarios-section {
-            margin-top: 40px;
+        .continent-button {
+            background: linear-gradient(135deg, rgba(102,170,255,.1) 0%, rgba(74,144,226,.05) 100%);
+            border: 2px solid rgba(102,170,255,.3);
+            color: #EDF2F4;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .comentarios-lista {
-            margin-bottom: 20px;
+        .continent-button:hover,
+        .continent-button.active {
+            background: linear-gradient(135deg, rgba(102,170,255,.2) 0%, rgba(74,144,226,.15) 100%);
+            border-color: rgba(102,170,255,.6);
+            color: #66AAFF;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102,170,255,.3);
         }
 
-        .formulario-comentario {
-            margin-top: 20px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .filtros-container {
+                grid-template-columns: 1fr;
+            }
+
+            .estadios-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hero-estadios {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .estadios-container {
+                padding: 0 1rem 2rem;
+            }
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="hero-section">
+<div class="estadios-page">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
+    <section class="hero-estadios">
         <div class="container">
             <h1>ESTÁDIOS HISTÓRICOS</h1>
+            <p>Os templos do futebol mundial</p>
+            
             <div class="continent-nav">
                 {% for continent_code, continent_name in continent_map.items %}
                     <button class="continent-button" data-continent="{{ continent_code }}">
@@ -205,30 +309,32 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container">
-        <!-- Novo bloco de filtros -->
-        <div class="filtros-section mb-4">
-            <h2>Filtros</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <select id="filtro-continente" class="form-control">
+    <div class="estadios-container">
+        <!-- Filtros Modernos -->
+        <div class="filtros-modernos">
+            <div class="filtros-container">
+                <div class="filtro-group">
+                    <label for="filtro-nome">Buscar Estádio</label>
+                    <input type="text" id="filtro-nome" placeholder="Digite o nome do estádio...">
+                </div>
+                <div class="filtro-group">
+                    <label for="filtro-continente">Continente</label>
+                    <select id="filtro-continente">
                         <option value="">Todos os Continentes</option>
-                        <option value="SA">América do Sul</option>
-                        <option value="NA">América do Norte</option>
+                        <option value="AS">América do Sul</option>
+                        <option value="AN">América do Norte</option>
                         <option value="EU">Europa</option>
                         <option value="AF">África</option>
-                        <option value="AS">Ásia</option>
+                        <option value="ASI">Ásia</option>
                         <option value="OC">Oceania</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <input type="text" id="filtro-nome" class="form-control" placeholder="Buscar por nome do estádio">
-                </div>
-                <div class="col-md-4">
-                    <select id="filtro-capacidade" class="form-control">
-                        <option value="">Capacidade</option>
+                <div class="filtro-group">
+                    <label for="filtro-capacidade">Capacidade</label>
+                    <select id="filtro-capacidade">
+                        <option value="">Todas</option>
                         <option value="0-20000">Até 20.000</option>
                         <option value="20000-50000">20.000 - 50.000</option>
                         <option value="50000-100000">50.000 - 100.000</option>
@@ -238,123 +344,215 @@
             </div>
         </div>
 
-        {% for continent_code, continent_name in continent_map.items %}
-            <div class="estadios-section" id="continent-{{ continent_code }}">
-                <h2>{{ continent_name }}</h2>
-                <div class="row">
-                    {% for estadio in estadios %}
-                        {% if estadio.continente == continent_code %}
-                            <div class="col-md-4 mb-4">
-                                <a href="{% url 'estadio_detail' estadio.id %}" class="estadio-card">
-                                    {% if estadio.imagem %}
-                                        <img src="{{ estadio.imagem.url }}" alt="{{ estadio.nome }}" class="img-fluid">
-                                    {% else %}
-                                        <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" alt="{{ estadio.nome }}" class="img-fluid">
-                                    {% endif %}
-                                    <h3>{{ estadio.nome }}</h3>
-                                    <p>{{ estadio.cidade }}, {{ estadio.pais }}</p>
-                                    <p class="capacidade">Capacidade: {{ estadio.capacidade|intcomma }} pessoas</p>
-                                    <div class="descricao">
-                                        {{ estadio.descricao|striptags|truncatewords:30 }}
-                                    </div>
-                                </a>
+        <!-- Grid de Estádios -->
+        <div class="estadios-grid" id="estadios-grid">
+            {% for estadio in estadios %}
+                <a href="{% url 'estadio_detail' estadio.id %}" class="estadio-card" 
+                   data-continent="{{ estadio.continente }}"
+                   data-capacidade="{{ estadio.capacidade }}"
+                   data-nome="{{ estadio.nome|lower }}">
+                    {% if estadio.imagem %}
+                        <img src="{{ estadio.imagem.url }}" alt="{{ estadio.nome }}" class="estadio-card-image">
+                    {% else %}
+                        <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" alt="{{ estadio.nome }}" class="estadio-card-image">
+                    {% endif %}
+                    <div class="estadio-card-content">
+                        <h3>{{ estadio.nome }}</h3>
+                        <div class="estadio-card-location">
+                            <span>📍</span>
+                            <span>{{ estadio.cidade }}, {{ estadio.pais }}</span>
+                        </div>
+                        <div class="estadio-card-capacidade">
+                            <span>👥</span>
+                            <span>{{ estadio.capacidade|intcomma }} pessoas</span>
+                        </div>
+                        {% if estadio.descricao %}
+                            <div class="estadio-card-descricao">
+                                {{ estadio.descricao|striptags|truncatewords:30 }}
                             </div>
                         {% endif %}
-                    {% endfor %}
+                    </div>
+                </a>
+            {% empty %}
+                <div class="no-estadios">
+                    <p>Nenhum estádio encontrado.</p>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.continent-button');
-            const sections = document.querySelectorAll('.estadios-section');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.continent-button');
+        const cards = document.querySelectorAll('.estadio-card');
+        const filtroContinente = document.getElementById('filtro-continente');
+        const filtroNome = document.getElementById('filtro-nome');
+        const filtroCapacidade = document.getElementById('filtro-capacidade');
 
-            // Mostrar o primeiro continente por padrão
-            if (sections.length > 0) {
-                sections[0].classList.add('active');
-                buttons[0].classList.add('active');
-            }
+        // Mostrar o primeiro continente por padrão
+        if (buttons.length > 0) {
+            buttons[0].classList.add('active');
+        }
 
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const continent = this.dataset.continent;
-                    
-                    // Remover classe active de todos os botões e seções
-                    buttons.forEach(btn => btn.classList.remove('active'));
-                    sections.forEach(section => section.classList.remove('active'));
-                    
-                    // Adicionar classe active ao botão clicado e seção correspondente
-                    this.classList.add('active');
-                    document.getElementById(`continent-${continent}`).classList.add('active');
-                });
+        // Filtro por continente (botões)
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const continent = this.dataset.continent;
+                
+                // Atualizar botões
+                buttons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Atualizar select - usar o mesmo valor do botão
+                filtroContinente.value = continent;
+                
+                // Aplicar filtros
+                aplicarFiltros();
             });
-
-            const filtroContinente = document.getElementById('filtro-continente');
-            const filtroNome = document.getElementById('filtro-nome');
-            const filtroCapacidade = document.getElementById('filtro-capacidade');
-            const estadiosSections = document.querySelectorAll('.estadios-section');
-
-            function aplicarFiltros() {
-                const continenteSelecionado = filtroContinente.value;
-                const nomeBusca = filtroNome.value.toLowerCase();
-                const capacidadeSelecionada = filtroCapacidade.value;
-
-                // Mapeamento de continentes
-                const continentMap = {
-                    'SA': ['SA', 'SU'],  // América do Sul
-                    'NA': ['NA', 'NO']   // América do Norte
-                };
-
-                estadiosSections.forEach(section => {
-                    const estadios = section.querySelectorAll('.estadio-card');
-                    let sectionTemEstadioVisivel = false;
-                    
-                    estadios.forEach(estadio => {
-                        const continenteEstadio = section.id.replace('continent-', '');
-                        const nomeEstadio = estadio.querySelector('h3').textContent.toLowerCase();
-                        const capacidadeTexto = estadio.querySelector('.capacidade').textContent;
-                        const capacidadeNumero = parseInt(capacidadeTexto.replace(/[^\d]/g, ''));
-
-                        let mostrar = true;
-
-                        // Filtro por continente com mapeamento
-                        if (continenteSelecionado) {
-                            const continentesValidos = continentMap[continenteSelecionado] || [continenteSelecionado];
-                            mostrar = continentesValidos.includes(continenteEstadio);
-                        }
-
-                        // Filtro por nome
-                        if (nomeBusca && !nomeEstadio.includes(nomeBusca)) {
-                            mostrar = false;
-                        }
-
-                        // Filtro por capacidade
-                        if (capacidadeSelecionada) {
-                            const [min, max] = capacidadeSelecionada.split('-').map(Number);
-                            if (capacidadeSelecionada.endsWith('+')) {
-                                mostrar = mostrar && capacidadeNumero >= min;
-                            } else {
-                                mostrar = mostrar && capacidadeNumero >= min && capacidadeNumero < max;
-                            }
-                        }
-
-                        estadio.style.display = mostrar ? 'block' : 'none';
-                        
-                        if (mostrar) {
-                            sectionTemEstadioVisivel = true;
-                        }
-                    });
-
-                    // Esconder seção inteira se não tiver estádios visíveis
-                    section.style.display = sectionTemEstadioVisivel ? 'block' : 'none';
-                });
-            }
-
-            filtroContinente.addEventListener('change', aplicarFiltros);
-            filtroNome.addEventListener('input', aplicarFiltros);
-            filtroCapacidade.addEventListener('change', aplicarFiltros);
         });
-    </script>
+
+        // Mapeamento de continentes (completo)
+        const continentMap = {
+            'AS': ['AS', 'SU'], // América do Sul
+            'AN': ['AN', 'NO'], // América do Norte
+            'EU': ['EU'], // Europa
+            'AF': ['AF'], // África
+            'ASI': ['ASI'], // Ásia
+            'OC': ['OC'] // Oceania
+        };
+
+        function aplicarFiltros() {
+            const continenteSelecionado = filtroContinente.value;
+            const nomeBusca = filtroNome.value.toLowerCase();
+            const capacidadeSelecionada = filtroCapacidade.value;
+
+            cards.forEach(card => {
+                const continenteEstadio = card.dataset.continent;
+                const nomeEstadio = card.dataset.nome;
+                const capacidadeNumero = parseInt(card.dataset.capacidade) || 0;
+
+                let mostrar = true;
+
+                // Filtro por continente
+                if (continenteSelecionado) {
+                    const continentesValidos = continentMap[continenteSelecionado] || [continenteSelecionado];
+                    mostrar = continentesValidos.includes(continenteEstadio);
+                }
+
+                // Filtro por nome
+                if (nomeBusca && !nomeEstadio.includes(nomeBusca)) {
+                    mostrar = false;
+                }
+
+                // Filtro por capacidade
+                if (capacidadeSelecionada && mostrar) {
+                    if (capacidadeSelecionada.endsWith('+')) {
+                        const min = parseInt(capacidadeSelecionada.replace('+', ''));
+                        mostrar = capacidadeNumero >= min;
+                    } else {
+                        const [min, max] = capacidadeSelecionada.split('-').map(Number);
+                        mostrar = capacidadeNumero >= min && capacidadeNumero < max;
+                    }
+                }
+
+                // Mostrar/ocultar card
+                if (mostrar) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        // Event listeners para filtros
+        filtroContinente.addEventListener('change', function() {
+            const selectValue = this.value;
+            
+            // Atualizar botões - verificar se o valor do select corresponde ao botão
+            buttons.forEach(btn => {
+                const buttonContinent = btn.dataset.continent;
+                
+                if (buttonContinent === selectValue) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            aplicarFiltros();
+        });
+
+        filtroNome.addEventListener('input', aplicarFiltros);
+        filtroCapacidade.addEventListener('change', aplicarFiltros);
+
+        // Inicializar animação dos cards
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 50);
+        });
+
+        // Gerar estrelas no background
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const stars2 = document.getElementById('stars2');
+            const stars3 = document.getElementById('stars3');
+            
+            const count = 50;
+            const count2 = 30;
+            const count3 = 20;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '1px';
+                star.style.height = '1px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff';
+                stars.appendChild(star);
+            }
+            
+            for (let i = 0; i < count2; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '2px';
+                star.style.height = '2px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff, 0 0 2px #fff';
+                stars2.appendChild(star);
+            }
+            
+            for (let i = 0; i < count3; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '3px';
+                star.style.height = '3px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff';
+                stars3.appendChild(star);
+            }
+        }
+        
+        createStars();
+    });
+</script>
 {% endblock %}

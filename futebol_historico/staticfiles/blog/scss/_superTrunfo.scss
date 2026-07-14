@@ -1,0 +1,1493 @@
+// ===========================================
+// CARD INFORMATIVO - NAÇÕES CAMPEÃS
+// ===========================================
+
+@import '_variables';
+
+// ===========================================
+// HEADER COM NOME E BANDEIRA
+// ===========================================
+
+       .country-header {
+           position: relative;
+           height: 140px; // Aumentado para melhor visualização
+           margin-bottom: 20px; // Tamanho original
+           border-radius: 15px 15px 0 0;
+           overflow: hidden;
+           display: flex;
+    
+    .trophy-section {
+        width: 150px;
+        height: 100%;
+        background: linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.7) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        z-index: 2;
+        order: 2; // Move para a direita
+        
+        .trophy-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            
+            .trophy-icon {
+                font-size: 2.5rem;
+                margin-bottom: 3px;
+                filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.5));
+                animation: trophyGlow 2s ease-in-out infinite alternate;
+            }
+            
+            .trophy-number {
+                font-size: 2rem;
+                font-weight: 900;
+                color: #FFD700;
+                text-shadow: 
+                    0 0 10px rgba(255, 215, 0, 0.8),
+                    0 0 20px rgba(255, 215, 0, 0.4);
+                margin-bottom: 2px;
+                line-height: 1;
+            }
+            
+            .trophy-label {
+                font-size: 0.7rem;
+                color: #ffffff;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            }
+        }
+    }
+    
+    @keyframes trophyGlow {
+        0% {
+            filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.5));
+        }
+        100% {
+            filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.8));
+        }
+    }
+    
+       .country-flag-background {
+           flex: 1;
+           height: 100%;
+           position: relative;
+           order: 1; // Move para a esquerda
+           
+           .flag-bg {
+               width: 100%;
+               height: 100%;
+               object-fit: contain; // Mudado de cover para contain para mostrar a bandeira inteira
+               object-position: center;
+               filter: brightness(0.9) contrast(1.1);
+               transition: all 0.3s ease;
+           }
+       }
+    
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.7);
+        border: none;
+        color: #ffffff;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        z-index: 3;
+        backdrop-filter: blur(10px);
+        
+        &:hover {
+            background: rgba(255, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+    }
+    
+    // Efeito hover no header inteiro
+    &:hover {
+        .flag-bg {
+            filter: brightness(0.9) contrast(1.2);
+            transform: scale(1.01);
+        }
+        
+        .country-name {
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+        }
+    }
+}
+
+// ===========================================
+// CARD PRINCIPAL MELHORADO
+// ===========================================
+
+.nations-of-world-card {
+    background: linear-gradient(145deg, 
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(20, 20, 30, 0.95) 50%,
+        rgba(0, 0, 0, 0.98) 100%
+    );
+    border-radius: 15px;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-width: 700px; // Aumentado apenas o card principal
+    width: 100%;
+    max-height: 90vh; // Altura responsiva baseada na viewport
+    overflow-y: auto;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.1);
+    display: none;
+    font-family: 'Arial', sans-serif;
+    
+    &.show {
+        display: block;
+        animation: fifaSlideIn 0.3s ease-out;
+    }
+
+    // ===========================================
+    // HEADER FIFA
+    // ===========================================
+    .fifa-header {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 100%
+        );
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .fifa-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    // ===========================================
+    // SEÇÃO PRINCIPAL
+    // ===========================================
+    .fifa-main-section {
+        padding: 20px;
+        position: relative;
+
+        .fifa-flag-container {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+
+            .fifa-flag {
+                width: 120px;
+                height: 80px;
+                border-radius: 8px;
+                box-shadow: 
+                    0 10px 20px rgba(0, 0, 0, 0.3),
+                    0 0 10px rgba(255, 255, 255, 0.1);
+                transform: rotate(-5deg);
+                transition: all 0.3s ease;
+                border: 2px solid rgba(255, 255, 255, 0.2);
+
+                &:hover {
+                    transform: rotate(0deg) scale(1.05);
+                }
+            }
+        }
+
+        .fifa-stats {
+            margin-bottom: 20px;
+
+            .stat-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+                .stat-label {
+                    color: #ffffff;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .stat-value {
+                    color: #00ff88;
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+                }
+            }
+        }
+
+        .fifa-ranking {
+            text-align: center;
+            margin-top: 20px;
+
+            .ranking-label {
+                color: #ffffff;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 5px;
+            }
+
+            .ranking-number {
+                color: #ff4444;
+                font-size: 3rem;
+                font-weight: 900;
+                text-shadow: 
+                    0 0 20px rgba(255, 68, 68, 0.8),
+                    0 0 40px rgba(255, 68, 68, 0.4);
+                line-height: 1;
+            }
+        }
+    }
+
+    // ===========================================
+    // LISTA DE PAÍSES
+    // ===========================================
+    .fifa-countries-list {
+        padding: 0 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        .country-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+                padding-left: 10px;
+            }
+
+            &.active {
+                background: rgba(255, 215, 0, 0.1);
+                border-left: 3px solid #ffd700;
+                padding-left: 15px;
+
+                &::before {
+                    content: '→';
+                    position: absolute;
+                    left: -10px;
+                    color: #ffd700;
+                    font-weight: bold;
+                }
+
+                .country-name {
+                    color: #ffd700;
+                    font-weight: 600;
+                }
+            }
+
+            .country-name {
+                color: #ffffff;
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            .country-icon {
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.8rem;
+            }
+        }
+    }
+
+    // ===========================================
+    // PAGINAÇÃO
+    // ===========================================
+    .fifa-pagination {
+        padding: 15px 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.3);
+
+        .page-info {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
+        .arrow {
+            color: #ffffff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                color: #00ff88;
+                transform: translateX(3px);
+            }
+        }
+    }
+}
+
+@keyframes fifaSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+// ===========================================
+// CARD PRINCIPAL MELHORADO (LEGADO)
+// ===========================================
+
+.nations-of-world-card {
+    background: linear-gradient(145deg, 
+        rgba(102, 170, 255, 0.1) 0%,
+        rgba(43, 45, 66, 0.95) 50%,
+        rgba(9, 10, 15, 0.98) 100%
+    );
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(102, 170, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-width: 400px;
+    width: 100%;
+    max-height: 500px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    display: none;
+    
+    &.show {
+        display: block;
+        animation: cardSlideIn 0.3s ease-out;
+    }
+
+    // ===========================================
+    // CARDS PERSONALIZADOS POR PAÍS
+    // ===========================================
+
+    // 🇧🇷 BRASIL - Verde e Amarelo
+    &[data-country="BR"] {
+        background: linear-gradient(145deg, 
+            rgba(0, 155, 58, 0.2) 0%,
+            rgba(255, 223, 0, 0.1) 50%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(0, 155, 58, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(0, 155, 58, 0.8) 0%,
+                rgba(255, 223, 0, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/brasil.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇩🇪 ALEMANHA - Preto, Vermelho e Dourado
+    &[data-country="DE"] {
+        background: linear-gradient(145deg, 
+            rgba(0, 0, 0, 0.2) 0%,
+            rgba(220, 20, 60, 0.1) 50%,
+            rgba(255, 215, 0, 0.1) 100%
+        );
+        border-color: rgba(0, 0, 0, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(220, 20, 60, 0.8) 50%,
+                rgba(255, 215, 0, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/alemanha.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇦🇷 ARGENTINA - Azul e Branco
+    &[data-country="AR"] {
+        background: linear-gradient(145deg, 
+            rgba(108, 172, 228, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(108, 172, 228, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(108, 172, 228, 0.8) 0%,
+                rgba(255, 255, 255, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/argentina.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇮🇹 ITÁLIA - Verde, Branco e Vermelho
+    &[data-country="IT"] {
+        background: linear-gradient(145deg, 
+            rgba(0, 155, 58, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 33%,
+            rgba(220, 20, 60, 0.1) 66%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(0, 155, 58, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(0, 155, 58, 0.8) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(220, 20, 60, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/italia.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇫🇷 FRANÇA - Azul, Branco e Vermelho
+    &[data-country="FR"] {
+        background: linear-gradient(145deg, 
+            rgba(0, 35, 149, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 33%,
+            rgba(220, 20, 60, 0.1) 66%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(0, 35, 149, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(0, 35, 149, 0.8) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(220, 20, 60, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/franca.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇬🇧 INGLATERRA - Vermelho e Branco
+    &[data-country="GB"] {
+        background: linear-gradient(145deg, 
+            rgba(220, 20, 60, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(220, 20, 60, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(220, 20, 60, 0.8) 0%,
+                rgba(255, 255, 255, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/inglaterra.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇺🇾 URUGUAI - Azul e Branco
+    &[data-country="UY"] {
+        background: linear-gradient(145deg, 
+            rgba(0, 56, 168, 0.2) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(0, 56, 168, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(0, 56, 168, 0.8) 0%,
+                rgba(255, 255, 255, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/uruguai.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+
+    // 🇪🇸 ESPANHA - Vermelho e Amarelo
+    &[data-country="ES"] {
+        background: linear-gradient(145deg, 
+            rgba(220, 20, 60, 0.2) 0%,
+            rgba(255, 223, 0, 0.1) 50%,
+            rgba(43, 45, 66, 0.95) 100%
+        );
+        border-color: rgba(220, 20, 60, 0.5);
+        
+        .card-title h2 {
+            background: linear-gradient(45deg, 
+                rgba(220, 20, 60, 0.8) 0%,
+                rgba(255, 223, 0, 0.8) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: url('/static/blog/images/flags/espanha.png') center/cover;
+                opacity: 0.1;
+                border-radius: 10px;
+                z-index: -1;
+            }
+        }
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, 
+            rgba(102, 170, 255, 0.1) 0%,
+            rgba(255, 215, 0, 0.05) 50%,
+            rgba(102, 170, 255, 0.1) 100%
+        );
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(102, 170, 255, 0.3);
+        border-color: rgba(102, 170, 255, 0.5);
+        
+        &::before {
+            opacity: 1;
+        }
+    }
+}
+
+@keyframes cardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// ===========================================
+// OVERLAY DE FUNDO
+// ===========================================
+
+.card-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(5px);
+    
+    &.show {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+// ===========================================
+// HEADER DO CARD MELHORADO
+// ===========================================
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(102, 170, 255, 0.3);
+    position: relative;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #66AAFF, #FFD700);
+        border-radius: 1px;
+    }
+    
+    h2 {
+        color: $text-primary;
+        font-family: $font-heading;
+        font-size: 2rem;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    button {
+        background: rgba(102, 170, 255, 0.2);
+        border: 1px solid rgba(102, 170, 255, 0.3);
+        color: $text-primary;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        
+        &:hover {
+            background: rgba(102, 170, 255, 0.3);
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.country-flag {
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.country-name {
+    font-family: $font-heading;
+    font-size: 1.8rem;
+    color: $text-primary;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rarity-badge {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: $background-dark;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    position: relative;
+    
+    &::before {
+        content: '★';
+        margin-right: 5px;
+        font-size: 1.1rem;
+    }
+}
+
+// ===========================================
+// CONTEÚDO DO CARD MELHORADO
+// ===========================================
+
+    .card-info {
+        padding: 25px; // Aumentado para melhor espaçamento
+        
+        .content {
+            display: flex;
+            gap: 20px; // Tamanho original
+            margin-bottom: 25px; // Aumentado para melhor espaçamento
+            align-items: center;
+        }
+    
+    .escudo {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, rgba(102, 170, 255, 0.2), rgba(255, 215, 0, 0.1));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(102, 170, 255, 0.3);
+        position: relative;
+        
+        &::before {
+            content: '🏆';
+            font-size: 2rem;
+        }
+    }
+    
+    .shield {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 15px;
+        border: 1px solid rgba(102, 170, 255, 0.2);
+    }
+    
+    p {
+        color: $text-secondary;
+        line-height: 1.6;
+        margin: 0;
+        font-size: 1rem;
+    }
+}
+
+// ===========================================
+// ESTATÍSTICAS INFORMATIVAS DAS SELEÇÕES
+// ===========================================
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.country-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; // Ajustado para melhor distribuição
+    margin: 25px 0; // Ajustado para melhor espaçamento
+    
+    .stat-item {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px; // Ajustado border-radius
+        padding: 15px; // Ajustado padding para melhor distribuição
+        text-align: center;
+        border: 1px solid rgba(102, 170, 255, 0.2);
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background: rgba(102, 170, 255, 0.1);
+            border-color: rgba(102, 170, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: $primary;
+            margin-bottom: 5px;
+            font-family: $font-heading;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: $text-secondary;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+}
+
+// ===========================================
+// INFORMAÇÕES ADICIONAIS
+// ===========================================
+
+.additional-info {
+    margin: 25px 0; // Aumentado margin
+    
+    .info-section {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 15px; // Aumentado border-radius
+        padding: 20px; // Aumentado padding
+        margin-bottom: 20px; // Aumentado margin
+        border-left: 3px solid $primary;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            background: rgba(102, 170, 255, 0.05);
+            border-left-color: $primary-light;
+        }
+        
+        h5 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        p {
+            line-height: 1.4;
+            margin: 0;
+        }
+    }
+}
+
+.stat-item {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(102, 170, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(102, 170, 255, 0.1), 
+            transparent
+        );
+        transition: left 0.5s ease;
+    }
+    
+    &:hover {
+        transform: translateY(-2px);
+        border-color: rgba(102, 170, 255, 0.4);
+        box-shadow: 0 8px 20px rgba(102, 170, 255, 0.2);
+        
+        &::before {
+            left: 100%;
+        }
+    }
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: $primary;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-family: $font-heading;
+}
+
+.stat-icon {
+    font-size: 1.2rem;
+    margin-right: 5px;
+    color: $primary;
+}
+
+// ===========================================
+// DESCRIÇÃO E HISTÓRIA
+// ===========================================
+
+.card-description {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    border-left: 4px solid $primary;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, $primary, $warning);
+        border-radius: 2px;
+    }
+}
+
+.description-text {
+    color: $text-secondary;
+    line-height: 1.6;
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: justify;
+}
+
+// ===========================================
+// BOTÃO LEIA MAIS MELHORADO
+// ===========================================
+
+#btnSeeMore {
+    background: linear-gradient(45deg, $primary, $primary-dark);
+    color: $text-primary;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 170, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 170, 255, 0.4);
+        
+        &::before {
+            left: 100%;
+        }
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+    
+    .d-flex {
+        align-items: center;
+        gap: 8px;
+    }
+    
+    svg {
+        transition: transform 0.3s ease;
+    }
+    
+    &:hover svg {
+        transform: translate(2px, -2px);
+    }
+}
+
+.power-level {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.power-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    width: 16px;
+    height: 16px;
+    background: $warning;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+    
+    &.active {
+        opacity: 1;
+        animation: starGlow 2s infinite alternate;
+    }
+}
+
+@keyframes starGlow {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.5) drop-shadow(0 0 5px $warning); }
+}
+
+.power-text {
+    color: $text-primary;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.card-number {
+    background: linear-gradient(45deg, $primary, $primary-dark);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(102, 170, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+// ===========================================
+// EFEITOS ESPECIAIS
+// ===========================================
+
+.card-glow {
+    position: relative;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, 
+            $primary, 
+            $warning, 
+            $primary, 
+            $accent
+        );
+        border-radius: 22px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        animation: borderGlow 3s infinite;
+    }
+    
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+@keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+// ===========================================
+// RESPONSIVIDADE
+// ===========================================
+
+@media (max-width: $breakpoint-sm) {
+    .super-trunfo-card {
+        margin: 10px;
+        padding: 20px;
+        min-height: 350px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .country-name {
+        font-size: 1.4rem;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: $breakpoint-xs) {
+    .super-trunfo-card {
+        margin: 5px;
+        padding: 15px;
+    }
+    
+    .card-header-trunfo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .card-footer-trunfo {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+// ===========================================
+// ANIMAÇÕES DE ENTRADA
+// ===========================================
+
+.card-enter {
+    animation: cardSlideIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes cardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// ===========================================
+// VARIANTES DE RARIDADE
+// ===========================================
+
+.card-common {
+    border-color: rgba(102, 170, 255, 0.3);
+    
+    .rarity-badge {
+        background: linear-gradient(45deg, #66AAFF, #4A90E2);
+        color: white;
+    }
+}
+
+.card-rare {
+    border-color: rgba(255, 215, 0, 0.5);
+    
+    .rarity-badge {
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        color: $background-dark;
+    }
+}
+
+.card-epic {
+    border-color: rgba(138, 43, 226, 0.5);
+    
+    .rarity-badge {
+        background: linear-gradient(45deg, #8A2BE2, #9932CC);
+        color: white;
+    }
+}
+
+.card-legendary {
+    border-color: rgba(255, 69, 0, 0.7);
+    animation: legendaryGlow 2s infinite alternate;
+    
+    .rarity-badge {
+        background: linear-gradient(45deg, #FF4500, #FF6347);
+        color: white;
+        animation: legendaryPulse 1.5s infinite;
+    }
+}
+
+@keyframes legendaryGlow {
+    0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.3); }
+    100% { box-shadow: 0 0 40px rgba(255, 69, 0, 0.6); }
+}
+
+@keyframes legendaryPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+// ===========================================
+// INFORMAÇÕES IMPORTANTES
+// ===========================================
+
+.important-info {
+    margin: 15px 0; // Tamanho original
+    
+    h5 {
+        color: $primary;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-align: center;
+        border-bottom: 2px solid rgba(102, 170, 255, 0.3);
+        padding-bottom: 10px;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px; // Tamanho original
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 10px 12px; // Tamanho original
+            border-left: 3px solid $primary;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                background: rgba(102, 170, 255, 0.05);
+                border-left-color: $primary-light;
+                transform: translateX(5px);
+            }
+            
+            .info-label {
+                color: $text-secondary;
+                font-size: 0.9rem;
+                font-weight: 500;
+                flex: 1;
+            }
+            
+            .info-value {
+                color: $primary;
+                font-size: 0.9rem;
+                font-weight: 600;
+                text-align: right;
+                flex: 1;
+            }
+        }
+    }
+}
+
+// ===========================================
+// RESPONSIVIDADE MOBILE FIRST
+// ===========================================
+
+// Mobile (até 768px)
+@media (max-width: 768px) {
+    .nations-of-world-card {
+        max-width: 95vw !important;
+        max-height: 80vh !important;
+        right: 2.5vw;
+        top: 10vh;
+        
+        .country-header {
+            height: 120px;
+            margin-bottom: 15px;
+        }
+        
+        .card-info {
+            padding: 15px;
+            
+            .content {
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+        }
+        
+        .country-stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            
+            .stat-item {
+                padding: 12px;
+                
+                .stat-value {
+                    font-size: 1.4rem;
+                }
+                
+                .stat-label {
+                    font-size: 0.8rem;
+                }
+            }
+        }
+        
+        .important-info {
+            margin: 15px 0;
+            
+            .info-grid {
+                gap: 8px;
+                
+                .info-item {
+                    padding: 10px 12px;
+                    flex-direction: column;
+                    text-align: center;
+                    gap: 5px;
+                    
+                    .info-label {
+                        font-size: 0.8rem;
+                    }
+                    
+                    .info-value {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Tablet (768px a 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nations-of-world-card {
+        max-width: 70vw;
+        max-height: 85vh;
+        
+        .country-header {
+            height: 140px;
+        }
+        
+        .card-info {
+            padding: 20px;
+        }
+        
+        .country-stats {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+    }
+}
+
+// Desktop (acima de 1024px)
+@media (min-width: 1025px) {
+    .nations-of-world-card {
+        max-width: 650px;
+        max-height: 750px;
+    }
+}

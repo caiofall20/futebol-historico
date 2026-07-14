@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Espanhola</title>
+    <link rel="stylesheet" href="styles-espanha.css">
+    <link rel="icon" type="image/svg+xml" href="imagens/espanha/spain-national-football-team-logo.svg">
+</head>
+<body>
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="imagens/espanha/spain-national-football-team-logo.svg" alt="Espanha" class="logo-espanha">
+            <h1 class="titulo-principal">Historia de los Campeones</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Espanhola</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Comenzar Experiencia</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Luis Suárez Miramontes -->
+        <section class="secao-jogador" data-jogador="miramontes">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/miramontes_1964.jpg" alt="Luis Suárez Miramontes" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Luis Suárez Miramontes</h2>
+                <p class="periodo">1957 - 1972</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="14">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="32">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Luis Suárez Miramontes foi um dos maiores jogadores da história do futebol espanhol. Foi eleito o melhor jogador da Europa em 1960 e conquistou a Eurocopa de 1964. Com sua técnica e visão de jogo, foi fundamental no meio-campo espanhol durante os anos 1960.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Emilio Butragueño -->
+        <section class="secao-jogador" data-jogador="butragueno">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/miramontes_1964.jpg" alt="Luis Suárez Miramontes" class="img-jogador img-anterior">
+                <img src="imagens/espanha/butragueno_1982.jpg" alt="Emilio Butragueño" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Emilio Butragueño</h2>
+                <p class="periodo">1984 - 1992</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="26">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="69">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Emilio Butragueño foi um dos maiores atacantes da história do futebol espanhol. Famoso por sua técnica, movimentação e capacidade de finalização, foi fundamental no ataque espanhol durante os anos 1980. Marcou 26 gols em 69 jogos pela seleção.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Raúl -->
+        <section class="secao-jogador" data-jogador="raul">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/butragueno_1982.jpg" alt="Emilio Butragueño" class="img-jogador img-anterior">
+                <img src="imagens/espanha/raul_2006.jpg" alt="Raúl" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Raúl</h2>
+                <p class="periodo">1996 - 2006</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="44">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="102">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Raúl foi um dos maiores atacantes da história do futebol espanhol. Foi o maior artilheiro da seleção espanhola até ser superado por David Villa. Participou de três Copas do Mundo (1998, 2002 e 2006) e foi fundamental no ataque espanhol durante os anos 2000.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Carles Puyol -->
+        <section class="secao-jogador" data-jogador="puyol">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/raul_2006.jpg" alt="Raúl" class="img-jogador img-anterior">
+                <img src="imagens/espanha/puyol_2010.jpg" alt="Carles Puyol" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Carles Puyol</h2>
+                <p class="periodo">2000 - 2013</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="100">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Carles Puyol foi um dos melhores zagueiros da história do futebol espanhol. Campeão mundial em 2010 e europeu em 2008 e 2012, foi fundamental na defesa espanhola durante os anos 2000. Com sua liderança, técnica e determinação, foi um dos pilares da equipe espanhola.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Iker Casillas -->
+        <section class="secao-jogador" data-jogador="casillas">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/puyol_2010.jpg" alt="Carles Puyol" class="img-jogador img-anterior">
+                <img src="imagens/espanha/casillas_2010.jpg" alt="Iker Casillas" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Iker Casillas</h2>
+                <p class="periodo">2000 - 2016</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="167">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Iker Casillas é o jogador com mais partidas pela seleção espanhola (167 jogos). Campeão mundial em 2010 e europeu em 2008 e 2012, foi fundamental na conquista dos títulos. Com seus reflexos, liderança e capacidade de decisão, é considerado um dos melhores goleiros da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Xavi -->
+        <section class="secao-jogador" data-jogador="xavi">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/casillas_2010.jpg" alt="Iker Casillas" class="img-jogador img-anterior">
+                <img src="imagens/espanha/xavi_2012.jpg" alt="Xavi" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Xavi</h2>
+                <p class="periodo">2000 - 2015</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="13">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="133">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Xavi foi o maestro do meio-campo espanhol. Campeão mundial em 2010 e europeu em 2008 e 2012, foi fundamental na conquista dos títulos. Com sua visão de jogo, passes precisos e controle de ritmo, é considerado um dos melhores meio-campistas da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- David Villa -->
+        <section class="secao-jogador" data-jogador="villa">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/xavi_2012.jpg" alt="Xavi" class="img-jogador img-anterior">
+                <img src="imagens/espanha/villa_2010.jpg" alt="David Villa" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>David Villa</h2>
+                <p class="periodo">2005 - 2017</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="59">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="98">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">David Villa é o maior artilheiro da história da seleção espanhola (59 gols). Campeão mundial em 2010 e europeu em 2008, foi fundamental na conquista dos títulos. Foi artilheiro da Eurocopa de 2008 e da Copa do Mundo de 2010, sendo fundamental no ataque espanhol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Andrés Iniesta -->
+        <section class="secao-jogador" data-jogador="iniesta">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/villa_2010.jpg" alt="David Villa" class="img-jogador img-anterior">
+                <img src="imagens/espanha/iniesta_2010.jpg" alt="Andrés Iniesta" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Andrés Iniesta</h2>
+                <p class="periodo">2006 - 2018</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="13">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="131">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Andrés Iniesta foi fundamental na conquista do título mundial de 2010, marcando o gol decisivo na final contra a Holanda. Campeão mundial e europeu (2008 e 2012), foi eleito o melhor jogador da Eurocopa de 2012. Com sua técnica, visão de jogo e capacidade de decidir jogos importantes, é considerado um dos melhores meio-campistas da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Sergio Ramos -->
+        <section class="secao-jogador" data-jogador="ramos">
+            <div class="imagem-parallax">
+                <img src="imagens/espanha/iniesta_2010.jpg" alt="Andrés Iniesta" class="img-jogador img-anterior">
+                <img src="imagens/espanha/ramos_2014.jpg" alt="Sergio Ramos" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Sergio Ramos</h2>
+                <p class="periodo">2005 - 2021</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="23">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="180">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Sergio Ramos é o jogador com mais partidas pela seleção espanhola (180 jogos). Campeão mundial em 2010 e europeu em 2008 e 2012, foi fundamental na conquista dos títulos. Com sua liderança, técnica e capacidade de marcar gols decisivos, é considerado um dos melhores zagueiros da história do futebol.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Adicione aqui o arquivo de música espanhola em formato MP3 -->
+        <source src="Copa de 82 - Voa Canarinho.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="script-espanha.js"></script>
+</body>
+</html>

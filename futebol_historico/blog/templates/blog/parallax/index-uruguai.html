@@ -1,0 +1,490 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Uruguaia</title>
+    <link rel="stylesheet" href="{% static 'blog/parallax/styles-uruguai.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'blog/parallax/imagens/uruguai/uruguay-national-football-team-seeklogo.png' %}">
+
+            {% load sass_tags %}
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_variables.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_header.scss' %}">
+    <style>        /* Header de Navegação para Parallax - Usando o mesmo estilo do site */
+        .parallax-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .parallax-header.visivel {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .parallax-header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Ajustar espaçamento do body quando header está visível */
+        body {
+            padding-top: 0;
+        }
+        
+        body.header-visivel {
+            padding-top: 80px;
+        }
+        
+        /* Garantir que o header parallax use o mesmo estilo */
+        .parallax-header .header-principal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+        
+        /* Esconder menu de países na tela inicial */
+        .menu-paises {
+            display: none !important;
+        }
+        
+        body.header-visivel .menu-paises {
+            display: block !important;
+        }
+        
+        /* Travar scroll na tela inicial */
+        body.tela-inicial-ativa {
+            overflow: hidden;
+            height: 100vh;
+        }</style>
+</head>
+<body class="tela-inicial-ativa">
+    <!-- Header de Navegação -->
+    <header class="parallax-header hidden" id="parallaxHeader" role="banner">
+        <div class="header-principal">
+            <nav class="container header__nav" role="navigation" aria-label="Menu principal">
+                <div class="header__nav--menu-hamburguer">
+                    <label class="mobile-menu-button hamburger-icon" aria-label="Abrir menu"></label>
+                    <label class="mobile-menu-button close-icon" aria-label="Fechar menu"></label>
+                </div>
+                <div class="header__nav--menu" id="menu-principal" role="menubar">
+                    <ul class="menu-items">
+                        <li role="none">
+                            <a href="{% url 'index' %}" role="menuitem">Início</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'timeline_copas' %}" role="menuitem">Copas</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'selecoes' %}" role="menuitem">Seleções</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'times' %}" role="menuitem">Times</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'jogadores_page' %}" role="menuitem">Jogadores</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'estadio_list' %}" role="menuitem">Estádios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="{% static 'blog/parallax/Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="{% static 'blog/parallax/imagens/uruguai/uruguay-national-football-team-seeklogo.png' %}" alt="Uruguai" class="logo-uruguai">
+            <h1 class="titulo-principal">Historia de los Campeones</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Uruguaia</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Comenzar Experiencia</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Alcides Ghiggia -->
+        <section class="secao-jogador" data-jogador="ghiggia">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/alcides_ghiggia_1950.jpg' %}" alt="Alcides Ghiggia" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Alcides Ghiggia</h2>
+                <p class="periodo">1950 - 1952</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="12">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Alcides Ghiggia foi o autor do gol que deu o título mundial ao Uruguai em 1950, no famoso "Maracanaço". Marcou o gol decisivo na final contra o Brasil, conquistando o segundo título mundial uruguaio. É um dos maiores heróis da história do futebol uruguaio.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Pedro Rocha -->
+        <section class="secao-jogador" data-jogador="rocha">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/alcides_ghiggia_1950.jpg' %}" alt="Alcides Ghiggia" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/pedro_rocha_1970.jpg' %}" alt="Pedro Rocha" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Pedro Rocha</h2>
+                <p class="periodo">1961 - 1974</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="17">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="52">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Pedro Rocha foi um dos melhores meio-campistas da história do futebol uruguaio. Participou de três Copas do Mundo (1962, 1966 e 1970) e foi fundamental no meio-campo uruguaio durante os anos 1960 e 1970. Com sua técnica e visão de jogo, foi um dos pilares da equipe uruguaia.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Ladislao Mazurkiewicz -->
+        <section class="secao-jogador" data-jogador="mazurkiewicz">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/pedro_rocha_1970.jpg' %}" alt="Pedro Rocha" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/Ladislao Mazurkiewicz_1970.jpg' %}" alt="Ladislao Mazurkiewicz" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Ladislao Mazurkiewicz</h2>
+                <p class="periodo">1965 - 1974</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="36">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Ladislao Mazurkiewicz foi um dos melhores goleiros da história do futebol uruguaio. Participou de duas Copas do Mundo (1966 e 1970) e foi eleito o melhor goleiro da Copa de 1970. Com seus reflexos e capacidade de decisão, foi fundamental na defesa uruguaia.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Enzo Francescoli -->
+        <section class="secao-jogador" data-jogador="francescoli">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/Ladislao Mazurkiewicz_1970.jpg' %}" alt="Ladislao Mazurkiewicz" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/francescoli_1994.jpg' %}" alt="Enzo Francescoli" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Enzo Francescoli</h2>
+                <p class="periodo">1982 - 1997</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="17">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="73">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Enzo Francescoli foi um dos maiores jogadores da história do futebol uruguaio. Participou de três Copas do Mundo (1986, 1990 e 1994) e foi fundamental no meio-campo uruguaio durante os anos 1980 e 1990. Com sua técnica e elegância, é considerado um dos melhores camisas 10 da história uruguaia.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Álvaro Recoba -->
+        <section class="secao-jogador" data-jogador="recoba">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/francescoli_1994.jpg' %}" alt="Enzo Francescoli" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/recoba_2002.jpg' %}" alt="Álvaro Recoba" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Álvaro Recoba</h2>
+                <p class="periodo">1995 - 2007</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="11">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="69">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Álvaro Recoba foi um dos melhores atacantes da história do futebol uruguaio. Participou de duas Copas do Mundo (2002 e 2006) e foi fundamental no ataque uruguaio durante os anos 2000. Famoso por seus chutes de falta e capacidade de criar jogadas, foi um dos pilares da equipe uruguaia.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Diego Forlán -->
+        <section class="secao-jogador" data-jogador="forlan">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/recoba_2002.jpg' %}" alt="Álvaro Recoba" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/forlan_2010.jpg' %}" alt="Diego Forlán" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Diego Forlán</h2>
+                <p class="periodo">2002 - 2014</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="36">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="112">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Diego Forlán foi um dos maiores atacantes da história do futebol uruguaio. Foi eleito o melhor jogador da Copa do Mundo de 2010 e artilheiro do torneio. Participou de três Copas do Mundo e foi fundamental na conquista da Copa América de 2011. Marcou 36 gols em 112 jogos pela seleção.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Diego Godín -->
+        <section class="secao-jogador" data-jogador="godin">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/forlan_2010.jpg' %}" alt="Diego Forlán" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/godin_2018.jpg' %}" alt="Diego Godín" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Diego Godín</h2>
+                <p class="periodo">2005 - 2019</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="8">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="159">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Diego Godín é o jogador com mais partidas pela seleção uruguaia (159 jogos). Participou de quatro Copas do Mundo e foi fundamental na conquista da Copa América de 2011. Com sua liderança, técnica e capacidade de marcar gols decisivos, é considerado um dos melhores zagueiros da história do futebol uruguaio.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Luis Suárez -->
+        <section class="secao-jogador" data-jogador="suarez">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/godin_2018.jpg' %}" alt="Diego Godín" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/suarez_2014.jpg' %}" alt="Luis Suárez" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Luis Suárez</h2>
+                <p class="periodo">2007 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="68">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="138">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Luis Suárez é o maior artilheiro da história da seleção uruguaia (68 gols). Participou de quatro Copas do Mundo e foi fundamental na conquista da Copa América de 2011. Com sua capacidade de finalização, técnica e determinação, é considerado um dos melhores atacantes da história do futebol uruguaio.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Edinson Cavani -->
+        <section class="secao-jogador" data-jogador="cavani">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/uruguai/suarez_2014.jpg' %}" alt="Luis Suárez" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/uruguai/cavani_2014.jpg' %}" alt="Edinson Cavani" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Edinson Cavani</h2>
+                <p class="periodo">2008 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="58">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="136">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Edinson Cavani é o segundo maior artilheiro da história da seleção uruguaia (58 gols). Participou de quatro Copas do Mundo e foi fundamental na conquista da Copa América de 2011. Com sua capacidade de finalização, movimentação e determinação, é um dos pilares da equipe uruguaia atual.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Adicione aqui o arquivo de música uruguaia em formato MP3 -->
+        <source src="{% static 'blog/parallax/Copa de 82 - Voa Canarinho.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="{% static 'blog/parallax/script-uruguai.js' %}"></script>    
+    <script>
+        // Esconder header durante scroll para baixo, mostrar ao scrollar para cima
+        (function() {
+            let lastScroll = 0;
+            const parallaxHeader = document.getElementById('parallaxHeader');
+            
+            if (parallaxHeader) {
+                window.addEventListener('scroll', function() {
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Só esconder após passar da tela inicial
+                    if (currentScroll > 100) {
+                        if (currentScroll > lastScroll && currentScroll > 200) {
+                            // Scrollando para baixo - esconder
+                            parallaxHeader.classList.add('hidden');
+                        } else {
+                            // Scrollando para cima - mostrar
+                            parallaxHeader.classList.remove('hidden');
+                        }
+                    } else {
+                        // Sempre mostrar no topo
+                        parallaxHeader.classList.remove('hidden');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        })();
+    </script>
+    </body>
+</html>

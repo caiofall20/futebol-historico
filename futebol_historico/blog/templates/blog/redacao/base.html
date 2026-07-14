@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Redação{% endblock %} — Futebol Histórico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/css/redacao.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="redacao-body">
+    <header class="redacao-header">
+        <div class="redacao-header__inner">
+            <a href="{% url 'redacao_home' %}" class="redacao-logo">Redação · Jogadores</a>
+            <nav class="redacao-nav">
+                <a href="{% url 'redacao_criar' %}" class="redacao-btn redacao-btn--primary">+ Novo jogador</a>
+                <a href="{% url 'jogadores_page' %}" target="_blank" rel="noopener">Ver no portal</a>
+                <a href="/admin/">Admin</a>
+                <span class="redacao-user">{{ user.get_full_name|default:user.username }}</span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="redacao-main">
+        {% if messages %}
+        <ul class="redacao-messages">
+            {% for message in messages %}
+            <li class="redacao-message redacao-message--{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

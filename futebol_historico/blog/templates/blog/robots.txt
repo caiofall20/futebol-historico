@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /grappelli/
+Disallow: /ckeditor/
+Disallow: /media/uploads/
+Disallow: /staticfiles/
+
+# Sitemap
+Sitemap: https://seudominio.com/sitemap.xml
+
+

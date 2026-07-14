@@ -1,0 +1,426 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Inglesa</title>
+    <link rel="stylesheet" href="{% static 'blog/parallax/styles-inglaterra.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'blog/parallax/imagens/inglaterra/england-national-team-logo.svg' %}">
+
+            {% load sass_tags %}
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_variables.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_header.scss' %}">
+    <style>        /* Header de Navegação para Parallax - Usando o mesmo estilo do site */
+        .parallax-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .parallax-header.visivel {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .parallax-header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Ajustar espaçamento do body quando header está visível */
+        body {
+            padding-top: 0;
+        }
+        
+        body.header-visivel {
+            padding-top: 80px;
+        }
+        
+        /* Garantir que o header parallax use o mesmo estilo */
+        .parallax-header .header-principal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+        
+        /* Esconder menu de países na tela inicial */
+        .menu-paises {
+            display: none !important;
+        }
+        
+        body.header-visivel .menu-paises {
+            display: block !important;
+        }
+        
+        /* Travar scroll na tela inicial */
+        body.tela-inicial-ativa {
+            overflow: hidden;
+            height: 100vh;
+        }</style>
+</head>
+<body class="tela-inicial-ativa">
+    <!-- Header de Navegação -->
+    <header class="parallax-header hidden" id="parallaxHeader" role="banner">
+        <div class="header-principal">
+            <nav class="container header__nav" role="navigation" aria-label="Menu principal">
+                <div class="header__nav--menu-hamburguer">
+                    <label class="mobile-menu-button hamburger-icon" aria-label="Abrir menu"></label>
+                    <label class="mobile-menu-button close-icon" aria-label="Fechar menu"></label>
+                </div>
+                <div class="header__nav--menu" id="menu-principal" role="menubar">
+                    <ul class="menu-items">
+                        <li role="none">
+                            <a href="{% url 'index' %}" role="menuitem">Início</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'timeline_copas' %}" role="menuitem">Copas</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'selecoes' %}" role="menuitem">Seleções</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'times' %}" role="menuitem">Times</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'jogadores_page' %}" role="menuitem">Jogadores</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'estadio_list' %}" role="menuitem">Estádios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="{% static 'blog/parallax/Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="{% static 'blog/parallax/imagens/inglaterra/england-national-team-logo.svg' %}" alt="Inglaterra" class="logo-inglaterra">
+            <h1 class="titulo-principal">History of Champions</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Inglesa</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Begin Experience</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Bobby Charlton -->
+        <section class="secao-jogador" data-jogador="charlton">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/bobby_charlton_1966.jpg' %}" alt="Bobby Charlton" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Bobby Charlton</h2>
+                <p class="periodo">1958 - 1970</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="49">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="106">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Sir Bobby Charlton é um dos maiores jogadores da história do futebol inglês. Campeão mundial em 1966, foi fundamental na conquista do único título mundial da Inglaterra. Foi eleito o melhor jogador da Europa em 1966 e é considerado um dos melhores meio-campistas da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Bobby Moore -->
+        <section class="secao-jogador" data-jogador="moore">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/bobby_charlton_1966.jpg' %}" alt="Bobby Charlton" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/bobby_moore_1979.jpg' %}" alt="Bobby Moore" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Bobby Moore</h2>
+                <p class="periodo">1962 - 1973</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="108">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Bobby Moore foi o capitão da seleção inglesa campeã mundial em 1966. Considerado um dos melhores zagueiros da história do futebol, foi fundamental na defesa inglesa durante os anos 1960 e 1970. Sua elegância, técnica e liderança o tornaram um ícone do futebol inglês.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Gary Lineker -->
+        <section class="secao-jogador" data-jogador="lineker">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/bobby_moore_1979.jpg' %}" alt="Bobby Moore" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/liniker_1988.jpg' %}" alt="Gary Lineker" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Gary Lineker</h2>
+                <p class="periodo">1984 - 1992</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="48">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="80">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Gary Lineker é um dos maiores artilheiros da história da seleção inglesa (48 gols). Foi artilheiro da Copa do Mundo de 1986 com 6 gols. Famoso por sua capacidade de finalização e movimentação, foi fundamental no ataque inglês durante os anos 1980.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Rio Ferdinand -->
+        <section class="secao-jogador" data-jogador="ferdinand">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/liniker_1988.jpg' %}" alt="Gary Lineker" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/ferdinand_2002.jpg' %}" alt="Rio Ferdinand" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Rio Ferdinand</h2>
+                <p class="periodo">1997 - 2011</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="81">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Rio Ferdinand foi um dos melhores zagueiros da história do futebol inglês. Participou de três Copas do Mundo (1998, 2002 e 2006) e foi fundamental na defesa inglesa durante os anos 2000. Com sua técnica, velocidade e capacidade de saída de bola, foi um dos pilares da equipe inglesa.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Frank Lampard -->
+        <section class="secao-jogador" data-jogador="lampard">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/ferdinand_2002.jpg' %}" alt="Rio Ferdinand" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/lampard_2006.jpg' %}" alt="Frank Lampard" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Frank Lampard</h2>
+                <p class="periodo">1999 - 2014</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="29">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="106">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Frank Lampard foi um dos melhores meio-campistas da história do futebol inglês. Participou de três Copas do Mundo (2006, 2010 e 2014) e foi fundamental no meio-campo inglês durante os anos 2000. Famoso por seus chutes de longa distância e capacidade de chegar ao gol, foi um dos maiores artilheiros entre os meio-campistas.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Wayne Rooney -->
+        <section class="secao-jogador" data-jogador="rooney">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/lampard_2006.jpg' %}" alt="Frank Lampard" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/rooney_2004.jpg' %}" alt="Wayne Rooney" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Wayne Rooney</h2>
+                <p class="periodo">2003 - 2018</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="53">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="120">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Wayne Rooney é o maior artilheiro da história da seleção inglesa (53 gols). Participou de três Copas do Mundo (2006, 2010 e 2014) e foi fundamental no ataque inglês durante mais de uma década. Com sua técnica, força física e capacidade de finalização, é considerado um dos melhores atacantes da história do futebol inglês.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Harry Kane -->
+        <section class="secao-jogador" data-jogador="kane">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/rooney_2004.jpg' %}" alt="Wayne Rooney" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/inglaterra/kane_2022.jpg' %}" alt="Harry Kane" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Harry Kane</h2>
+                <p class="periodo">2015 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="65">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="95">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Harry Kane é um dos maiores atacantes da seleção inglesa atual. Artilheiro da Copa do Mundo de 2018, é o segundo maior artilheiro da história da seleção inglesa. Com sua capacidade de finalização, movimentação e liderança, é um dos pilares da equipe inglesa atual.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Adicione aqui o arquivo de música inglesa em formato MP3 -->
+        <source src="{% static 'blog/parallax/Copa de 82 - Voa Canarinho.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="{% static 'blog/parallax/script-inglaterra.js' %}"></script>    
+    <script>
+        // Esconder header durante scroll para baixo, mostrar ao scrollar para cima
+        (function() {
+            let lastScroll = 0;
+            const parallaxHeader = document.getElementById('parallaxHeader');
+            
+            if (parallaxHeader) {
+                window.addEventListener('scroll', function() {
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Só esconder após passar da tela inicial
+                    if (currentScroll > 100) {
+                        if (currentScroll > lastScroll && currentScroll > 200) {
+                            // Scrollando para baixo - esconder
+                            parallaxHeader.classList.add('hidden');
+                        } else {
+                            // Scrollando para cima - mostrar
+                            parallaxHeader.classList.remove('hidden');
+                        }
+                    } else {
+                        // Sempre mostrar no topo
+                        parallaxHeader.classList.remove('hidden');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        })();
+    </script>
+    </body>
+</html>

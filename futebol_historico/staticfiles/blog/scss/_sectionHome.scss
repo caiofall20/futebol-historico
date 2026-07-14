@@ -1,0 +1,106 @@
+.section-home{
+    height: calc(100vh - 12vh);
+    padding-top: 7rem;
+    display: grid;
+    grid-template-columns: 4fr 1fr; 
+    grid-template-areas: 
+        "info img"; 
+    align-items: center; 
+    justify-items: center; 
+    gap: 10rem; 
+
+    @media(max-width:768px) {
+        grid-template-columns: none;
+        grid-template-rows: 1fr;
+        text-align: center;
+        gap: 0px;
+    }
+
+    &--content__info {
+        grid-area: info;
+        text-align: left;
+
+        h1 {
+            text-transform: uppercase;
+            color: $secondary-color;
+            text-shadow: 1px 1px 3px black;
+            font-family: 'Chakra Petch', sans-serif;
+            font-size: clamp(3.5rem, calc(2.5rem + 2vw), 7rem);
+            position: relative;
+
+            
+            span {
+                font-size: 3rem;
+                text-transform: lowercase;
+                font-family: 'Gilda Display', sans-serif;
+            }
+        }
+        p {
+            font-size: clamp(1rem, calc(0.904rem + 0.481vw), 1.4rem);
+            font-weight: 200;
+            color: $secondary-color;
+            font-family: 'Poppins', sans-serif;
+            text-align: justify;
+
+            span {
+                font-weight: bold;
+            }
+
+            @media(min-width:768px) {
+                max-width: 95%;
+            }
+        }
+
+        @media(max-width:768px) {
+            padding: 1rem;
+        }
+    }
+
+    &-content__info-img {
+        grid-area: img; 
+        display: flex;
+        justify-content: center; 
+        position: relative;
+
+        &-bola {
+            position: absolute;
+            top: 20%;
+            right: 64%;
+            z-index: 1;
+            animation: spin 80s linear infinite;
+            width: clamp(15rem, calc(12rem + 12vw), 25rem);
+            height: clamp(15rem, calc(12rem + 12vw), 25rem);
+            @media(max-width:768px) {
+                display: none;
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 25rem;
+            height: 25rem;
+            right: 17rem;
+            top: 5rem;
+            background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
+            filter: blur(50px);
+            z-index: -1;
+            border-radius: 50%;
+            opacity: 0.3;
+
+            @media(max-width:768px) {
+                top: -6rem;
+            }
+        }
+
+        &-mosaico {
+            opacity: .7;
+            width: clamp(20rem, calc(20vw + 20rem), 40rem);
+            height: clamp(20rem, calc(20vw + 15rem), 40rem);
+
+            @media(max-width:768px) {
+                display: none;
+            }
+        }
+    }
+}

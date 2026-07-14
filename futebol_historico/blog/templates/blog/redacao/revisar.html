@@ -1,0 +1,188 @@
+{% extends 'blog/redacao/base.html' %}
+{% load static %}
+
+{% block title %}Revisar — {{ rascunho.nome }}{% endblock %}
+
+{% block extra_head %}
+{{ form.media }}
+<script src="{% static 'blog/js/redacao-geracao.js' %}" defer></script>
+<script src="{% static 'blog/js/redacao-revisar-preview.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div id="redacao-revisar-config"
+     data-status="{{ rascunho.status }}"
+     data-status-url="{% url 'redacao_api_status' pk=rascunho.pk %}"
+     hidden></div>
+
+<section class="redacao-panel" id="redacao-revisar-panel" {% if rascunho.status == 'gerando' %}aria-busy="true"{% endif %}>
+    <h1>Revisar: {{ rascunho.nome }}</h1>
+    <p class="redacao-lead">Passo 2 de 3 — Confira os dados gerados. Ajuste o que precisar e publique quando estiver pronto.</p>
+
+    {% if rascunho.status == 'gerando' %}
+    <div class="redacao-alert redacao-alert--info">
+        Gerando conteúdo… esta página atualiza automaticamente quando terminar.
+    </div>
+    {% endif %}
+
+    {% if rascunho.status == 'erro' %}
+    <div class="redacao-alert redacao-alert--error">
+        <strong>Erro na última geração:</strong> {{ rascunho.mensagem_erro }}
+    </div>
+    {% endif %}
+
+    {% if llm_ativo %}
+    <p class="redacao-badge-llm">IA ativa na geração de textos</p>
+    {% endif %}
+
+    {% if dados_incompletos %}
+    <div class="redacao-alert redacao-alert--warning">
+        <strong>Dados incompletos.</strong> Nacionalidade ou datas podem não ter sido encontradas no Wikidata.
+        Preencha os campos abaixo ou use o <strong>nome completo</strong> e clique em <em>Gerar de novo</em>
+        (ex.: "Hidetoshi Nakata" em vez de "Nakata").
+    </div>
+    {% endif %}
+
+    {% if rascunho.fontes %}
+    <details class="redacao-fontes">
+        <summary>Fontes utilizadas</summary>
+        <pre>{{ rascunho.fontes }}</pre>
+        {% if rascunho.wikidata_id %}
+        <p><a href="https://www.wikidata.org/wiki/{{ rascunho.wikidata_id }}" target="_blank" rel="noopener">Abrir no Wikidata</a></p>
+        {% endif %}
+    </details>
+    {% endif %}
+
+    {% if rascunho.status != 'gerando' %}
+
+    <form method="post" enctype="multipart/form-data" class="redacao-form redacao-form--wide" id="redacao-form-revisar">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="redacao-alert redacao-alert--error">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <h2 class="redacao-subtitle redacao-subtitle--first">Dados do jogador</h2>
+        <p class="redacao-help">Edite nome, nacionalidade, datas de carreira, altura, pé, posições e títulos antes de publicar.</p>
+
+        <div class="redacao-grid-2 redacao-dados-jogador">
+            {% for field in dados_jogador_fields %}
+            <div class="redacao-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<p class="redacao-help">{{ field.help_text }}</p>{% endif %}
+                {% if field.errors %}<p class="redacao-error">{{ field.errors.0 }}</p>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="redacao-subtitle">Imagens</h2>
+        <p class="redacao-help">
+            A prévia atualiza ao escolher um arquivo. Clique em <strong>Salvar rascunho</strong> para gravar.
+            Para montar a carta com fundo e atributos, use o
+            <a href="{% url 'redacao_carta_editor' pk=rascunho.pk %}">editor completo da carta</a>.
+        </p>
+
+        <div class="redacao-imagens-grid">
+            <article class="redacao-imagem-card" id="redacao-card-foto">
+                <h3 class="redacao-imagem-card__title">Foto do jogador</h3>
+                <p class="redacao-imagem-card__hint">Usada na ficha e no editor de carta (recorte sem fundo funciona melhor).</p>
+                <figure class="redacao-preview-frame">
+                    <img
+                        data-preview-img
+                        id="redacao-preview-foto"
+                        src="{% if rascunho.imagem %}{{ rascunho.imagem.url }}?t={{ rascunho.atualizado_em|date:'U' }}{% endif %}"
+                        alt="Prévia da foto de {{ rascunho.nome }}"
+                        {% if not rascunho.imagem %}hidden{% endif %}
+                    >
+                    <p class="redacao-preview-placeholder" data-preview-empty {% if rascunho.imagem %}hidden{% endif %}>
+                        Nenhuma foto — escolha um arquivo abaixo
+                    </p>
+                </figure>
+                <div class="redacao-field redacao-field--file">
+                    <label for="{{ form.imagem.id_for_label }}">Substituir foto</label>
+                    {{ form.imagem }}
+                    {% if form.imagem.errors %}<p class="redacao-error">{{ form.imagem.errors.0 }}</p>{% endif %}
+                </div>
+            </article>
+
+            <article class="redacao-imagem-card" id="redacao-card-carta">
+                <h3 class="redacao-imagem-card__title">Carta FUT (listagem)</h3>
+                <p class="redacao-imagem-card__hint">
+                    PNG exibido na listagem do portal.
+                    {% if rascunho.jogador_publicado %}
+                    Ao salvar no editor, a carta publicada é atualizada automaticamente.
+                    {% else %}
+                    Publique o jogador para ela aparecer na listagem.
+                    {% endif %}
+                </p>
+                <figure class="redacao-preview-frame redacao-preview-frame--carta">
+                    <img
+                        data-preview-img
+                        id="redacao-preview-carta"
+                        src="{% if rascunho.carta %}{{ rascunho.carta.url }}?t={{ rascunho.atualizado_em|date:'U' }}{% endif %}"
+                        alt="Prévia da carta de {{ rascunho.nome }}"
+                        {% if not rascunho.carta %}hidden{% endif %}
+                    >
+                    <p class="redacao-preview-placeholder" data-preview-empty {% if rascunho.carta %}hidden{% endif %}>
+                        Nenhuma carta — use o editor ou envie um PNG
+                    </p>
+                </figure>
+                <div class="redacao-actions redacao-actions--inline redacao-actions--compact">
+                    <a href="{% url 'redacao_carta_editor' pk=rascunho.pk %}" class="redacao-btn redacao-btn--primary">
+                        Editor completo da carta
+                    </a>
+                </div>
+                <div class="redacao-field redacao-field--file">
+                    <label for="{{ form.carta.id_for_label }}">Substituir carta (PNG)</label>
+                    {{ form.carta }}
+                    {% if form.carta.errors %}<p class="redacao-error">{{ form.carta.errors.0 }}</p>{% endif %}
+                </div>
+            </article>
+        </div>
+
+        <h2 class="redacao-subtitle">Biografia e carreira</h2>
+        <div class="redacao-field">
+            <label for="{{ form.biografia.id_for_label }}">{{ form.biografia.label }}</label>
+            {{ form.biografia }}
+            {% if form.biografia.errors %}<p class="redacao-error">{{ form.biografia.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="redacao-field">
+            <label for="{{ form.carreira.id_for_label }}">{{ form.carreira.label }}</label>
+            {{ form.carreira }}
+            {% if form.carreira.errors %}<p class="redacao-error">{{ form.carreira.errors.0 }}</p>{% endif %}
+        </div>
+
+        <div class="redacao-actions">
+            <button type="submit" name="action" value="salvar" class="redacao-btn">Salvar rascunho</button>
+            <button type="submit" name="action" value="publicar" class="redacao-btn redacao-btn--primary">
+                Publicar no portal
+            </button>
+        </div>
+    </form>
+
+    <form method="post" class="redacao-form-inline" id="redacao-form-regenerar"
+          data-regenerar-url="{% url 'redacao_api_regenerar' pk=rascunho.pk %}">
+        {% csrf_token %}
+        <label>Regenerar a partir das fontes:</label>
+        <input type="text" name="nome_busca" value="{{ rascunho.nome }}" class="redacao-input">
+        <button type="submit" class="redacao-btn redacao-btn--secondary" {% if rascunho.status == 'gerando' %}disabled{% endif %}>Gerar de novo</button>
+    </form>
+
+    <form method="post" action="{% url 'redacao_excluir' pk=rascunho.pk %}" class="redacao-form-inline" onsubmit="return confirm('Excluir este rascunho?');">
+        {% csrf_token %}
+        <button type="submit" class="redacao-btn redacao-btn--danger">Excluir rascunho</button>
+    </form>
+    {% endif %}
+
+    {% if preview_url %}
+    <p><a href="{{ preview_url }}" target="_blank" rel="noopener">Ver página publicada no portal →</a></p>
+    {% endif %}
+
+    <div class="redacao-steps">
+        <div class="redacao-step redacao-step--done"><span>1</span> Nome</div>
+        <div class="redacao-step redacao-step--active"><span>2</span> Revisar</div>
+        <div class="redacao-step"><span>3</span> Publicar</div>
+    </div>
+</section>
+{% endblock %}

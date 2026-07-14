@@ -1,0 +1,282 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Política de Privacidade" %} - {% trans "Futebol Histórico" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .privacy-page {
+        min-height: 100vh;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        color: #EDF2F4;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        padding-top: 100px;
+        padding-bottom: 4rem;
+    }
+
+    .privacy-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .privacy-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .privacy-header h1 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-header p {
+        color: #8D99AE;
+        font-size: 1.1rem;
+    }
+
+    .privacy-content {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .privacy-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .privacy-section h2 {
+        color: #66AAFF;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-family: 'Bebas Neue', cursive;
+    }
+
+    .privacy-section h3 {
+        color: #EDF2F4;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .privacy-section p {
+        color: #8D99AE;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-section ul {
+        color: #8D99AE;
+        line-height: 1.8;
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-section li {
+        margin-bottom: 0.5rem;
+    }
+
+    .last-updated {
+        text-align: center;
+        color: #8D99AE;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(102,170,255,.2);
+    }
+
+    @media (max-width: 768px) {
+        .privacy-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .privacy-container {
+            padding: 0 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="privacy-page">
+    <div class="privacy-container">
+        <div class="privacy-header">
+            <h1>{% trans "Política de Privacidade" %}</h1>
+            <p>{% trans "Última atualização:" %} {{ "now"|date:"d/m/Y" }}</p>
+        </div>
+
+        <div class="privacy-content">
+            <div class="privacy-section">
+                <h2>1. {% trans "Introdução" %}</h2>
+                <p>
+                    {% trans "O Futebol Histórico ('nós', 'nosso' ou 'site') está comprometido em proteger sua privacidade. Esta Política de Privacidade explica como coletamos, usamos, divulgamos e protegemos suas informações quando você visita nosso site." %}
+                </p>
+                <p>
+                    {% trans "Ao usar nosso site, você concorda com a coleta e uso de informações de acordo com esta política." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>2. {% trans "Informações que Coletamos" %}</h2>
+                
+                <h3>2.1 {% trans "Informações Fornecidas por Você" %}</h3>
+                <p>{% trans "Podemos coletar informações que você nos fornece diretamente, incluindo:" %}</p>
+                <ul>
+                    <li>{% trans "Nome e endereço de e-mail (quando você se inscreve em nossa newsletter)" %}</li>
+                    <li>{% trans "Comentários e feedback que você envia" %}</li>
+                    <li>{% trans "Informações de contato quando você nos contata" %}</li>
+                </ul>
+
+                <h3>2.2 {% trans "Informações Coletadas Automaticamente" %}</h3>
+                <p>{% trans "Quando você visita nosso site, coletamos automaticamente:" %}</p>
+                <ul>
+                    <li>{% trans "Endereço IP" %}</li>
+                    <li>{% trans "Tipo de navegador e versão" %}</li>
+                    <li>{% trans "Páginas visitadas e tempo gasto em cada página" %}</li>
+                    <li>{% trans "Data e hora da visita" %}</li>
+                    <li>{% trans "Referrer (site de origem)" %}</li>
+                </ul>
+
+                <h3>2.3 {% trans "Cookies e Tecnologias Similares" %}</h3>
+                <p>
+                    {% trans "Usamos cookies e tecnologias similares para melhorar sua experiência, analisar o tráfego do site e personalizar conteúdo. Você pode controlar cookies através das configurações do seu navegador." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>3. {% trans "Como Usamos suas Informações" %}</h2>
+                <p>{% trans "Usamos as informações coletadas para:" %}</p>
+                <ul>
+                    <li>{% trans "Fornecer, manter e melhorar nossos serviços" %}</li>
+                    <li>{% trans "Enviar newsletters e atualizações (com seu consentimento)" %}</li>
+                    <li>{% trans "Responder a suas perguntas e solicitações" %}</li>
+                    <li>{% trans "Analisar o uso do site e melhorar a experiência do usuário" %}</li>
+                    <li>{% trans "Detectar e prevenir fraudes e abusos" %}</li>
+                    <li>{% trans "Cumprir obrigações legais" %}</li>
+                </ul>
+            </div>
+
+            <div class="privacy-section">
+                <h2>4. {% trans "Compartilhamento de Informações" %}</h2>
+                <p>{% trans "Não vendemos suas informações pessoais. Podemos compartilhar informações apenas nas seguintes situações:" %}</p>
+                
+                <h3>4.1 {% trans "Prestadores de Serviços" %}</h3>
+                <p>
+                    {% trans "Podemos compartilhar informações com prestadores de serviços terceirizados que nos ajudam a operar o site, como:" %}
+                </p>
+                <ul>
+                    <li>{% trans "Google Analytics - para análise de tráfego" %}</li>
+                    <li>{% trans "Google AdSense - para exibição de anúncios" %}</li>
+                    <li>{% trans "Serviços de hospedagem e infraestrutura" %}</li>
+                </ul>
+
+                <h3>4.2 {% trans "Requisitos Legais" %}</h3>
+                <p>
+                    {% trans "Podemos divulgar informações se exigido por lei ou em resposta a processos legais válidos." %}
+                </p>
+
+                <h3>4.3 {% trans "Com seu Consentimento" %}</h3>
+                <p>
+                    {% trans "Podemos compartilhar informações com seu consentimento explícito." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>5. {% trans "Google AdSense e Anúncios" %}</h2>
+                <p>
+                    {% trans "Nosso site usa o Google AdSense para exibir anúncios. O Google pode usar cookies para personalizar anúncios com base em suas visitas anteriores ao nosso site e outros sites." %}
+                </p>
+                <p>
+                    {% trans "Você pode optar por não receber anúncios personalizados visitando" %} 
+                    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" style="color: #66AAFF;">Google Ads Settings</a>.
+                </p>
+                <p>
+                    {% trans "Para mais informações sobre como o Google coleta e usa dados, consulte a" %} 
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #66AAFF;">Política de Privacidade do Google</a>.
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>6. {% trans "Google Analytics" %}</h2>
+                <p>
+                    {% trans "Usamos o Google Analytics para analisar o uso do site. O Google Analytics coleta informações sobre como você usa o site e usa cookies para armazenar essas informações." %}
+                </p>
+                <p>
+                    {% trans "Para mais informações, consulte a" %} 
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: #66AAFF;">Política de Privacidade do Google</a>.
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>7. {% trans "Segurança dos Dados" %}</h2>
+                <p>
+                    {% trans "Implementamos medidas de segurança técnicas e organizacionais apropriadas para proteger suas informações contra acesso não autorizado, alteração, divulgação ou destruição." %}
+                </p>
+                <p>
+                    {% trans "No entanto, nenhum método de transmissão pela Internet ou armazenamento eletrônico é 100% seguro." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>8. {% trans "Seus Direitos" %}</h2>
+                <p>{% trans "Você tem o direito de:" %}</p>
+                <ul>
+                    <li>{% trans "Acessar suas informações pessoais" %}</li>
+                    <li>{% trans "Corrigir informações incorretas" %}</li>
+                    <li>{% trans "Solicitar a exclusão de suas informações" %}</li>
+                    <li>{% trans "Optar por não receber comunicações de marketing" %}</li>
+                    <li>{% trans "Desativar cookies através das configurações do navegador" %}</li>
+                </ul>
+                <p>
+                    {% trans "Para exercer esses direitos, entre em contato conosco através do e-mail:" %} 
+                    <a href="mailto:contato@futebolhistorico.com" style="color: #66AAFF;">contato@futebolhistorico.com</a>
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>9. {% trans "Retenção de Dados" %}</h2>
+                <p>
+                    {% trans "Mantemos suas informações pessoais apenas pelo tempo necessário para cumprir os propósitos descritos nesta política, a menos que um período de retenção mais longo seja exigido ou permitido por lei." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>10. {% trans "Alterações nesta Política" %}</h2>
+                <p>
+                    {% trans "Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos você sobre quaisquer alterações publicando a nova política nesta página e atualizando a data de 'Última atualização'." %}
+                </p>
+                <p>
+                    {% trans "Recomendamos que você revise esta política periodicamente para se manter informado sobre como protegemos suas informações." %}
+                </p>
+            </div>
+
+            <div class="privacy-section">
+                <h2>11. {% trans "Contato" %}</h2>
+                <p>
+                    {% trans "Se você tiver dúvidas sobre esta Política de Privacidade, entre em contato conosco:" %}
+                </p>
+                <ul>
+                    <li>{% trans "E-mail:" %} <a href="mailto:contato@futebolhistorico.com" style="color: #66AAFF;">contato@futebolhistorico.com</a></li>
+                    <li>{% trans "Site:" %} <a href="{% url 'index' %}" style="color: #66AAFF;">{% trans "Futebol Histórico" %}</a></li>
+                </ul>
+            </div>
+
+            <div class="last-updated">
+                <p>{% trans "Última atualização:" %} {{ "now"|date:"d de F de Y" }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

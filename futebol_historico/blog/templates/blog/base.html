@@ -1,12 +1,20 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ CURRENT_LANGUAGE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Universo da Bola{% endblock %}</title>
     {% load sass_tags %}
     <link rel="icon" type="image/x-icon" sizes="32x32" href="{% static 'blog/images/favicon.ico' %}">
+    
+    <!-- Preload crítico -->
+    <link rel="preload" href="{% sass_src 'blog/scss/_global.scss' %}" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Georama:ital,wdth,wght@0,87.5,100..900;1,87.5,100..900&family=Gilda+Display&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" as="style">
+    
+    <!-- CSS crítico -->
     <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
     <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -15,49 +23,99 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <main>
+    <!-- Skip link para acessibilidade -->
+    <a href="#main-content" class="skip-link" aria-label="{% trans 'Pular para conteúdo principal' %}">{% trans "Pular para conteúdo principal" %}</a>
+    
+    <main id="main-content" role="main">
         <div id="stars"></div>
         <div id="stars2"></div>
         <div id="stars3"></div>
 
         <!-- Header -->
-        <header>
+        <header role="banner">
             <div class="header-principal">
-                <nav class="container header__nav">
+                <nav class="container header__nav" role="navigation" aria-label="Menu principal">
                     <div class="header__nav--menu-hamburguer">
-                        <label class="mobile-menu-button hamburger-icon"></label>
-                        <label class="mobile-menu-button close-icon"></label>
+                        <button class="mobile-menu-button hamburger-icon" 
+                                aria-label="Abrir menu de navegação"
+                                aria-expanded="false"
+                                aria-controls="menu-principal">
+                            <span class="sr-only">Menu</span>
+                        </button>
+                        <button class="mobile-menu-button close-icon" 
+                                aria-label="Fechar menu de navegação"
+                                aria-expanded="true"
+                                aria-controls="menu-principal">
+                            <span class="sr-only">Fechar</span>
+                        </button>
                     </div>
-                    <div class="header__nav--menu">
+                    <div class="header__nav--menu" id="menu-principal" role="menubar">
                         <ul class="menu-items">
-                            <li><a href="{% url 'index' %}">Início</a></li>
-                            <li><a href="{% url 'selecoes' %}">Copas</a></li>
-                            <li><a href="{% url 'selecoes' %}">Seleções</a></li>
-                            <li><a href="{% url 'times' %}">Times</a></li>
-                            <li><a href="{% url 'jogadores_page' %}">Jogadores</a></li>
-                            <li><a href="{% url 'estadio_list' %}">Estádios</a></li>
+                            <li role="none">
+                                <a href="{% url 'index' %}" 
+                                   role="menuitem" 
+                                   aria-current="{% if request.resolver_match.url_name == 'index' %}page{% endif %}">{% trans "Início" %}</a>
+                            </li>
+                            <li role="none">
+                                <a href="{% url 'timeline_copas' %}" 
+                                   role="menuitem"
+                                   aria-current="{% if request.resolver_match.url_name == 'timeline_copas' %}page{% endif %}">{% trans "Copas" %}</a>
+                            </li>
+                            <li role="none">
+                                <a href="{% url 'selecoes' %}" 
+                                   role="menuitem"
+                                   aria-current="{% if request.resolver_match.url_name == 'selecoes' %}page{% endif %}">{% trans "Seleções" %}</a>
+                            </li>
+                            <li role="none">
+                                <a href="{% url 'times' %}" 
+                                   role="menuitem"
+                                   aria-current="{% if request.resolver_match.url_name == 'times' %}page{% endif %}">{% trans "Times" %}</a>
+                            </li>
+                            <li role="none">
+                                <a href="{% url 'jogadores_page' %}" 
+                                   role="menuitem"
+                                   aria-current="{% if request.resolver_match.url_name == 'jogadores_page' %}page{% endif %}">{% trans "Jogadores" %}</a>
+                            </li>
+                            <li role="none">
+                                <a href="{% url 'estadio_list' %}" 
+                                   role="menuitem"
+                                   aria-current="{% if request.resolver_match.url_name == 'estadio_list' %}page{% endif %}">{% trans "Estádios" %}</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="header__nav--change-language">
                         <ul class="dropdown dropdown-language">
                             <li class="nav-item dropdown menu-idioms">
-                                <a class="dropdown-toggle p-4" href="#" id="dropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">PT-BR</a>
+                                {% get_current_language as CURRENT_LANGUAGE %}
+                                {% get_language_info for CURRENT_LANGUAGE as lang_info %}
+                                <a class="dropdown-toggle p-4" href="#" id="dropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% if CURRENT_LANGUAGE == 'pt-br' %}PT-BR
+                                    {% elif CURRENT_LANGUAGE == 'en' %}EN
+                                    {% elif CURRENT_LANGUAGE == 'es' %}ES
+                                    {% else %}PT-BR{% endif %}
+                                </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                                    {% get_available_languages as LANGUAGES %}
+                                    {% for lang_code, lang_name in LANGUAGES %}
                                     <li>
-                                        <a class="dropdown-item" href="#">PT-BR
-                                            <img src="{% static 'blog/images/icon-br.png' %}" alt="Bandeira do Brasil">
-                                        </a>
+                                        <form action="{% url 'set_language' %}" method="post" style="display: inline;" class="language-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="language" value="{{ lang_code }}">
+                                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                            <button type="submit" class="dropdown-item {% if lang_code == CURRENT_LANGUAGE %}active{% endif %}" style="background: none; border: none; width: 100%; text-align: left; cursor: pointer;">
+                                                {% if lang_code == 'pt-br' %}
+                                                    PT-BR <img src="{% static 'blog/images/icon-br.png' %}" alt="Bandeira do Brasil" style="width: 20px; margin-left: 8px;">
+                                                {% elif lang_code == 'en' %}
+                                                    EN <img src="{% static 'blog/images/icon-us.png' %}" alt="Bandeira dos Estados Unidos" style="width: 20px; margin-left: 8px;">
+                                                {% elif lang_code == 'es' %}
+                                                    ES <img src="{% static 'blog/images/icon-es.png' %}" alt="Bandeira da Espanha" style="width: 20px; margin-left: 8px;">
+                                                {% else %}
+                                                    {{ lang_name }}
+                                                {% endif %}
+                                            </button>
+                                        </form>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">EN-US
-                                            <img src="{% static 'blog/images/icon-us.png' %}" alt="Bandeira dos Estados Unidos">
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">ES-ES
-                                            <img src="{% static 'blog/images/icon-es.png' %}" alt="Bandeira da Espanha">
-                                        </a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </li>
                         </ul>
@@ -71,9 +129,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-4">
+    <footer class="py-4" role="contentinfo">
         <div class="container d-flex align-items-center justify-content-between footer-content">
-            <p class="mb-0 mt-4">Universo da Bola. &copy;2024 - Todos os direitos reservados</p>
+            <div class="footer-text">
+                <p class="mb-0 mt-4">{% trans "Universo da Bola" %}. &copy;2024 - {% trans "Todos os direitos reservados" %}</p>
+                <div class="footer-links mt-2" style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.85rem;">
+                    <a href="{% url 'politica_privacidade' %}" style="color: #8D99AE; text-decoration: none;">{% trans "Política de Privacidade" %}</a>
+                    <span style="color: #8D99AE;">|</span>
+                    <a href="{% url 'termos_servico' %}" style="color: #8D99AE; text-decoration: none;">{% trans "Termos de Serviço" %}</a>
+                </div>
+            </div>
             <div class="icons d-flex align-items-center justify-content-between mt-4">
                 <div class="instagram-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
@@ -82,4 +147,251 @@
                 </div>
                 <div class="youtube-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                      <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.
+                      <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts de Performance -->
+    <script src="{% static 'blog/js/performance.js' %}" defer></script>
+    
+    <!-- Scripts Externos -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous" defer></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js" defer></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js" defer></script>
+    
+    <!-- Scripts do Projeto -->
+    <script src="{% static 'blog/js/scripts.js' %}" defer></script>
+    <script src="{% static 'blog/js/map.js' %}" defer></script>
+    <script src="{% static 'blog/js/skeleton-loader.js' %}" defer></script>
+    <script src="{% static 'blog/js/lazy-loading.js' %}" defer></script>
+    <script src="{% static 'blog/js/filters-ajax.js' %}" defer></script>
+    
+    <!-- Script para melhorar mudança de idioma -->
+    <script>
+        // Prevenir travamento ao mudar idioma
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageForms = document.querySelectorAll('.language-form');
+            
+            languageForms.forEach(form => {
+                const button = form.querySelector('button[type="submit"]');
+                
+                if (button) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Fechar dropdown do Bootstrap antes do submit
+                        const dropdownToggle = document.getElementById('dropdownMenuLink');
+                        if (dropdownToggle) {
+                            // Tentar fechar usando Bootstrap 5
+                            if (typeof bootstrap !== 'undefined') {
+                                const dropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+                                if (dropdown) {
+                                    dropdown.hide();
+                                } else {
+                                    // Criar nova instância e fechar
+                                    const newDropdown = new bootstrap.Dropdown(dropdownToggle);
+                                    newDropdown.hide();
+                                }
+                            }
+                            
+                            // Fallback: remover classe show manualmente
+                            const dropdownMenu = dropdownToggle.nextElementSibling;
+                            if (dropdownMenu) {
+                                dropdownMenu.classList.remove('show');
+                                dropdownToggle.classList.remove('show');
+                                dropdownToggle.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                        
+                        // Feedback visual
+                        button.disabled = true;
+                        button.style.opacity = '0.7';
+                        
+                        // Aguardar um pouco antes de submeter para garantir que o dropdown fechou
+                        setTimeout(() => {
+                            form.submit();
+                        }, 100);
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <!-- Controles de Acessibilidade -->
+    <div class="accessibility-controls" id="accessibilityControls">
+        <button id="increaseFont" aria-label="{% trans 'Aumentar tamanho da fonte' %}" title="{% trans 'Aumentar fonte' %}">
+            A+
+        </button>
+        <button id="decreaseFont" aria-label="{% trans 'Diminuir tamanho da fonte' %}" title="{% trans 'Diminuir fonte' %}">
+            A-
+        </button>
+        <button id="resetFont" aria-label="{% trans 'Tamanho de fonte padrão' %}" title="{% trans 'Fonte padrão' %}">
+            A
+        </button>
+    </div>
+    
+    <!-- Botão de âncora (scroll to top) global -->
+    <button class="scroll-to-top-global" id="scrollToTopGlobal" aria-label="{% trans 'Voltar ao topo' %}" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+        </svg>
+    </button>
+    
+    <style>
+        .scroll-to-top-global {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #66AAFF, #4A90E2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 8px 25px rgba(102,170,255,.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scroll-to-top-global.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-to-top-global:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(102,170,255,.6);
+        }
+        
+        @media (max-width: 768px) {
+            .scroll-to-top-global {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+    
+    <script>
+        // Controles de acessibilidade e botão de âncora global
+        document.addEventListener('DOMContentLoaded', function() {
+            // Controles de tamanho de fonte
+            const increaseFontBtn = document.getElementById('increaseFont');
+            const decreaseFontBtn = document.getElementById('decreaseFont');
+            const resetFontBtn = document.getElementById('resetFont');
+            const htmlElement = document.documentElement;
+            
+            // Carregar preferência salva
+            const savedFontSize = localStorage.getItem('fontSize') || 'normal';
+            htmlElement.classList.add('font-' + savedFontSize);
+            
+            // Função para atualizar fonte
+            function updateFontSize(size) {
+                // Remover todas as classes de fonte
+                htmlElement.classList.remove('font-small', 'font-normal', 'font-large', 'font-xlarge');
+                // Adicionar nova classe
+                htmlElement.classList.add('font-' + size);
+                // Salvar preferência
+                localStorage.setItem('fontSize', size);
+            }
+            
+            if (increaseFontBtn) {
+                increaseFontBtn.addEventListener('click', function() {
+                    const current = htmlElement.classList.contains('font-small') ? 'small' :
+                                   htmlElement.classList.contains('font-normal') ? 'normal' :
+                                   htmlElement.classList.contains('font-large') ? 'large' : 'xlarge';
+                    
+                    if (current === 'small') updateFontSize('normal');
+                    else if (current === 'normal') updateFontSize('large');
+                    else if (current === 'large') updateFontSize('xlarge');
+                    // Se já está em xlarge, não faz nada
+                });
+            }
+            
+            if (decreaseFontBtn) {
+                decreaseFontBtn.addEventListener('click', function() {
+                    const current = htmlElement.classList.contains('font-small') ? 'small' :
+                                   htmlElement.classList.contains('font-normal') ? 'normal' :
+                                   htmlElement.classList.contains('font-large') ? 'large' : 'xlarge';
+                    
+                    if (current === 'xlarge') updateFontSize('large');
+                    else if (current === 'large') updateFontSize('normal');
+                    else if (current === 'normal') updateFontSize('small');
+                    // Se já está em small, não faz nada
+                });
+            }
+            
+            if (resetFontBtn) {
+                resetFontBtn.addEventListener('click', function() {
+                    updateFontSize('normal');
+                });
+            }
+            
+            // Botão de âncora global
+            const scrollToTopBtn = document.getElementById('scrollToTopGlobal');
+            
+            if (scrollToTopBtn) {
+                // Verificar se já existe um botão de scroll to top na página (como timeline_copas)
+                const existingScrollBtn = document.getElementById('scrollToTop');
+                
+                // Se não existir, mostrar o global
+                if (!existingScrollBtn) {
+                    scrollToTopBtn.style.display = 'flex';
+                    
+                    window.addEventListener('scroll', function() {
+                        if (window.scrollY > 300) {
+                            scrollToTopBtn.classList.add('visible');
+                        } else {
+                            scrollToTopBtn.classList.remove('visible');
+                        }
+                    });
+                    
+                    scrollToTopBtn.addEventListener('click', function() {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                } else {
+                    // Se já existe, esconder o global
+                    scrollToTopBtn.style.display = 'none';
+                }
+            }
+        });
+    </script>
+    
+    <!-- Google Analytics (opcional - configure GOOGLE_ANALYTICS_ID no .env) -->
+    {% if GOOGLE_ANALYTICS_ID %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+    </script>
+    {% endif %}
+    
+    <!-- Google AdSense (opcional - configure ADSENSE_CLIENT_ID no .env após aprovação) -->
+    {% include 'blog/adsense.html' %}
+    
+    <!-- Newsletter Popup (opcional - descomente para ativar) -->
+    {% comment %}
+    {% include 'blog/newsletter_popup.html' %}
+    {% endcomment %}
+    
+    <!-- Bloco para scripts adicionais das páginas -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

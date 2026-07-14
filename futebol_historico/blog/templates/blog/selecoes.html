@@ -1,405 +1,1794 @@
 {% extends 'blog/base.html' %}
+{% load static %}
+{% load i18n %}
 
-{% block title %}Seleções - Futebol Histórico{% endblock %}
+{% block title %}{% trans "Seleções" %} - {% trans "Futebol Histórico" %}{% endblock %}
 
 {% block extra_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 <style>
-    .hero-section {
-        color: white;
-        padding: 80px 0;
-        text-align: center;
+    .selecoes-page {
+        min-height: 100vh;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        color: #EDF2F4;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        padding-top: 80px;
         position: relative;
-        z-index: 1;
-        margin-top: 56px;
+        overflow-x: hidden;
     }
 
-    .hero-section h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #66aaff, #004a8f);
+    .selecoes-page #stars, .selecoes-page #stars2, .selecoes-page #stars3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .selecoes-page #stars {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+        animation: none;
+    }
+
+    .selecoes-page #stars2 {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+        animation: none;
+    }
+
+    .selecoes-page #stars3 {
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff;
+        animation: none;
+    }
+
+    /* Hero Section */
+    .hero-selecoes {
+        text-align: center;
+        padding: 4rem 0 3rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .hero-selecoes h1 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        background-clip: text;
+        margin: 0 0 1rem 0;
+        letter-spacing: 2px;
     }
 
-    .hero-section p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        color: #b0b0b0;
+    .hero-selecoes p {
+        color: #8D99AE;
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 300;
     }
 
-    .container {
+    /* Botões de ação rápida */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
         position: relative;
-        z-index: 2;
+        z-index: 10;
     }
 
-    .filter-section {
-        margin-bottom: 40px;
-        border-radius: 15px;
-        padding: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .filter-input {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
-        margin-bottom: 0;
-    }
-
-    .filter-input input {
-        background: rgba(30, 30, 30, 0.6);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        color: #fff;
-        padding: 15px 20px;
-        border-radius: 10px;
+    .action-btn {
+        background: linear-gradient(135deg, rgba(102,170,255,.1) 0%, rgba(74,144,226,.05) 100%);
+        border: 2px solid rgba(102,170,255,.3);
+        color: #EDF2F4;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
         transition: all 0.3s ease;
+        font-weight: 600;
         font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
 
-    .filter-input input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+    .action-btn:hover {
+        background: linear-gradient(135deg, rgba(102,170,255,.2) 0%, rgba(74,144,226,.1) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102,170,255,.3);
     }
 
-    .filter-input input:focus {
-        background: rgba(40, 40, 40, 0.8);
-        border-color: #004a8f;
-        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
+    .action-btn.active {
+        background: linear-gradient(135deg, #66AAFF, #4A90E2);
+        border-color: #66AAFF;
+        box-shadow: 0 8px 25px rgba(102,170,255,.4);
+    }
+
+    /* Dashboard de Estatísticas */
+    .stats-dashboard {
+        position: relative;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 0 auto 3rem;
+        padding: 0 2rem;
+        display: none;
+    }
+
+    .stats-dashboard.active {
+        display: block;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .stat-card-title {
+        font-size: 0.9rem;
+        color: #8D99AE;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .stat-card-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-card-label {
+        color: #8D99AE;
+        font-size: 0.9rem;
+    }
+
+    /* Gráfico de barras simples */
+    .chart-bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+        height: 150px;
+        margin-top: 1rem;
+    }
+
+    .chart-bar {
+        flex: 1;
+        background: linear-gradient(to top, #66AAFF, #87CEEB);
+        border-radius: 4px 4px 0 0;
+        min-height: 20px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .chart-bar:hover {
+        opacity: 0.8;
+        transform: scaleY(1.05);
+    }
+
+    .chart-bar-label {
+        position: absolute;
+        bottom: -1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        color: #8D99AE;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    /* Top Seleções List */
+    .top-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .top-list-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255,255,255,.03);
+        border-radius: 12px;
+        margin-bottom: 0.75rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,.05);
+    }
+
+    .top-list-item:hover {
+        background: rgba(255,255,255,.05);
+        border-color: rgba(102,170,255,.3);
+        transform: translateX(5px);
+    }
+
+    .top-list-rank {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #66AAFF;
+        min-width: 40px;
+    }
+
+    .top-list-info {
+        flex: 1;
+    }
+
+    .top-list-name {
+        font-weight: 700;
+        color: #EDF2F4;
+        margin-bottom: 0.25rem;
+    }
+
+    .top-list-value {
+        color: #8D99AE;
+        font-size: 0.9rem;
+    }
+
+    /* Filtros Modernos */
+    .filtros-modernos {
+        position: relative;
+        z-index: 10;
+        max-width: 1200px;
+        margin: 0 auto 3rem;
+        padding: 0 2rem;
+    }
+
+    .filtros-container {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 24px;
+        padding: 2rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 25px 50px rgba(0,0,0,.25);
+        backdrop-filter: blur(20px);
+    }
+
+    .search-box {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-box input {
+        width: 100%;
+        background: rgba(255,255,255,.03);
+        border: 2px solid rgba(102,170,255,.2);
+        border-radius: 16px;
+        padding: 1rem 1.5rem 1rem 3.5rem;
+        color: #EDF2F4;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
         outline: none;
+        border-color: #66AAFF;
+        background: rgba(255,255,255,.05);
+        box-shadow: 0 0 25px rgba(102,170,255,.3);
+    }
+
+    .search-box::before {
+        content: '🔍';
+        position: absolute;
+        left: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+        pointer-events: none;
+    }
+
+    /* Filtros de continente */
+    .continent-filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .continent-btn {
+        background: linear-gradient(135deg, rgba(102,170,255,.1) 0%, rgba(74,144,226,.05) 100%);
+        border: 2px solid rgba(102,170,255,.3);
+        color: #EDF2F4;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        font-size: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .continent-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .continent-btn:hover::before {
+        left: 100%;
+    }
+
+    .continent-btn:hover {
+        background: linear-gradient(135deg, rgba(102,170,255,.2) 0%, rgba(74,144,226,.1) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102,170,255,.3);
+    }
+
+    .continent-btn.active {
+        background: linear-gradient(135deg, #66AAFF, #4A90E2);
+        border-color: #66AAFF;
+        box-shadow: 0 8px 25px rgba(102,170,255,.4);
+    }
+
+    /* Sistema de Comparação Gamificado */
+    .comparison-panel {
+        position: fixed;
+        bottom: -100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, rgba(15,23,42,.98) 0%, rgba(30,41,59,.98) 100%);
+        border-top: 2px solid rgba(102,170,255,.3);
+        box-shadow: 0 -10px 50px rgba(0,0,0,.5);
+        z-index: 1000;
+        transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        backdrop-filter: blur(20px);
+        padding: 2rem;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .comparison-panel.active {
+        bottom: 0;
+    }
+
+    .comparison-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid rgba(102,170,255,.2);
+    }
+
+    .comparison-title {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .close-comparison {
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.2);
+        color: #EDF2F4;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        font-size: 1.5rem;
+        font-weight: 300;
+    }
+
+    .close-comparison:hover {
+        background: rgba(255,255,255,.2);
+        transform: rotate(90deg) scale(1.1);
+    }
+
+    .comparison-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .comparison-card {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border: 2px solid rgba(102,170,255,.3);
+        border-radius: 20px;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    }
+
+    .comparison-card:hover {
+        border-color: rgba(102,170,255,.5);
+        box-shadow: 0 15px 40px rgba(102,170,255,.2);
+        transform: translateY(-5px);
+    }
+
+    .comparison-card-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(102,170,255,.2);
+    }
+
+    .comparison-card-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        border: 3px solid rgba(102,170,255,.5);
+        padding: 0.5rem;
+        background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 25px rgba(102,170,255,.3);
+    }
+
+    .comparison-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+    }
+
+    .comparison-card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .comparison-card-badge {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 0.5rem;
+    }
+
+    .comparison-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .comparison-stat-box {
+        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(102,170,255,.2);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .comparison-stat-box:hover {
+        background: rgba(255,255,255,.08);
+        border-color: rgba(102,170,255,.4);
+        transform: scale(1.05);
+    }
+
+    .comparison-stat-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .comparison-stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #66AAFF;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .comparison-stat-label {
+        font-size: 0.75rem;
+        color: #8D99AE;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .comparison-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        background: rgba(255,255,255,.03);
+        border-radius: 10px;
+        border-left: 3px solid rgba(102,170,255,.3);
+        transition: all 0.3s ease;
+    }
+
+    .comparison-item:hover {
+        background: rgba(255,255,255,.05);
+        border-left-color: #66AAFF;
+        transform: translateX(5px);
+    }
+
+    .comparison-item-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .comparison-item-icon {
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
+    }
+
+    .comparison-label {
+        color: #EDF2F4;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .comparison-value {
+        color: #66AAFF;
+        font-weight: 700;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .comparison-winner {
+        background: linear-gradient(135deg, rgba(34, 197, 94, .2), rgba(34, 197, 94, .1));
+        border-left-color: #22c55e;
+    }
+
+    .comparison-winner .comparison-value {
+        color: #22c55e;
+    }
+
+    .comparison-score-badge {
+        background: linear-gradient(135deg, #66AAFF, #4A90E2);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-left: 0.5rem;
+    }
+
+    .remove-from-comparison {
+        background: linear-gradient(135deg, rgba(239, 68, 68, .2), rgba(220, 38, 38, .1));
+        border: 2px solid rgba(239, 68, 68, .4);
+        color: #ff6b6b;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .remove-from-comparison:hover {
+        background: linear-gradient(135deg, rgba(239, 68, 68, .3), rgba(220, 38, 38, .2));
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(239, 68, 68, .3);
+    }
+
+    .comparison-divider {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(102,170,255,.5), transparent);
+        margin: 1.5rem 0;
+    }
+
+    /* Grid de Seleções */
+    .selecoes-container {
+        position: relative;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem 4rem;
     }
 
     .selecoes-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 30px;
-        padding: 20px 0;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
     }
 
-    .selecao-card {
-        background: rgba(20, 20, 20, 0.6);
-        color: #fff;
-        border-radius: 15px;
+    /* Cards Modernos Simplificados */
+    .selecao-card-modern {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 24px;
         overflow: hidden;
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
-    }
-
-    .selecao-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
-        border-color: rgba(102, 170, 255, 0.3);
-    }
-
-    .selecao-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-        border-bottom: 3px solid #004a8f;
-        transition: transform 0.3s ease;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 10px;
-    }
-
-    .selecao-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .card-body {
-        text-align: center;
-        padding: 25px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
-    }
-
-    .card-body h5 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: #fff;
-        font-weight: bold;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-info {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        font-size: 0.95rem;
-        margin-bottom: 20px;
-        color: #b0b0b0;
-        padding: 15px;
-        border-radius: 8px;
-        background: rgba(0, 0, 0, 0.2);
-    }
-
-    .card-info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .card-info-row:last-child {
-        border-bottom: none;
-    }
-
-    .info-label {
-        color: #66aaff;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
-    .info-value {
-        color: #fff;
-        font-size: 0.9rem;
-        margin-left: 5px;
-        display: flex;
-        align-items: center;
-        gap: 3px;
-    }
-
-    .star-title {
-        color: gold;
-        font-size: 1rem;
-        text-shadow: 0 0 2px rgba(0,0,0,0.5);
-    }
-
-    .star-empty {
-        color: rgba(255,255,255,0.2);
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        background: linear-gradient(45deg, #004a8f, #0066cc);
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
         transition: all 0.3s ease;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        color: white;
-        text-decoration: none;
-        display: inline-block;
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(20px);
     }
 
-    .btn-primary:hover {
-        background: linear-gradient(45deg, #003366, #004a8f);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+    .selecao-card-modern.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
 
-    .no-results {
-        width: 100%;
-        text-align: center;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        margin: 1rem 0;
-        color: #fff;
-        font-size: 1.1rem;
-    }
-
-    @media (max-width: 1200px) {
-        .selecoes-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-section {
-            padding: 60px 0;
-        }
-
-        .hero-section h1 {
-            font-size: 2.5rem;
-        }
-
-        .filter-input {
-            grid-template-columns: 1fr;
-        }
-
-        .selecoes-grid {
-            grid-template-columns: 1fr;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .selecao-card img {
-            height: 180px;
-        }
-    }
-
-    /* Loading animation */
-    .loading {
-        opacity: 0.5;
+    .selecao-card-modern::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 26px;
+        padding: 2px;
+        background: linear-gradient(45deg, rgba(102,170,255,.5), rgba(74,144,226,.35), rgba(102,170,255,.5));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
         pointer-events: none;
-        transition: opacity 0.3s;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+    }
+
+    .selecao-card-modern:hover::before {
+        opacity: 1;
+    }
+
+    .selecao-card-modern:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 25px 60px rgba(102,170,255,.4);
+        border-color: rgba(102,170,255,.5);
+    }
+
+    /* Checkbox para comparação */
+    .compare-checkbox-wrapper {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 5;
+    }
+
+    .compare-checkbox {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        appearance: none;
+        background: rgba(15,23,42,.8);
+        border: 2px solid rgba(102,170,255,.5);
+        border-radius: 6px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .compare-checkbox:checked {
+        background: linear-gradient(135deg, #66AAFF, #4A90E2);
+        border-color: #66AAFF;
+    }
+
+    .compare-checkbox:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+
+    /* Badge de continente */
+    .continent-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.3);
+        z-index: 2;
+    }
+
+    .badge-europa { background: linear-gradient(135deg, #004a8f, #0066cc); color: #fff; }
+    .badge-america { background: linear-gradient(135deg, #009739, #00d84f); color: #fff; }
+    .badge-africa { background: linear-gradient(135deg, #008751, #00c96b); color: #fff; }
+    .badge-asia { background: linear-gradient(135deg, #ff6b35, #ff8c5a); color: #fff; }
+    .badge-oceania { background: linear-gradient(135deg, #0052a5, #0078d4); color: #fff; }
+
+    /* Imagem */
+    .card-image-wrapper {
+        position: relative;
+        height: 280px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+        flex-shrink: 0;
+    }
+
+    .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 1.5rem;
+        transition: transform 0.3s ease;
+        filter: brightness(0.95);
+    }
+
+    .selecao-card-modern:hover .card-image-wrapper img {
+        transform: scale(1.05);
+        filter: brightness(1);
+    }
+
+    /* Conteúdo do card */
+    .card-content {
+        padding: 1.5rem;
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Header com Nome e Bandeira */
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-flag {
+        font-size: 1.8rem;
+        line-height: 1;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-flag.flag-icon {
+        width: 40px;
+        height: 30px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+
+    .card-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #EDF2F4;
+        margin: 0;
+        line-height: 1.2;
+        flex: 1;
+    }
+
+    .card-title-text {
+        background: linear-gradient(45deg, #EDF2F4, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Layout Minimalista - Informações Principais */
+    .card-info-minimal {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-info-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .card-info-icon {
+        font-size: 2.5rem;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .card-info-content {
+        flex: 1;
+    }
+
+    .card-info-label {
+        color: #8D99AE;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+
+    .card-info-value {
+        color: #66AAFF;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .card-info-secondary {
+        color: #8D99AE;
+        font-size: 1rem;
+        margin-top: 0.25rem;
+    }
+
+    .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        position: relative;
+        z-index: 20;
+        pointer-events: auto;
+        margin-top: auto;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(102,170,255,.1);
+    }
+
+    .btn-ver-detalhes {
+        flex: 1;
+        background: linear-gradient(135deg, #66AAFF, #1d4ed8);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(59,130,246,.35);
+        text-align: center;
+    }
+
+    .btn-ver-detalhes:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 35px rgba(59,130,246,.45);
+        background: linear-gradient(135deg, #87CEEB, #3b82f6);
+    }
+
+    /* Animações de Loading */
+    .loading-skeleton {
+        background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s ease-in-out infinite;
+        border-radius: 8px;
+    }
+
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    .skeleton-card {
+        height: 400px;
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 24px;
+        border: 1px solid rgba(102,170,255,.2);
+        overflow: hidden;
+    }
+
+    .skeleton-image {
+        height: 250px;
+        margin-bottom: 1rem;
+    }
+
+    .skeleton-text {
+        height: 20px;
+        margin: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .skeleton-text.short {
+        width: 60%;
+    }
+
+    /* Contador de resultados */
+    .results-counter {
+        text-align: center;
+        margin: 2rem 0;
+        color: #8D99AE;
+        font-size: 1rem;
+    }
+
+    .results-counter strong {
+        color: #66AAFF;
+        font-size: 1.2rem;
+    }
+
+    /* Mensagem quando não há resultados */
+    .no-results {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #8D99AE;
+    }
+
+    .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+
+    .no-results h3 {
+        color: #EDF2F4;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Responsivo */
+    @media (max-width: 968px) {
+        .selecoes-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .filtros-container {
+            padding: 1.5rem;
+    }
+
+        .continent-filters {
+            gap: 0.75rem;
+        }
+
+        .continent-btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .selecoes-container {
+            padding: 0 1rem 4rem;
+        }
+
+        .comparison-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        }
+
+    @media (max-width: 640px) {
+        .selecoes-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-selecoes {
+            padding: 3rem 0 2rem;
+        }
+
+        .filtros-modernos {
+            padding: 0 1rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .comparison-panel {
+            padding: 1.5rem;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
+<main class="selecoes-page">
+    <!-- Background Stars -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+
 <!-- Hero Section -->
-<section class="hero-section">
+    <section class="hero-selecoes">
     <div class="container">
-        <h1>Seleções Nacionais</h1>
-        <p>Conheça as seleções que fizeram história no futebol mundial.</p>
-    </div>
-</section>
-
-<div class="container mt-5">
-    <!-- Filtro Moderno -->
-    <div class="filter-section">
-        <div class="filter-input">
-            <input type="text" class="form-control" id="nome" placeholder="Buscar por nome...">
-            <input type="text" class="form-control" id="continente" placeholder="Filtrar por continente...">
-            <input type="text" class="form-control" id="titulos" placeholder="Filtrar por títulos...">
+            <h1>{% trans "Seleções Históricas" %}</h1>
+            <p>{% trans "Explore as maiores seleções do futebol mundial" %}</p>
         </div>
-        <button class="btn btn-outline-secondary mt-3" id="clearFilters">Limpar Filtros</button>
+    </section>
+
+    <!-- Botões de Ação -->
+    <div class="action-buttons">
+        <button class="action-btn" id="toggleStats">
+            <span>📊</span>
+            <span>Estatísticas</span>
+        </button>
+        <button class="action-btn" id="toggleComparison">
+            <span>⚖️</span>
+            <span>Comparar (<span id="comparisonCount">0</span>)</span>
+        </button>
     </div>
 
-    <!-- Listagem de Seleções -->
-    <div class="selecoes-grid" id="selecoes-container">
-        {% for selecao in selecoes %}
-            <div class="selecao-card">
-                {% if selecao.imagem %}
-                    <img src="{{ selecao.imagem.url }}" alt="{{ selecao.nome }}">
-                {% endif %}
-                <div class="card-body">
-                    <div>
-                        <h5>{{ selecao.nome }}</h5>
-                        <div class="card-info">
-                            <div class="card-info-row">
-                                <span class="info-label">Continente</span>
-                                <span class="info-value">{{ selecao.regiao }}</span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Títulos Mundiais</span>
-                                <span class="info-value">
-                                    {% with ''|center:selecao.titulos as range %}
-                                        {% for _ in range %}
-                                            <span class="star-title">★</span>
-                                        {% endfor %}
-                                    {% endwith %}
-                                </span>
-                            </div>
-                            <div class="card-info-row">
-                                <span class="info-label">Ranking FIFA</span>
-                                <span class="info-value">{{ selecao.ranking }}º</span>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{% url 'selecao_detail' selecao.id %}" class="btn btn-primary">Leia mais</a>
+    <!-- Dashboard de Estatísticas -->
+    <div class="stats-dashboard" id="statsDashboard">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-title">{% trans "Total de Seleções" %}</div>
+                <div class="stat-card-value">{{ total_selecoes }}</div>
+                <div class="stat-card-label">{% trans "Seleções cadastradas" %}</div>
+</div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">{% trans "Top Seleção" %}</div>
+                <div class="stat-card-value">
+                    {% if top_selecoes_titulos %}
+                        {{ top_selecoes_titulos.0.nome|truncatewords:2 }}
+                    {% else %}
+                        —
+                    {% endif %}
+            </div>
+                <div class="stat-card-label">
+                    {% if top_selecoes_titulos %}
+                        {{ top_selecoes_titulos.0.titulos }} título{{ top_selecoes_titulos.0.titulos|pluralize:"s" }}
+                    {% else %}
+                        {% trans "Sem dados" %}
+                    {% endif %}
                 </div>
             </div>
-        {% endfor %}
+
+            <div class="stat-card">
+                <div class="stat-card-title">{% trans "Por Região" %}</div>
+                <div class="chart-bars">
+                    {% for regiao in selecoes_por_regiao|slice:":6" %}
+                    <div class="chart-bar" style="height: {% widthratio regiao.total 1 15 %}px;" title="{{ regiao.regiao }}: {{ regiao.total }}">
+                        <div class="chart-bar-label">{{ regiao.regiao|truncatewords:1|slice:":5" }}</div>
+                    </div>
+                    {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-title">{% trans "Top 10 por Títulos" %}</div>
+                <ul class="top-list">
+                    {% for selecao in top_selecoes_titulos|slice:":10" %}
+                    <li class="top-list-item">
+                        <span class="top-list-rank">{{ forloop.counter }}</span>
+                        <div class="top-list-info">
+                            <div class="top-list-name">{{ selecao.nome }}</div>
+                            <div class="top-list-value">{{ selecao.titulos }} título{{ selecao.titulos|pluralize:"s" }}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">{% trans "Top 10 em Copas" %}</div>
+                <ul class="top-list">
+                    {% for selecao in top_copas|slice:":10" %}
+                    <li class="top-list-item">
+                        <span class="top-list-rank">{{ forloop.counter }}</span>
+                        <div class="top-list-info">
+                            <div class="top-list-name">{{ selecao.nome }}</div>
+                            <div class="top-list-value">{{ selecao.total_participacoes|default:"0" }} participação{{ selecao.total_participacoes|default:"0"|pluralize:"ões" }}</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros Modernos -->
+    <div class="filtros-modernos">
+        <div class="filtros-container">
+            <div class="search-box">
+                <input type="text" id="filtroNome" placeholder="{% trans 'Buscar seleção...' %}">
+            </div>
+            <div class="continent-filters">
+                <button class="continent-btn active" data-continent="todas">🌍 {% trans "Todas" %}</button>
+                <button class="continent-btn" data-continent="europa">🇪🇺 {% trans "Europa" %}</button>
+                <button class="continent-btn" data-continent="america">🌎 {% trans "América" %}</button>
+                <button class="continent-btn" data-continent="africa">🌍 {% trans "África" %}</button>
+                <button class="continent-btn" data-continent="asia">🌏 {% trans "Ásia" %}</button>
+                <button class="continent-btn" data-continent="oceania">🌊 {% trans "Oceania" %}</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container de Seleções -->
+    <div class="selecoes-container">
+        <div class="results-counter">
+            <span>{% blocktrans with count=selecoes|length %}Mostrando <strong id="resultCount">{{ count }}</strong> de {{ count }} seleções{% endblocktrans %}</span>
+        </div>
+
+        <div class="selecoes-grid" id="selecoesGrid">
+        {% for selecao in selecoes %}
+                <div class="selecao-card-modern" 
+                     data-continent="{{ selecao.regiao|lower }}" 
+                     data-nome="{{ selecao.nome|lower }}"
+                     data-selecao-id="{{ selecao.id }}"
+                     style="--item-index: {{ forloop.counter0 }};">
+                    
+                    <!-- Checkbox para comparação -->
+                    <div class="compare-checkbox-wrapper">
+                        <input type="checkbox" class="compare-checkbox" 
+                      data-selecao-id="{{ selecao.id }}"
+                     data-selecao-nome="{{ selecao.nome }}"
+                     data-selecao-regiao="{{ selecao.regiao }}"
+                     data-selecao-titulos="{{ selecao.titulos }}"
+                     data-selecao-ano="{{ selecao.ano_copa|default:'' }}"
+                     data-selecao-colocacao="{{ selecao.colocacao_copa|default:'' }}"
+                     data-selecao-colocacao-pontos="{{ selecao.colocacao_pontos|default:0 }}"
+                     data-selecao-copa-ano="{{ selecao.copa_ano|default:'' }}"
+                     data-selecao-copa-pais="{{ selecao.copa_pais|default:'' }}"
+                     data-selecao-copa-id="{{ selecao.copa_id|default:'' }}"
+                     data-selecao-tecnico="{{ selecao.tecnico|default:'' }}"
+                     data-selecao-jogadores="{{ selecao.jogadores_iconicos|default:'' }}"
+                     data-selecao-destaque="{{ selecao.destaque|default:'' }}"
+                     data-selecao-imagem="{% if selecao.imagem %}/media/selecoes/{{ selecao.imagem }}{% endif %}">
+                    </div>
+
+                    <!-- Imagem -->
+                    <div class="card-image-wrapper">
+            {% if selecao.imagem %}
+                            <img src="/media/selecoes/{{ selecao.imagem }}" alt="{{ selecao.nome }}" loading="lazy">
+                        {% else %}
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 4rem; opacity: 0.3;">
+                                ⚽
+                            </div>
+            {% endif %}
+                        <span class="continent-badge badge-{{ selecao.regiao|lower }}">
+                            {{ selecao.regiao }}
+                        </span>
+            </div>
+
+                    <!-- Conteúdo -->
+                    <div class="card-content">
+                        <!-- Header: Nome + Bandeira -->
+                        <div class="card-header">
+                            {% with selecao.nome|lower as nome_lower %}
+                                {% if "brasil" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-br"></span>
+                                {% elif "argentina" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-ar"></span>
+                                {% elif "alemanha" in nome_lower or "germany" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-de"></span>
+                                {% elif "italia" in nome_lower or "italy" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-it"></span>
+                                {% elif "franca" in nome_lower or "france" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-fr"></span>
+                                {% elif "espanha" in nome_lower or "spain" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-es"></span>
+                                {% elif "inglaterra" in nome_lower or "england" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-gb"></span>
+                                {% elif "uruguai" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-uy"></span>
+                                {% elif "portugal" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-pt"></span>
+                                {% elif "holanda" in nome_lower or "netherlands" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-nl"></span>
+                                {% elif "belgica" in nome_lower or "belgium" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-be"></span>
+                                {% elif "croacia" in nome_lower or "croatia" in nome_lower %}
+                                    <span class="card-flag flag-icon flag-icon-hr"></span>
+                                {% else %}
+                                    <span class="card-flag">🏴</span>
+                                {% endif %}
+                            {% endwith %}
+                        <h3 class="card-title">
+                                <span class="card-title-text">
+                                    {{ selecao.nome_pais|default:selecao.nome }}
+                                    {% if selecao.ano_copa or selecao.copa_ano %}
+                                        <span style="opacity: 0.8; font-weight: 400;">{{ selecao.copa_ano|default:selecao.ano_copa }}</span>
+                                    {% endif %}
+                                </span>
+                        </h3>
+                        </div>
+
+                        <!-- Informações Minimalistas -->
+                        <div class="card-info-minimal">
+                            <!-- Colocação na Copa -->
+                            <div class="card-info-item">
+                                {% if selecao.colocacao_copa == "Campeão" %}
+                                    <span class="card-info-icon">🥇</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Colocação</div>
+                                        <div class="card-info-value">{% trans "Campeão" %}</div>
+                                        {% if selecao.copa_ano %}
+                                            <div class="card-info-secondary">Copa {{ selecao.copa_ano }}</div>
+                        {% endif %}
+        </div>
+                                {% elif selecao.colocacao_copa == "Vice-Campeão" %}
+                                    <span class="card-info-icon">🥈</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Colocação</div>
+                                        <div class="card-info-value">{% trans "Vice-Campeão" %}</div>
+                                        {% if selecao.copa_ano %}
+                                            <div class="card-info-secondary">Copa {{ selecao.copa_ano }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% elif selecao.colocacao_copa == "3º Lugar" %}
+                                    <span class="card-info-icon">🥉</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Colocação</div>
+                                        <div class="card-info-value">{% trans "3º Lugar" %}</div>
+                                        {% if selecao.copa_ano %}
+                                            <div class="card-info-secondary">Copa {{ selecao.copa_ano }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <span class="card-info-icon">🏆</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Participação</div>
+                                        <div class="card-info-value">{{ selecao.colocacao_copa|default:_("Participante") }}</div>
+                                        {% if selecao.copa_ano %}
+                                            <div class="card-info-secondary">Copa {{ selecao.copa_ano }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                    </div>
+
+                            <!-- Confederação -->
+                            <div class="card-info-item">
+                                {% if selecao.regiao == "Europa" %}
+                                    <span class="card-info-icon">🇪🇺</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Confederação</div>
+                                        <div class="card-info-secondary">UEFA</div>
+                            </div>
+                                {% elif selecao.regiao == "América do Sul" %}
+                                    <span class="card-info-icon">🌎</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Confederação</div>
+                                        <div class="card-info-secondary">CONMEBOL</div>
+                            </div>
+                                {% elif selecao.regiao == "América Central" %}
+                                    <span class="card-info-icon">🌎</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Confederação</div>
+                                        <div class="card-info-secondary">CONCACAF</div>
+                            </div>
+                                {% elif selecao.regiao == "África" %}
+                                    <span class="card-info-icon">🌍</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Confederação</div>
+                                        <div class="card-info-secondary">CAF</div>
+                            </div>
+                                {% elif selecao.regiao == "Ásia" %}
+                                    <span class="card-info-icon">🌏</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Confederação</div>
+                                        <div class="card-info-secondary">AFC</div>
+                        </div>
+                                {% else %}
+                                    <span class="card-info-icon">🌍</span>
+                                    <div class="card-info-content">
+                                        <div class="card-info-label">Região</div>
+                                        <div class="card-info-secondary">{{ selecao.regiao }}</div>
+                                    </div>
+                                    {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <a href="{% url 'selecao_detail' selecao.id %}" class="btn-ver-detalhes">
+                                Ver Detalhes
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.854 8.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Mensagem quando não há resultados -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>{% trans "Nenhuma seleção encontrada" %}</h3>
+            <p>{% trans "Tente ajustar os filtros de busca" %}</p>
+        </div>
+    </div>
+
+    <!-- Painel de Comparação -->
+    <div class="comparison-panel" id="comparisonPanel">
+        <div class="comparison-header">
+            <h2 class="comparison-title">
+                <span>⚖️</span>
+                <span>{% trans "Comparar Seleções" %}</span>
+            </h2>
+            <button class="close-comparison" id="closeComparison">×</button>
+        </div>
+        <div class="comparison-grid" id="comparisonGrid">
+            <!-- Será preenchido via JavaScript -->
+        </div>
+    </div>
+</main>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
-        const nomeInput = document.getElementById('nome');
-        const continenteInput = document.getElementById('continente');
-        const titulosInput = document.getElementById('titulos');
-        const selecoesContainer = document.getElementById('selecoes-container');
-        const clearFiltersBtn = document.getElementById('clearFilters');
-        const selecaoCards = document.querySelectorAll('.selecao-card');
+// Traduções para JavaScript
+const translations = {
+    'Selecione pelo menos 2 seleções para comparar': '{% trans "Selecione pelo menos 2 seleções para comparar" %}',
+    'Campeão': '{% trans "Campeão" %}',
+    'Vice-Campeão': '{% trans "Vice-Campeão" %}',
+    '3º Lugar': '{% trans "3º Lugar" %}',
+};
 
-        function aplicarFiltros() {
-            const termoBusca = nomeInput.value.toLowerCase().trim();
-            const continenteBusca = continenteInput.value.toLowerCase().trim();
-            const titulosBusca = titulosInput.value.trim();
+(function() {
+    'use strict';
 
-            let encontrouResultados = false;
+    const cards = document.querySelectorAll('.selecao-card-modern');
+    const filtroNome = document.getElementById('filtroNome');
+    const filtroContinente = document.querySelectorAll('.continent-btn');
+    const resultCount = document.getElementById('resultCount');
+    const noResults = document.getElementById('noResults');
+    const grid = document.getElementById('selecoesGrid');
+    const toggleStats = document.getElementById('toggleStats');
+    const statsDashboard = document.getElementById('statsDashboard');
+    const toggleComparison = document.getElementById('toggleComparison');
+    const comparisonPanel = document.getElementById('comparisonPanel');
+    const comparisonGrid = document.getElementById('comparisonGrid');
+    const comparisonCount = document.getElementById('comparisonCount');
+    const closeComparison = document.getElementById('closeComparison');
+    
+    let selectedSelecoes = [];
 
-            selecaoCards.forEach(card => {
-                const nome = card.querySelector('h5').textContent.toLowerCase();
-                const continente = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('Continente'))
-                    ?.querySelector('.info-value').textContent.toLowerCase() || '';
-                
-                const titulos = Array.from(card.querySelectorAll('.card-info-row'))
-                    .find(row => row.querySelector('.info-label').textContent.includes('Títulos'))
-                    ?.querySelector('.info-value').textContent.trim() || '';
+    // Animações de entrada sequenciais
+    function initAnimations() {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
 
-                const nomeMatch = !termoBusca || nome.includes(termoBusca);
-                const continenteMatch = !continenteBusca || continente.includes(continenteBusca);
-                const titulosMatch = !titulosBusca || titulos.includes(titulosBusca);
-
-                const mostrarCard = nomeMatch && continenteMatch && titulosMatch;
-                
-                if (mostrarCard) {
-                    card.style.display = '';
-                    encontrouResultados = true;
+            cards.forEach(card => {
+                observer.observe(card);
+            });
                 } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            atualizarMensagemSemResultados(encontrouResultados);
+            cards.forEach(card => card.classList.add('visible'));
         }
+    }
 
-        function atualizarMensagemSemResultados(encontrouResultados) {
-            let mensagem = document.querySelector('.no-results');
-            
-            if (!encontrouResultados) {
-                if (!mensagem) {
-                    mensagem = document.createElement('div');
-                    mensagem.className = 'no-results';
-                    mensagem.textContent = 'Nenhuma seleção encontrada';
-                    selecoesContainer.appendChild(mensagem);
-                }
-            } else if (mensagem) {
-                mensagem.remove();
+    // Toggle Dashboard de Estatísticas
+    if (toggleStats) {
+        toggleStats.addEventListener('click', function() {
+            statsDashboard.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
+
+    // Sistema de Comparação
+    function updateComparisonUI() {
+        const count = selectedSelecoes.length;
+        if (comparisonCount) {
+            comparisonCount.textContent = count;
+        }
+        
+        if (count > 0) {
+            toggleComparison.classList.add('active');
+            if (count >= 2) {
+                toggleComparison.style.pointerEvents = 'auto';
             }
+        } else {
+            toggleComparison.classList.remove('active');
         }
+    }
 
-        function limparFiltros() {
-            nomeInput.value = '';
-            continenteInput.value = '';
-            titulosInput.value = '';
+    // Calcular pontuação gamificada baseada na copa específica
+    function calculateScore(sel) {
+        // Usar dados da copa específica se disponível
+        if (sel.colocacao_pontos) {
+            return sel.colocacao_pontos;
+        }
+        // Fallback para cálculo genérico
+        return (sel.titulos * 100) + (sel.campeao * 50) + (sel.vice * 30) + (sel.terceiro * 10);
+    }
 
-            selecaoCards.forEach(card => {
-                card.style.display = '';
-            });
-
-            const mensagem = document.querySelector('.no-results');
-            if (mensagem) {
-                mensagem.remove();
+    // Determinar vencedor de cada categoria
+    function getWinner(field) {
+        if (selectedSelecoes.length < 2) return null;
+        let maxVal = -1;
+        let winnerId = null;
+        
+        selectedSelecoes.forEach(sel => {
+            const val = parseFloat(sel[field]) || 0;
+            if (val > maxVal) {
+                maxVal = val;
+                winnerId = sel.id;
             }
-        }
-
-        // Event Listeners
-        nomeInput.addEventListener('input', aplicarFiltros);
-        continenteInput.addEventListener('input', aplicarFiltros);
-        titulosInput.addEventListener('input', aplicarFiltros);
-        clearFiltersBtn.addEventListener('click', limparFiltros);
-
-        // Estilização do botão de limpar
-        clearFiltersBtn.addEventListener('mouseover', function() {
-            this.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            this.style.color = '#fff';
         });
         
-        clearFiltersBtn.addEventListener('mouseout', function() {
-            this.style.backgroundColor = 'transparent';
-            this.style.color = '#b0b0b0';
+        return winnerId;
+    }
+
+    function renderComparison() {
+        if (selectedSelecoes.length < 2) {
+            comparisonGrid.innerHTML = '<div style="text-align: center; color: #8D99AE; padding: 2rem; font-size: 1.1rem;">🎯 ' + (translations['Selecione pelo menos 2 seleções para comparar'] || 'Selecione pelo menos 2 seleções para comparar') + '</div>';
+            return;
+        }
+
+        // Calcular pontuações
+        selectedSelecoes.forEach(sel => {
+            sel.score = calculateScore(sel);
+        });
+
+        // Encontrar vencedores (baseado na copa específica)
+        const winnerScore = getWinner('score');
+        const winnerColocacao = getWinner('colocacao_pontos');
+
+        comparisonGrid.innerHTML = selectedSelecoes.map(sel => {
+            const isWinnerScore = winnerScore === sel.id;
+            const isWinnerColocacao = winnerColocacao === sel.id;
+
+            const imagemHtml = sel.imagem 
+                ? `<img src="${sel.imagem}" alt="${sel.nome}">`
+                : `<div style="font-size: 3rem; opacity: 0.5;">⚽</div>`;
+
+            const regiaoLower = (sel.regiao || '').toLowerCase();
+            const regiaoIcon = {
+                'europa': '🇪🇺',
+                'américa': '🌎',
+                'américa do sul': '🌎',
+                'américa central': '🌎',
+                'áfrica': '🌍',
+                'africa': '🌍',
+                'ásia': '🌏',
+                'asia': '🌏',
+                'oceania': '🌊'
+            }[regiaoLower] || '🌍';
+
+            // Badge de colocação
+            const colocacaoBadge = sel.colocacao 
+                ? `<span class="comparison-card-badge" style="background: ${sel.colocacao === 'Campeão' ? 'linear-gradient(135deg, #FFD700, #FFA500)' : sel.colocacao === 'Vice-Campeão' ? 'linear-gradient(135deg, #C0C0C0, #A0A0A0)' : 'linear-gradient(135deg, #CD7F32, #B87333)'}; margin-top: 0.5rem;">
+                    ${sel.colocacao === 'Campeão' ? '🥇' : sel.colocacao === 'Vice-Campeão' ? '🥈' : '🥉'} ${sel.colocacao}
+                </span>`
+                : '';
+
+            // Info da copa
+            const copaInfo = sel.copa_ano 
+                ? `<div style="margin-top: 0.5rem; font-size: 0.85rem; color: #8D99AE;">
+                    📅 Copa ${sel.copa_ano} • ${sel.copa_pais || ''}
+                </div>`
+                : '';
+
+            return `
+                <div class="comparison-card">
+                    <div class="comparison-card-header">
+                        <div class="comparison-card-image">
+                            ${imagemHtml}
+                        </div>
+                        <div class="comparison-card-title">${sel.nome}</div>
+                        ${colocacaoBadge}
+                        ${copaInfo}
+                        <span class="comparison-card-badge badge-${regiaoLower.replace(/ /g, '-').replace('áfrica', 'africa').replace('ásia', 'asia')}" style="margin-top: 0.5rem;">
+                            ${regiaoIcon} ${sel.regiao}
+                        </span>
+                    </div>
+
+                    <!-- Stats Principais -->
+                    <div class="comparison-stats">
+                        <div class="comparison-stat-box" style="${sel.colocacao === 'Campeão' ? 'border: 2px solid #FFD700;' : sel.colocacao === 'Vice-Campeão' ? 'border: 2px solid #C0C0C0;' : sel.colocacao === '3º Lugar' ? 'border: 2px solid #CD7F32;' : ''}">
+                            <span class="comparison-stat-icon">${sel.colocacao === 'Campeão' ? '🥇' : sel.colocacao === 'Vice-Campeão' ? '🥈' : sel.colocacao === '3º Lugar' ? '🥉' : '🏆'}</span>
+                            <span class="comparison-stat-value">${sel.colocacao || '—'}</span>
+                            <span class="comparison-stat-label">Colocação</span>
+                        </div>
+                        <div class="comparison-stat-box">
+                            <span class="comparison-stat-icon">⭐</span>
+                            <span class="comparison-stat-value">${sel.score || 0}</span>
+                            <span class="comparison-stat-label">Pontuação</span>
+                        </div>
+                        <div class="comparison-stat-box">
+                            <span class="comparison-stat-icon">📅</span>
+                            <span class="comparison-stat-value">${sel.ano || sel.copa_ano || '—'}</span>
+                            <span class="comparison-stat-label">Ano</span>
+                        </div>
+                        <div class="comparison-stat-box">
+                            <span class="comparison-stat-icon">🌍</span>
+                            <span class="comparison-stat-value">${sel.copa_pais || sel.regiao || '—'}</span>
+                            <span class="comparison-stat-label">${sel.copa_pais ? 'País Sede' : 'Região'}</span>
+                        </div>
+                    </div>
+
+                    <!-- Comparação Detalhada -->
+                    <div class="comparison-item ${isWinnerColocacao ? 'comparison-winner' : ''}">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">${sel.colocacao === 'Campeão' ? '🥇' : sel.colocacao === 'Vice-Campeão' ? '🥈' : sel.colocacao === '3º Lugar' ? '🥉' : '🏆'}</span>
+                            <span class="comparison-label">Colocação na Copa</span>
+                        </div>
+                        <span class="comparison-value">
+                            ${sel.colocacao || 'Participante'}
+                            ${isWinnerColocacao ? '<span class="comparison-score-badge">MELHOR</span>' : ''}
+                        </span>
+                    </div>
+
+                    <div class="comparison-item ${isWinnerScore ? 'comparison-winner' : ''}">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">⭐</span>
+                            <span class="comparison-label">Pontuação</span>
+                        </div>
+                        <span class="comparison-value">
+                            ${sel.score || 0} pts
+                            ${isWinnerScore ? '<span class="comparison-score-badge">CAMPEÃO</span>' : ''}
+                        </span>
+                    </div>
+
+                    ${sel.ano || sel.copa_ano ? `
+                    <div class="comparison-item">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">📅</span>
+                            <span class="comparison-label">Ano da Copa</span>
+                        </div>
+                        <span class="comparison-value">${sel.ano || sel.copa_ano}</span>
+                    </div>
+                    ` : ''}
+
+                    ${sel.copa_pais ? `
+                    <div class="comparison-item">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">🗺️</span>
+                            <span class="comparison-label">País Sede</span>
+                        </div>
+                        <span class="comparison-value">${sel.copa_pais}</span>
+                    </div>
+                    ` : ''}
+
+                    ${sel.tecnico ? `
+                    <div class="comparison-item">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">👔</span>
+                            <span class="comparison-label">Técnico</span>
+                        </div>
+                        <span class="comparison-value">${sel.tecnico}</span>
+                    </div>
+                    ` : ''}
+
+                    ${sel.jogadores ? `
+                    <div class="comparison-item" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                        <div class="comparison-item-left" style="width: 100%;">
+                            <span class="comparison-item-icon">⭐</span>
+                            <span class="comparison-label">Jogadores Ícones</span>
+                        </div>
+                        <span class="comparison-value" style="font-size: 0.9rem; color: #8D99AE;">${sel.jogadores}</span>
+                    </div>
+                    ` : ''}
+
+                    ${sel.destaque ? `
+                    <div class="comparison-item" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                        <div class="comparison-item-left" style="width: 100%;">
+                            <span class="comparison-item-icon">✨</span>
+                            <span class="comparison-label">Destaque</span>
+                        </div>
+                        <span class="comparison-value" style="font-size: 0.9rem; color: #8D99AE;">${sel.destaque}</span>
+                    </div>
+                    ` : ''}
+
+                    <div class="comparison-item">
+                        <div class="comparison-item-left">
+                            <span class="comparison-item-icon">🌍</span>
+                            <span class="comparison-label">Região</span>
+                        </div>
+                        <span class="comparison-value">${regiaoIcon} ${sel.regiao}</span>
+                    </div>
+
+                    ${sel.copa_id ? `
+                    <a href="/copa/${sel.copa_id}/" class="remove-from-comparison" style="background: linear-gradient(135deg, rgba(102,170,255,.2), rgba(74,144,226,.1)); border-color: rgba(102,170,255,.4); color: #66AAFF; text-decoration: none; margin-top: 1rem; cursor: pointer;">
+                        <span>🔗</span>
+                        <span>Ver Copa ${sel.copa_ano || sel.ano || ''}</span>
+                    </a>
+                    ` : ''}
+
+                    <button class="remove-from-comparison" onclick="removeFromComparison(${sel.id})">
+                        <span>🗑️</span>
+                        <span>Remover da Comparação</span>
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+        // Adicionar separador entre cards se houver mais de 2
+        if (selectedSelecoes.length >= 2) {
+            const firstCard = comparisonGrid.querySelector('.comparison-card');
+            if (firstCard && selectedSelecoes.length > 2) {
+                const divider = document.createElement('div');
+                divider.className = 'comparison-divider';
+                divider.style.gridColumn = '1 / -1';
+                comparisonGrid.insertBefore(divider, null);
+            }
+        }
+    }
+
+    window.removeFromComparison = function(selecaoId) {
+        selectedSelecoes = selectedSelecoes.filter(s => s.id !== selecaoId);
+        const checkbox = document.querySelector(`.compare-checkbox[data-selecao-id="${selecaoId}"]`);
+        if (checkbox) checkbox.checked = false;
+        updateComparisonUI();
+        renderComparison();
+    };
+
+    // Checkboxes de comparação
+    document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function(e) {
+            e.stopPropagation(); // Prevenir propagação do clique
+            
+            const id = parseInt(this.dataset.selecaoId);
+            const nome = this.dataset.selecaoNome;
+            const regiao = this.dataset.selecaoRegiao;
+            const ano = this.dataset.selecaoAno || '';
+            const colocacao = this.dataset.selecaoColocacao || '';
+            const colocacaoPontos = parseInt(this.dataset.selecaoColocacaoPontos) || 0;
+            const copaAno = this.dataset.selecaoCopaAno || '';
+            const copaPais = this.dataset.selecaoCopaPais || '';
+            const copaId = this.dataset.selecaoCopaId || '';
+            const tecnico = this.dataset.selecaoTecnico || '';
+            const jogadores = this.dataset.selecaoJogadores || '';
+            const destaque = this.dataset.selecaoDestaque || '';
+            const imagem = this.dataset.selecaoImagem || '';
+
+            if (this.checked) {
+                if (selectedSelecoes.length >= 3) {
+                    this.checked = false;
+                    alert('🎮 Você pode comparar no máximo 3 seleções!');
+                    return;
+                }
+                selectedSelecoes.push({ 
+                    id, nome, regiao, ano, colocacao, colocacao_pontos: colocacaoPontos,
+                    copa_ano: copaAno, copa_pais: copaPais, copa_id: copaId,
+                    tecnico, jogadores, destaque, imagem 
+                });
+            } else {
+                selectedSelecoes = selectedSelecoes.filter(s => s.id !== id);
+            }
+            
+            updateComparisonUI();
+            renderComparison();
         });
     });
+
+    // Toggle painel de comparação
+    if (toggleComparison) {
+        toggleComparison.addEventListener('click', function() {
+            if (selectedSelecoes.length >= 2) {
+                comparisonPanel.classList.toggle('active');
+            } else {
+                alert('Selecione pelo menos 2 seleções para comparar');
+            }
+        });
+    }
+
+    if (closeComparison) {
+        closeComparison.addEventListener('click', function() {
+            comparisonPanel.classList.remove('active');
+        });
+    }
+
+    // Aplicar filtros
+    function aplicarFiltros() {
+        const nome = filtroNome.value.toLowerCase().trim();
+        const continente = document.querySelector('.continent-btn.active')?.dataset.continent || 'todas';
+        
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardNome = card.dataset.nome || '';
+            const cardContinente = card.dataset.continent || '';
+            
+            const matchNome = nome === '' || cardNome.includes(nome);
+            const matchContinente = continente === 'todas' || cardContinente === continente;
+            
+            if (matchNome && matchContinente) {
+                card.style.display = 'block';
+                visibleCount++;
+                setTimeout(() => card.classList.add('visible'), 10);
+            } else {
+                card.style.display = 'none';
+                card.classList.remove('visible');
+            }
+        });
+
+        if (resultCount) {
+            resultCount.textContent = visibleCount;
+        }
+
+        if (noResults) {
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+                grid.style.display = 'none';
+            } else {
+                noResults.style.display = 'none';
+                grid.style.display = 'grid';
+            }
+        }
+    }
+
+    // Event listeners
+    if (filtroNome) {
+    filtroNome.addEventListener('input', aplicarFiltros);
+    }
+
+    filtroContinente.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filtroContinente.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            aplicarFiltros();
+        });
+    });
+
+    // Click nos cards
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Não redirecionar se clicar em checkbox ou botão
+            if (e.target.closest('.compare-checkbox') || 
+                e.target.closest('.btn-ver-detalhes') || 
+                e.target.closest('.card-info-minimal')) {
+                return;
+            }
+            
+            const link = this.querySelector('.btn-ver-detalhes');
+            if (link) {
+                window.location.href = link.href;
+            }
+            });
+        });
+
+    // Inicializar
+    initAnimations();
+    updateComparisonUI();
+})();
 </script>
 {% endblock %}
+

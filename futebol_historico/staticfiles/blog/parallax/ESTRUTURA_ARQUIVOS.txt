@@ -1,0 +1,83 @@
+ESTRUTURA COMPLETA DO PROJETO PARALLAX
+=====================================
+
+ARQUIVOS HTML (8 páginas):
+--------------------------
+index.html                    - Página principal Brasil
+index-argentina.html          - Página Argentina  
+index-italia.html             - Página Itália
+index-franca.html             - Página França
+index-alemanha.html           - Página Alemanha
+index-inglaterra.html         - Página Inglaterra
+index-espanha.html            - Página Espanha
+index-uruguai.html            - Página Uruguai
+
+ARQUIVOS CSS (8 estilos):
+-------------------------
+styles.css                    - CSS principal (Brasil)
+styles-argentina.css          - CSS Argentina
+styles-italia.css             - CSS Itália
+styles-franca.css             - CSS França
+styles-alemanha.css           - CSS Alemanha
+styles-inglaterra.css         - CSS Inglaterra
+styles-espanha.css            - CSS Espanha
+styles-uruguai.css            - CSS Uruguai
+
+ARQUIVOS JAVASCRIPT (8 scripts):
+---------------------------------
+script.js                     - JavaScript principal (Brasil)
+script-argentina.js           - JavaScript Argentina
+script-italia.js              - JavaScript Itália
+script-franca.js              - JavaScript França
+script-alemanha.js            - JavaScript Alemanha
+script-inglaterra.js          - JavaScript Inglaterra
+script-espanha.js             - JavaScript Espanha
+script-uruguai.js             - JavaScript Uruguai
+
+PASTA IMAGENS (completa):
+-------------------------
+imagens/
+├── [raiz]                    - Imagens do Brasil (pele.jpg, zico.jpg, etc)
+├── argentina/                 - Imagens + logo + música
+├── italia/                    - Imagens + logo + vídeo
+├── franca/                    - Imagens + logo
+├── alemanha/                  - Imagens + logo
+├── inglaterra/               - Imagens + logo
+├── espanha/                   - Imagens + logo
+└── uruguai/                   - Imagens + logo
+
+MÍDIA (raiz do projeto):
+-----------------------
+*.mp3                          - Músicas de fundo
+*.mp4                          - Vídeos de fundo
+
+DEPENDÊNCIAS:
+-------------
+✅ NENHUMA - 100% vanilla JavaScript/CSS
+✅ Funciona offline
+✅ Não precisa de servidor especial
+✅ Não precisa de npm/node/bower/etc
+
+CAMINHOS RELATIVOS USADOS:
+--------------------------
+Nos HTMLs:
+- href="styles.css" ou "styles-*.css"
+- src="script.js" ou "script-*.js"
+- src="imagens/..."
+- src="*.mp3"
+- src="*.mp4"
+
+IMPORTANTE:
+-----------
+⚠️ TODOS os caminhos são RELATIVOS
+⚠️ A pasta "imagens/" DEVE manter a estrutura completa
+⚠️ Músicas e vídeos estão na RAIZ do projeto
+⚠️ Cada país tem seu próprio CSS/JS/HTML
+
+AJUSTES NECESSÁRIOS PARA INTEGRAÇÃO:
+------------------------------------
+1. Se mudar estrutura de pastas → ajustar caminhos nos HTMLs
+2. Se integrar ao menu → adicionar links
+3. Se adaptar design → modificar variáveis CSS
+4. Se usar CDN → ajustar caminhos de mídia
+

@@ -1,0 +1,1212 @@
+{
+  "version": 1,
+  "source": "fifarosters.com",
+  "fifa_year": 26,
+  "imported_at": "2026-05-22T21:13:53Z",
+  "styles_count": 98,
+  "styles_with_image": 98,
+  "images_downloaded": 103,
+  "images_total_in_css": 182,
+  "errors": [
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_104_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_106_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_107_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_109_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_10_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_115_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_123_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_130_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_131_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_137_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_138_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_13_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_140_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_141_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_142_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_143_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_144_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_145_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_152_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_154_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_156_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_159_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_163_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_16_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_172_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_174_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_175_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_176_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_17_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_182_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_18_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_18_1.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_18_2.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_21_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_36_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_37_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_3_1.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_3_2.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_40_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_41_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_47_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_52_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_59_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_62_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_63_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_66_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_6_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_70_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_73_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_74_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_78_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_7_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_89_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_92_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_93_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_94_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_95_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_1_98_0.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/cards_bg_e_euros.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/hd-nonrare-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/hd-rare-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/hd-special-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/mini/hd-nonrare-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/mini/hd-rare-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/mini/hd-special-shine.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_green.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_green_won.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_loan.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_mini_green.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_mini_green_won.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_mini_loan.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_mini_orange.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_mini_red.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_orange.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/overlays/cards_glow_red.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/unofficial/cards_bg_e_purple-evo-ii.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/unofficial/cards_bg_e_purple-evo-iii.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/unofficial/cards_bg_e_red-evo-ii.png",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "path": "assets/cards/fifa26/unofficial/cards_bg_e_red-evo-iii.png",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ],
+  "styles": [
+    {
+      "id": "bronze",
+      "label": "Non Rare Bronze",
+      "css_class": "bronze nonrare",
+      "filename": "cards_bg_e_1_0_1.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_0_1.png",
+      "static_file": "fifa26/cards_bg_e_1_0_1.png",
+      "has_image": true
+    },
+    {
+      "id": "silver",
+      "label": "Non Rare Silver",
+      "css_class": "silver nonrare",
+      "filename": "cards_bg_e_1_0_2.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_0_2.png",
+      "static_file": "fifa26/cards_bg_e_1_0_2.png",
+      "has_image": true
+    },
+    {
+      "id": "gold",
+      "label": "Non Rare Gold",
+      "css_class": "gold nonrare",
+      "filename": "cards_bg_e_1_0_3.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_0_3.png",
+      "static_file": "fifa26/cards_bg_e_1_0_3.png",
+      "has_image": true
+    },
+    {
+      "id": "rare_bronze",
+      "label": "Rare Bronze",
+      "css_class": "rare bronze",
+      "filename": "cards_bg_e_1_1_1.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_1_1.png",
+      "static_file": "fifa26/cards_bg_e_1_1_1.png",
+      "has_image": true
+    },
+    {
+      "id": "rare_silver",
+      "label": "Rare Silver",
+      "css_class": "rare silver",
+      "filename": "cards_bg_e_1_1_2.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_1_2.png",
+      "static_file": "fifa26/cards_bg_e_1_1_2.png",
+      "has_image": true
+    },
+    {
+      "id": "rare_gold",
+      "label": "Rare Gold",
+      "css_class": "rare gold",
+      "filename": "cards_bg_e_1_1_3.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_1_3.png",
+      "static_file": "fifa26/cards_bg_e_1_1_3.png",
+      "has_image": true
+    },
+    {
+      "id": "totw_gold",
+      "label": "Team of the Week Gold",
+      "css_class": "if gold",
+      "filename": "cards_bg_e_1_3_3.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_3_3.png",
+      "static_file": "fifa26/cards_bg_e_1_3_3.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_champions_gold",
+      "label": "FUT Champions Gold",
+      "css_class": "futchamp gold",
+      "filename": "cards_bg_e_1_19_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_19_0.png",
+      "static_file": "fifa26/cards_bg_e_1_19_0.png",
+      "has_image": true
+    },
+    {
+      "id": "halloween",
+      "label": "Ultimate Scream",
+      "css_class": "halloween",
+      "filename": "cards_bg_e_1_151_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_151_0.png",
+      "static_file": "fifa26/cards_bg_e_1_151_0.png",
+      "has_image": true
+    },
+    {
+      "id": "halloween_heroes",
+      "label": "Ultimate Scream Heroes",
+      "css_class": "halloween_heroes",
+      "filename": "cards_bg_e_1_168_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_168_0.png",
+      "static_file": "fifa26/cards_bg_e_1_168_0.png",
+      "has_image": true
+    },
+    {
+      "id": "legend",
+      "label": "Icon",
+      "css_class": "legend",
+      "filename": "cards_bg_e_1_12_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_12_0.png",
+      "static_file": "fifa26/cards_bg_e_1_12_0.png",
+      "has_image": true
+    },
+    {
+      "id": "prime_hero",
+      "label": "Debut Icon",
+      "css_class": "prime_hero",
+      "filename": "cards_bg_e_1_160_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_160_0.png",
+      "static_file": "fifa26/cards_bg_e_1_160_0.png",
+      "has_image": true
+    },
+    {
+      "id": "prime_hero_plus",
+      "label": "Champion Icon",
+      "css_class": "prime_hero_plus",
+      "filename": "cards_bg_e_1_161_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_161_0.png",
+      "static_file": "fifa26/cards_bg_e_1_161_0.png",
+      "has_image": true
+    },
+    {
+      "id": "motm",
+      "label": "Star Performer",
+      "css_class": "motm",
+      "filename": "cards_bg_e_1_8_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_8_0.png",
+      "static_file": "fifa26/cards_bg_e_1_8_0.png",
+      "has_image": true
+    },
+    {
+      "id": "sbc_flashback",
+      "label": "Flashback SBC",
+      "css_class": "sbc_flashback",
+      "filename": "cards_bg_e_1_51_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_51_0.png",
+      "static_file": "fifa26/cards_bg_e_1_51_0.png",
+      "has_image": true
+    },
+    {
+      "id": "sbc_premium",
+      "label": "End of an Era",
+      "css_class": "squad-builder-premium",
+      "filename": "cards_bg_e_1_25_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_25_0.png",
+      "static_file": "fifa26/cards_bg_e_1_25_0.png",
+      "has_image": true
+    },
+    {
+      "id": "ucl_live",
+      "label": "Champions League RTTK",
+      "css_class": "ucl ucl_live",
+      "filename": "cards_bg_e_1_50_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_50_0.png",
+      "static_file": "fifa26/cards_bg_e_1_50_0.png",
+      "has_image": true
+    },
+    {
+      "id": "ucl_rttf",
+      "label": "Champions League RTTF",
+      "css_class": "ucl ucl_rttf",
+      "filename": "cards_bg_e_1_124_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_124_0.png",
+      "static_file": "fifa26/cards_bg_e_1_124_0.png",
+      "has_image": true
+    },
+    {
+      "id": "uwcl_rttk",
+      "label": "UWCL RTTK",
+      "css_class": "uwcl_rttk",
+      "filename": "cards_bg_e_1_31_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_31_0.png",
+      "static_file": "fifa26/cards_bg_e_1_31_0.png",
+      "has_image": true
+    },
+    {
+      "id": "uwcl_rttf",
+      "label": "UWCL RTTF",
+      "css_class": "ucl uwcl_rttf",
+      "filename": "cards_bg_e_1_32_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_32_0.png",
+      "static_file": "fifa26/cards_bg_e_1_32_0.png",
+      "has_image": true
+    },
+    {
+      "id": "player_moments",
+      "label": "Player Moments",
+      "css_class": "player_moments",
+      "filename": "cards_bg_e_1_90_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_90_0.png",
+      "static_file": "fifa26/cards_bg_e_1_90_0.png",
+      "has_image": true
+    },
+    {
+      "id": "europa_live",
+      "label": "Europa League RTTK",
+      "css_class": "europa_league europa_live",
+      "filename": "cards_bg_e_1_46_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_46_0.png",
+      "static_file": "fifa26/cards_bg_e_1_46_0.png",
+      "has_image": true
+    },
+    {
+      "id": "europa_rttf",
+      "label": "Europa League RTTF",
+      "css_class": "europa_league europa_rttf",
+      "filename": "cards_bg_e_1_125_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_125_0.png",
+      "static_file": "fifa26/cards_bg_e_1_125_0.png",
+      "has_image": true
+    },
+    {
+      "id": "europa_conference_league",
+      "label": "Europa Conference League",
+      "css_class": "europa_conference_league",
+      "filename": "cards_bg_e_1_105_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_105_0.png",
+      "static_file": "fifa26/cards_bg_e_1_105_0.png",
+      "has_image": true
+    },
+    {
+      "id": "europa_conference_league_3",
+      "label": "Europa Conference League RTTF",
+      "css_class": "europa_conference_league_3",
+      "filename": "cards_bg_e_1_126_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_126_0.png",
+      "static_file": "fifa26/cards_bg_e_1_126_0.png",
+      "has_image": true
+    },
+    {
+      "id": "toty",
+      "label": "Team of the Year",
+      "css_class": "toty",
+      "filename": "cards_bg_e_1_5_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_5_0.png",
+      "static_file": "fifa26/cards_bg_e_1_5_0.png",
+      "has_image": true
+    },
+    {
+      "id": "toty_evolutions",
+      "label": "TOTY Evolutions",
+      "css_class": "toty_evolutions",
+      "filename": "cards_bg_e_1_132_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_132_0.png",
+      "static_file": "fifa26/cards_bg_e_1_132_0.png",
+      "has_image": true
+    },
+    {
+      "id": "toty_nominees",
+      "label": "TOTY Honorable Mention",
+      "css_class": "toty_nominees",
+      "filename": "cards_bg_e_1_64_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_64_0.png",
+      "static_file": "fifa26/cards_bg_e_1_64_0.png",
+      "has_image": true
+    },
+    {
+      "id": "toty_icons",
+      "label": "TOTY Icons",
+      "css_class": "toty_icons",
+      "filename": "cards_bg_e_1_155_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_155_0.png",
+      "static_file": "fifa26/cards_bg_e_1_155_0.png",
+      "has_image": true
+    },
+    {
+      "id": "toty_heroes",
+      "label": "TOTY Heroes",
+      "css_class": "toty_heroes",
+      "filename": "cards_bg_e_1_80_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_80_0.png",
+      "static_file": "fifa26/cards_bg_e_1_80_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_future_stars",
+      "label": "Future Stars",
+      "css_class": "fut_future_stars",
+      "filename": "cards_bg_e_1_71_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_71_0.png",
+      "static_file": "fifa26/cards_bg_e_1_71_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_future_stars_heroes",
+      "label": "Future Stars Heroes",
+      "css_class": "fut_future_stars_heroes",
+      "filename": "cards_bg_e_1_23_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_23_0.png",
+      "static_file": "fifa26/cards_bg_e_1_23_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_future_stars_evolutions_icons",
+      "label": "Future Stars Icons",
+      "css_class": "fut_future_stars_evolutions_icons",
+      "filename": "cards_bg_e_1_170_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_170_0.png",
+      "static_file": "fifa26/cards_bg_e_1_170_0.png",
+      "has_image": true
+    },
+    {
+      "id": "potm_bundesliga",
+      "label": "Bundesliga POTM",
+      "css_class": "potm_bundesliga",
+      "filename": "cards_bg_e_1_42_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_42_0.png",
+      "static_file": "fifa26/cards_bg_e_1_42_0.png",
+      "has_image": true
+    },
+    {
+      "id": "potm_pl",
+      "label": "Premier League POTM",
+      "css_class": "potm_pl",
+      "filename": "cards_bg_e_1_43_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_43_0.png",
+      "static_file": "fifa26/cards_bg_e_1_43_0.png",
+      "has_image": true
+    },
+    {
+      "id": "ligue_1_potm",
+      "label": "Ligue 1 POTM",
+      "css_class": "ligue_1_potm",
+      "filename": "cards_bg_e_1_79_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_79_0.png",
+      "static_file": "fifa26/cards_bg_e_1_79_0.png",
+      "has_image": true
+    },
+    {
+      "id": "la_liga_potm",
+      "label": "La Liga POTM",
+      "css_class": "la_liga_potm",
+      "filename": "cards_bg_e_1_86_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_86_0.png",
+      "static_file": "fifa26/cards_bg_e_1_86_0.png",
+      "has_image": true
+    },
+    {
+      "id": "potm_serie_a",
+      "label": "POTM Serie A",
+      "css_class": "potm_serie_a",
+      "filename": "cards_bg_e_1_114_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_114_0.png",
+      "static_file": "fifa26/cards_bg_e_1_114_0.png",
+      "has_image": true
+    },
+    {
+      "id": "potm_liga_f",
+      "label": "POTM Liga F",
+      "css_class": "potm_liga_f",
+      "filename": "cards_bg_e_1_177_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_177_0.png",
+      "static_file": "fifa26/cards_bg_e_1_177_0.png",
+      "has_image": true
+    },
+    {
+      "id": "objectives_reward_2",
+      "label": "Squad Foundations",
+      "css_class": "objectives_reward_2",
+      "filename": "cards_bg_e_1_87_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_87_0.png",
+      "static_file": "fifa26/cards_bg_e_1_87_0.png",
+      "has_image": true
+    },
+    {
+      "id": "icon_swaps_icons",
+      "label": "Icon Swaps Icons",
+      "css_class": "icon_swaps_icons",
+      "filename": "cards_bg_e_1_4_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_4_0.png",
+      "static_file": "fifa26/cards_bg_e_1_4_0.png",
+      "has_image": true
+    },
+    {
+      "id": "icon_swaps_1",
+      "label": "Icon Swaps I",
+      "css_class": "icon_swaps_1",
+      "filename": "cards_bg_e_1_9_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_9_0.png",
+      "static_file": "fifa26/cards_bg_e_1_9_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_birthday",
+      "label": "FUT Birthday",
+      "css_class": "fut_birthday",
+      "filename": "cards_bg_e_1_30_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_30_0.png",
+      "static_file": "fifa26/cards_bg_e_1_30_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_birthday_icons",
+      "label": "FUT Birthday Icons",
+      "css_class": "fut_birthday_icons",
+      "filename": "cards_bg_e_1_149_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_149_0.png",
+      "static_file": "fifa26/cards_bg_e_1_149_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_birthday_evolutions",
+      "label": "FUT Birthday Evolutions",
+      "css_class": "fut_birthday_evolutions",
+      "filename": "cards_bg_e_1_147_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_147_0.png",
+      "static_file": "fifa26/cards_bg_e_1_147_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_birthday_heroes",
+      "label": "FUT Birthday Heroes",
+      "css_class": "fut_birthday_heroes",
+      "filename": "cards_bg_e_1_148_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_148_0.png",
+      "static_file": "fifa26/cards_bg_e_1_148_0.png",
+      "has_image": true
+    },
+    {
+      "id": "tots_gold",
+      "label": "Team of the Season Gold",
+      "css_class": "tots gold",
+      "filename": "cards_bg_e_1_11_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_11_0.png",
+      "static_file": "fifa26/cards_bg_e_1_11_0.png",
+      "has_image": true
+    },
+    {
+      "id": "tots_moments",
+      "label": "TOTS Honorable Mentions",
+      "css_class": "tots_moments",
+      "filename": "cards_bg_e_1_65_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_65_0.png",
+      "static_file": "fifa26/cards_bg_e_1_65_0.png",
+      "has_image": true
+    },
+    {
+      "id": "tots_champions",
+      "label": "TOTS Champions",
+      "css_class": "tots_champions",
+      "filename": "cards_bg_e_1_127_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_127_0.png",
+      "static_file": "fifa26/cards_bg_e_1_127_0.png",
+      "has_image": true
+    },
+    {
+      "id": "tots_highlights",
+      "label": "TOTS Breakthroughs",
+      "css_class": "tots_highlights",
+      "filename": "cards_bg_e_1_120_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_120_0.png",
+      "static_file": "fifa26/cards_bg_e_1_120_0.png",
+      "has_image": true
+    },
+    {
+      "id": "tots_evolutions",
+      "label": "TOTS Evolutions",
+      "css_class": "tots_evolutions",
+      "filename": "cards_bg_e_1_133_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_133_0.png",
+      "static_file": "fifa26/cards_bg_e_1_133_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_showdown_boost",
+      "label": "FUT Showdown Boost",
+      "css_class": "fut_showdown_boost",
+      "filename": "cards_bg_e_1_57_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_57_0.png",
+      "static_file": "fifa26/cards_bg_e_1_57_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_showdown",
+      "label": "FUT Showdown",
+      "css_class": "fut_showdown",
+      "filename": "cards_bg_e_1_58_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_58_0.png",
+      "static_file": "fifa26/cards_bg_e_1_58_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_heroes",
+      "label": "FUT Heroes",
+      "css_class": "fut_heroes",
+      "filename": "cards_bg_e_1_72_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_72_0.png",
+      "static_file": "fifa26/cards_bg_e_1_72_0.png",
+      "has_image": true
+    },
+    {
+      "id": "signature_signings",
+      "label": "Signature Signings",
+      "css_class": "signature_signings",
+      "filename": "cards_bg_e_1_110_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_110_0.png",
+      "static_file": "fifa26/cards_bg_e_1_110_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_wildcard",
+      "label": "Winter Wildcard",
+      "css_class": "winter_wildcard",
+      "filename": "cards_bg_e_1_117_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_117_0.png",
+      "static_file": "fifa26/cards_bg_e_1_117_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_icons",
+      "label": "Winter Icons",
+      "css_class": "winter_icons",
+      "filename": "cards_bg_e_1_35_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_35_0.png",
+      "static_file": "fifa26/cards_bg_e_1_35_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_heroes",
+      "label": "Winter Heroes",
+      "css_class": "winter_heroes",
+      "filename": "cards_bg_e_1_49_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_49_0.png",
+      "static_file": "fifa26/cards_bg_e_1_49_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_wildcard_sbc",
+      "label": "Winter Wildcard SBC",
+      "css_class": "winter_wildcard_sbc",
+      "filename": "cards_bg_e_1_45_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_45_0.png",
+      "static_file": "fifa26/cards_bg_e_1_45_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_heroes_sbc",
+      "label": "Winter Heroes SBC",
+      "css_class": "winter_heroes_sbc",
+      "filename": "cards_bg_e_1_49_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_49_0.png",
+      "static_file": "fifa26/cards_bg_e_1_49_0.png",
+      "has_image": true
+    },
+    {
+      "id": "winter_icons_sbc",
+      "label": "Winter Icons SBC",
+      "css_class": "winter_icons_sbc",
+      "filename": "cards_bg_e_1_53_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_53_0.png",
+      "static_file": "fifa26/cards_bg_e_1_53_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_fantasy_blue",
+      "label": "FUT Fantasy",
+      "css_class": "fut_fantasy_blue",
+      "filename": "cards_bg_e_1_111_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_111_0.png",
+      "static_file": "fifa26/cards_bg_e_1_111_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_fantasy_heroes",
+      "label": "FUT Fantasy Heroes",
+      "css_class": "fut_fantasy_heroes",
+      "filename": "cards_bg_e_1_135_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_135_0.png",
+      "static_file": "fifa26/cards_bg_e_1_135_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_fantasy_icons",
+      "label": "Fantasy Captain Icons",
+      "css_class": "fut_fantasy_icons",
+      "filename": "cards_bg_e_1_116_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_116_0.png",
+      "static_file": "fifa26/cards_bg_e_1_116_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fut_fantasy_fpl_live",
+      "label": "Fantasy FPL Live",
+      "css_class": "fut_fantasy_fpl_live",
+      "filename": "cards_bg_e_1_113_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_113_0.png",
+      "static_file": "fifa26/cards_bg_e_1_113_0.png",
+      "has_image": true
+    },
+    {
+      "id": "evolutions_1",
+      "label": "Evolutions In-Progress",
+      "css_class": "evolutions_1",
+      "filename": "cards_bg_e_1_60_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_60_0.png",
+      "static_file": "fifa26/cards_bg_e_1_60_0.png",
+      "has_image": true
+    },
+    {
+      "id": "evolutions_2",
+      "label": "Evolutions I",
+      "css_class": "evolutions_2",
+      "filename": "cards_bg_e_1_61_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_61_0.png",
+      "static_file": "fifa26/cards_bg_e_1_61_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fc_pro",
+      "label": "FC Pro",
+      "css_class": "fc_pro",
+      "filename": "cards_bg_e_1_34_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_34_0.png",
+      "static_file": "fifa26/cards_bg_e_1_34_0.png",
+      "has_image": true
+    },
+    {
+      "id": "thunderstruck",
+      "label": "Thunderstruck",
+      "css_class": "thunderstruck",
+      "filename": "cards_bg_e_1_33_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_33_0.png",
+      "static_file": "fifa26/cards_bg_e_1_33_0.png",
+      "has_image": true
+    },
+    {
+      "id": "thunderstruck_icon",
+      "label": "Thunderstruck Icons",
+      "css_class": "thunderstruck_icon",
+      "filename": "cards_bg_e_1_157_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_157_0.png",
+      "static_file": "fifa26/cards_bg_e_1_157_0.png",
+      "has_image": true
+    },
+    {
+      "id": "virtual_bundesliga",
+      "label": "Virtual Bundesliga",
+      "css_class": "virtual_bundesliga",
+      "filename": "cards_bg_e_1_44_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_44_0.png",
+      "static_file": "fifa26/cards_bg_e_1_44_0.png",
+      "has_image": true
+    },
+    {
+      "id": "track_stars",
+      "label": "Joga Bonito",
+      "css_class": "track_stars",
+      "filename": "cards_bg_e_1_96_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_96_0.png",
+      "static_file": "fifa26/cards_bg_e_1_96_0.png",
+      "has_image": true
+    },
+    {
+      "id": "track_star_heroes",
+      "label": "Joga Bonito Heroes",
+      "css_class": "track_star_heroes",
+      "filename": "cards_bg_e_1_97_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_97_0.png",
+      "static_file": "fifa26/cards_bg_e_1_97_0.png",
+      "has_image": true
+    },
+    {
+      "id": "mastery_rivals",
+      "label": "Rivals Mastery",
+      "css_class": "mastery_rivals",
+      "filename": "cards_bg_e_1_129_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_129_0.png",
+      "static_file": "fifa26/cards_bg_e_1_129_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fc_pro_open_champion_icon",
+      "label": "FC Pro Open Champion Icon",
+      "css_class": "fc_pro_open_champion_icon",
+      "filename": "cards_bg_e_1_162_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_162_0.png",
+      "static_file": "fifa26/cards_bg_e_1_162_0.png",
+      "has_image": true
+    },
+    {
+      "id": "ucl_heroes",
+      "label": "UCL Primetime Heroes",
+      "css_class": "ucl ucl_heroes",
+      "filename": "cards_bg_e_1_26_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_26_0.png",
+      "static_file": "fifa26/cards_bg_e_1_26_0.png",
+      "has_image": true
+    },
+    {
+      "id": "uwcl_heroes",
+      "label": "UWCL Primetime Heroes",
+      "css_class": "uwcl_heroes",
+      "filename": "cards_bg_e_1_27_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_27_0.png",
+      "static_file": "fifa26/cards_bg_e_1_27_0.png",
+      "has_image": true
+    },
+    {
+      "id": "world_tour",
+      "label": "World Tour",
+      "css_class": "world_tour",
+      "filename": "cards_bg_e_1_91_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_91_0.png",
+      "static_file": "fifa26/cards_bg_e_1_91_0.png",
+      "has_image": true
+    },
+    {
+      "id": "world_tour_silver_superstars",
+      "label": "World Tour Silver Superstars",
+      "css_class": "world_tour_silver_superstars",
+      "filename": "cards_bg_e_1_69_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_69_0.png",
+      "static_file": "fifa26/cards_bg_e_1_69_0.png",
+      "has_image": true
+    },
+    {
+      "id": "world_tour_premium",
+      "label": "World Tour Premium",
+      "css_class": "world_tour_premium",
+      "filename": "cards_bg_e_1_68_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_68_0.png",
+      "static_file": "fifa26/cards_bg_e_1_68_0.png",
+      "has_image": true
+    },
+    {
+      "id": "cornerstones",
+      "label": "Cornerstones",
+      "css_class": "cornerstones",
+      "filename": "cards_bg_e_1_150_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_150_0.png",
+      "static_file": "fifa26/cards_bg_e_1_150_0.png",
+      "has_image": true
+    },
+    {
+      "id": "ratings_reload",
+      "label": "Ratings Reload",
+      "css_class": "ratings_reload",
+      "filename": "cards_bg_e_1_22_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_22_0.png",
+      "static_file": "fifa26/cards_bg_e_1_22_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fof_captains",
+      "label": "Festival of Football Captains",
+      "css_class": "fof_captains",
+      "filename": "cards_bg_e_1_28_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_28_0.png",
+      "static_file": "fifa26/cards_bg_e_1_28_0.png",
+      "has_image": true
+    },
+    {
+      "id": "classic_xi_hero",
+      "label": "Classic XI Heroes",
+      "css_class": "classic_xi_hero",
+      "filename": "cards_bg_e_1_81_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_81_0.png",
+      "static_file": "fifa26/cards_bg_e_1_81_0.png",
+      "has_image": true
+    },
+    {
+      "id": "unbreakables",
+      "label": "Unbreakables",
+      "css_class": "unbreakables",
+      "filename": "cards_bg_e_1_82_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_82_0.png",
+      "static_file": "fifa26/cards_bg_e_1_82_0.png",
+      "has_image": true
+    },
+    {
+      "id": "unbreakables_icon",
+      "label": "Unbreakables Icons",
+      "css_class": "unbreakables_icon",
+      "filename": "cards_bg_e_1_85_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_85_0.png",
+      "static_file": "fifa26/cards_bg_e_1_85_0.png",
+      "has_image": true
+    },
+    {
+      "id": "unbreakables_hero",
+      "label": "Unbreakables Heroes",
+      "css_class": "unbreakables_hero",
+      "filename": "cards_bg_e_1_83_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_83_0.png",
+      "static_file": "fifa26/cards_bg_e_1_83_0.png",
+      "has_image": true
+    },
+    {
+      "id": "unbreakables_evolutions",
+      "label": "Unbreakables Evolutions",
+      "css_class": "unbreakables_evolutions",
+      "filename": "cards_bg_e_1_88_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_88_0.png",
+      "static_file": "fifa26/cards_bg_e_1_88_0.png",
+      "has_image": true
+    },
+    {
+      "id": "time_warp",
+      "label": "Time Warp",
+      "css_class": "time_warp",
+      "filename": "cards_bg_e_1_108_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_108_0.png",
+      "static_file": "fifa26/cards_bg_e_1_108_0.png",
+      "has_image": true
+    },
+    {
+      "id": "time_warp_icons",
+      "label": "Time Warp Icons",
+      "css_class": "time_warp_icons",
+      "filename": "cards_bg_e_1_112_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_112_0.png",
+      "static_file": "fifa26/cards_bg_e_1_112_0.png",
+      "has_image": true
+    },
+    {
+      "id": "knockout_royalty",
+      "label": "Knockout Royalty",
+      "css_class": "knockout_royalty",
+      "filename": "cards_bg_e_1_55_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_55_0.png",
+      "static_file": "fifa26/cards_bg_e_1_55_0.png",
+      "has_image": true
+    },
+    {
+      "id": "knockout_royalty_icons",
+      "label": "Knockout Royalty Icons",
+      "css_class": "knockout_royalty_icons",
+      "filename": "cards_bg_e_1_15_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_15_0.png",
+      "static_file": "fifa26/cards_bg_e_1_15_0.png",
+      "has_image": true
+    },
+    {
+      "id": "knockout_royalty_heroes",
+      "label": "Knockout Royalty Heroes",
+      "css_class": "knockout_royalty_heroes",
+      "filename": "cards_bg_e_1_14_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_14_0.png",
+      "static_file": "fifa26/cards_bg_e_1_14_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fof_answer_the_call",
+      "label": "Answer the Call",
+      "css_class": "fof_answer_the_call",
+      "filename": "cards_bg_e_1_20_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_20_0.png",
+      "static_file": "fifa26/cards_bg_e_1_20_0.png",
+      "has_image": true
+    },
+    {
+      "id": "fc_pro_rock",
+      "label": "FC Pro Rock",
+      "css_class": "fc_pro_rock",
+      "filename": "cards_bg_e_1_38_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_38_0.png",
+      "static_file": "fifa26/cards_bg_e_1_38_0.png",
+      "has_image": true
+    },
+    {
+      "id": "trophy_titans_evolutions",
+      "label": "Trophy Titans Evolutions",
+      "css_class": "trophy_titans_evolutions",
+      "filename": "cards_bg_e_1_75_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_75_0.png",
+      "static_file": "fifa26/cards_bg_e_1_75_0.png",
+      "has_image": true
+    },
+    {
+      "id": "trophy_titans_icons",
+      "label": "Trophy Titans Icons",
+      "css_class": "trophy_titans_icons",
+      "filename": "cards_bg_e_1_76_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_76_0.png",
+      "static_file": "fifa26/cards_bg_e_1_76_0.png",
+      "has_image": true
+    },
+    {
+      "id": "trophy_titans_heroes",
+      "label": "Trophy Titans Heroes",
+      "css_class": "trophy_titans_heroes",
+      "filename": "cards_bg_e_1_77_0.png",
+      "source_path": "../assets/cards/fifa26/cards_bg_e_1_77_0.png",
+      "static_file": "fifa26/cards_bg_e_1_77_0.png",
+      "has_image": true
+    }
+  ]
+}

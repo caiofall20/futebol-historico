@@ -1,0 +1,482 @@
+// ===========================================
+// RESPONSIVIDADE E MOBILE-FIRST
+// ===========================================
+
+@import '_variables';
+
+// ===========================================
+// MIXINS PARA RESPONSIVIDADE
+// ===========================================
+
+@mixin mobile {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$breakpoint-sm}) and (max-width: #{$breakpoint-md - 1px}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$breakpoint-md}) {
+        @content;
+    }
+}
+
+@mixin large-desktop {
+    @media (min-width: #{$breakpoint-lg}) {
+        @content;
+    }
+}
+
+// ===========================================
+// GRID SYSTEM RESPONSIVO
+// ===========================================
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+    
+    @include mobile {
+        padding: 0 $spacing-sm;
+    }
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 (-$spacing-sm);
+}
+
+.col {
+    flex: 1;
+    padding: 0 $spacing-sm;
+}
+
+.col-12 { width: 100%; }
+.col-6 { width: 50%; }
+.col-4 { width: 33.333%; }
+.col-3 { width: 25%; }
+
+@include mobile {
+    .col-6,
+    .col-4,
+    .col-3 {
+        width: 100%;
+    }
+}
+
+@include tablet {
+    .col-4 {
+        width: 50%;
+    }
+}
+
+// ===========================================
+// NAVEGAÇÃO RESPONSIVA
+// ===========================================
+
+.header__nav {
+    @include mobile {
+        .header__nav--menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100vh;
+            background: $background-glass;
+            backdrop-filter: blur(20px);
+            transition: left $duration-normal $ease-in-out;
+            z-index: $z-index-modal;
+            padding: $spacing-2xl;
+            
+            &.active {
+                left: 0;
+            }
+        }
+        
+        .menu-items {
+            flex-direction: column;
+            gap: $spacing-lg;
+            
+            li {
+                width: 100%;
+                
+                a {
+                    display: block;
+                    padding: $spacing-md;
+                    font-size: $font-size-lg;
+                    border-radius: $border-radius-md;
+                    transition: all $duration-normal $ease-in-out;
+                    
+                    &:hover {
+                        background: $hover-accent;
+                        transform: translateX($spacing-sm);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ===========================================
+// CARDS RESPONSIVOS
+// ===========================================
+
+.jogadores-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include large-desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.copas-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include large-desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+// ===========================================
+// FORMULÁRIOS RESPONSIVOS
+// ===========================================
+
+.filter-input {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.form-group {
+    @include mobile {
+        margin-bottom: $spacing-md;
+    }
+}
+
+// ===========================================
+// TIPOGRAFIA RESPONSIVA
+// ===========================================
+
+h1 {
+    font-size: $font-size-3xl;
+    
+    @include mobile {
+        font-size: $font-size-2xl;
+    }
+}
+
+h2 {
+    font-size: $font-size-2xl;
+    
+    @include mobile {
+        font-size: $font-size-xl;
+    }
+}
+
+h3 {
+    font-size: $font-size-xl;
+    
+    @include mobile {
+        font-size: $font-size-lg;
+    }
+}
+
+.hero-section h1 {
+    font-size: $font-size-5xl;
+    
+    @include mobile {
+        font-size: $font-size-3xl;
+    }
+}
+
+// ===========================================
+// BOTÕES RESPONSIVOS
+// ===========================================
+
+.btn {
+    @include mobile {
+        width: 100%;
+        justify-content: center;
+        padding: $spacing-md $spacing-lg;
+    }
+}
+
+.btn-group {
+    display: flex;
+    gap: $spacing-sm;
+    
+    @include mobile {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+// ===========================================
+// CARDS RESPONSIVOS
+// ===========================================
+
+.card {
+    @include mobile {
+        padding: $spacing-md;
+        border-radius: $border-radius-lg;
+    }
+}
+
+.jogador-card {
+    @include mobile {
+        .jogador-info {
+            padding: $spacing-md;
+        }
+        
+        .btn-ver-mais {
+            position: static;
+            transform: none;
+            margin-top: $spacing-md;
+            width: 100%;
+        }
+    }
+}
+
+// ===========================================
+// SEÇÕES RESPONSIVAS
+// ===========================================
+
+.section-home {
+    @include mobile {
+        padding: $spacing-lg 0;
+        text-align: center;
+        
+        .section-home--content__info {
+            margin-bottom: $spacing-xl;
+        }
+    }
+}
+
+.options-content--list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include large-desktop {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+// ===========================================
+// CARROSSEL RESPONSIVO
+// ===========================================
+
+.highlight-players--content-carousel {
+    @include mobile {
+        .slick-slide {
+            padding: 0 $spacing-sm;
+        }
+    }
+}
+
+// ===========================================
+// FOOTER RESPONSIVO
+// ===========================================
+
+.footer-content {
+    @include mobile {
+        flex-direction: column;
+        text-align: center;
+        gap: $spacing-md;
+        
+        .icons {
+            justify-content: center;
+        }
+    }
+}
+
+// ===========================================
+// UTILITÁRIOS RESPONSIVOS
+// ===========================================
+
+.d-none-mobile {
+    @include mobile {
+        display: none !important;
+    }
+}
+
+.d-none-desktop {
+    @include desktop {
+        display: none !important;
+    }
+}
+
+.text-center-mobile {
+    @include mobile {
+        text-align: center;
+    }
+}
+
+.w-full-mobile {
+    @include mobile {
+        width: 100%;
+    }
+}
+
+// ===========================================
+// ANIMAÇÕES RESPONSIVAS
+// ===========================================
+
+@include mobile {
+    .card:hover {
+        transform: none; // Desabilitar hover em mobile
+    }
+    
+    .btn:hover {
+        transform: none; // Desabilitar hover em mobile
+    }
+}
+
+// ===========================================
+// TOUCH TARGETS
+// ===========================================
+
+@include mobile {
+    .btn,
+    .menu-items a,
+    .dropdown-toggle {
+        min-height: 44px; // Touch target mínimo
+        min-width: 44px;
+    }
+}
+
+// ===========================================
+// ORIENTAÇÃO LANDSCAPE
+// ===========================================
+
+@media (orientation: landscape) and (max-height: 500px) {
+    .hero-section {
+        padding: $spacing-lg 0;
+        
+        h1 {
+            font-size: $font-size-2xl;
+        }
+    }
+    
+    .section-home {
+        padding: $spacing-md 0;
+    }
+}
+
+// ===========================================
+// RESPONSIVIDADE DO CARD DAS SELEÇÕES
+// ===========================================
+
+.nations-of-world-card {
+    @include mobile {
+        width: 100%;
+        max-height: 400px;
+        padding: 15px;
+        margin: 10px 0;
+        
+        .country-stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            
+            .stat-item {
+                padding: 8px;
+                
+                .stat-value {
+                    font-size: 1.2rem;
+                }
+                
+                .stat-label {
+                    font-size: 0.7rem;
+                }
+            }
+        }
+        
+        .additional-info {
+            .info-section {
+                padding: 8px;
+                margin-bottom: 8px;
+                
+                h5 {
+                    font-size: 0.8rem;
+                }
+                
+                p {
+                    font-size: 0.7rem;
+                }
+            }
+        }
+    }
+    
+    @include tablet {
+        .country-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+
+// Layout responsivo para o mapa e card lado a lado
+@include mobile {
+    .nations-of-world .row {
+        flex-direction: column;
+        
+        .col-lg-8, .col-lg-4 {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        #chartdiv {
+            height: 300px !important;
+        }
+        
+        .nations-of-world-card {
+            position: relative !important;
+            top: auto !important;
+            right: auto !important;
+            max-width: 100% !important;
+            margin: 10px auto !important;
+        }
+    }
+}

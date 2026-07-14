@@ -4,373 +4,629 @@
 
 {% block extra_head %}
 <style>
-    .hero-section {
-        color: white;
-        padding: 80px 0;
-        text-align: center;
+    .times-page {
+        min-height: 100vh;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        color: #EDF2F4;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        padding-top: 80px;
         position: relative;
-        z-index: 1;
-        margin-top: 56px;
+        overflow-x: hidden;
     }
 
-    .hero-section h1 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        background: linear-gradient(45deg, #66aaff, #004a8f);
+    .times-page #stars, .times-page #stars2, .times-page #stars3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .times-page #stars {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+        animation: none;
+    }
+
+    .times-page #stars2 {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+        animation: none;
+    }
+
+    .times-page #stars3 {
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff;
+        animation: none;
+    }
+
+    /* Hero Section */
+    .hero-times {
+        text-align: center;
+        padding: 4rem 0 3rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 10;
+    }
+
+    .hero-times h1 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        background-clip: text;
+        margin: 0 0 1rem 0;
+        letter-spacing: 2px;
     }
 
-    .hero-section p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        color: #b0b0b0;
+    .hero-times p {
+        color: #8D99AE;
+        font-size: 1.3rem;
+        margin: 0;
+        font-weight: 300;
     }
 
-    .container {
+    /* Container */
+    .times-container {
         position: relative;
+        z-index: 10;
+        margin: 0 auto;
+        max-width: 1400px;
+        padding: 0 2rem 4rem;
+    }
+
+    /* Filtros Modernos */
+    .filtros-modernos {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .filtros-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr auto;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        background: rgba(255,255,255,.05);
+        border: 2px solid rgba(102,170,255,.3);
+        border-radius: 12px;
+        color: #EDF2F4;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+        outline: none;
+        border-color: #66AAFF;
+        background: rgba(255,255,255,.08);
+        box-shadow: 0 0 20px rgba(102,170,255,.3);
+    }
+
+    .search-box::before {
+        content: '🔍';
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+        z-index: 1;
+    }
+
+    .filter-select {
+        padding: 1rem;
+        background: rgba(255,255,255,.05);
+        border: 2px solid rgba(102,170,255,.3);
+        border-radius: 12px;
+        color: #EDF2F4;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: #66AAFF;
+        background: rgba(255,255,255,.08);
+    }
+
+    .btn-limpar {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, rgba(239,68,68,.2), rgba(220,38,38,.1));
+        border: 2px solid rgba(239,68,68,.4);
+        color: #ff6b6b;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .btn-limpar:hover {
+        background: linear-gradient(135deg, rgba(239,68,68,.3), rgba(220,38,38,.2));
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(239,68,68,.3);
+    }
+
+    .results-counter {
+        text-align: center;
+        padding: 1rem 0 0;
+        color: #8D99AE;
+        font-size: 1rem;
+        margin-top: 1rem;
+        border-top: 1px solid rgba(102,170,255,.1);
+    }
+
+    .results-counter .count {
+        color: #66AAFF;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    /* Grid de Cards */
+    .times-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+    }
+
+    /* Card Moderno */
+    .time-card-modern {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .time-card-modern.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .time-card-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 60px rgba(102,170,255,.4);
+        border-color: rgba(102,170,255,.5);
+    }
+
+    /* Imagem do Time */
+    .card-image-wrapper {
+        position: relative;
+        height: 350px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .time-card-modern:hover .card-image-wrapper img {
+        transform: scale(1.1);
+    }
+
+    /* Badge de Região */
+    .region-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.3);
         z-index: 2;
     }
 
-    .filter-section {
-        margin-bottom: 40px;
-        border-radius: 15px;
-        padding: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    .badge-europa { background: linear-gradient(135deg, #004a8f, #0066cc); color: #fff; }
+    .badge-america-do-sul { background: linear-gradient(135deg, #009739, #00d84f); color: #fff; }
+    .badge-america-central { background: linear-gradient(135deg, #008751, #00c96b); color: #fff; }
+    .badge-africa { background: linear-gradient(135deg, #008751, #00c96b); color: #fff; }
+    .badge-asia { background: linear-gradient(135deg, #ff6b35, #ff8c5a); color: #fff; }
 
-    .filter-input {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
-        margin-bottom: 0;
-    }
-
-    .filter-input input {
-        background: rgba(30, 30, 30, 0.6);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        color: #fff;
-        padding: 15px 20px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-    }
-
-    .filter-input input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
-    }
-
-    .filter-input input:focus {
-        background: rgba(40, 40, 40, 0.8);
-        border-color: #004a8f;
-        box-shadow: 0 0 20px rgba(0, 74, 143, 0.2);
-        outline: none;
-    }
-
-    .times-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 30px;
-        padding: 20px 0;
-    }
-
-    .time-card {
-        background: rgba(20, 20, 20, 0.6);
-        color: #fff;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
-    }
-
-    .time-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 35px rgba(0, 74, 143, 0.3);
-        border-color: rgba(102, 170, 255, 0.3);
-    }
-
-    .time-card img {
-        width: 100%;
-        height: 400px;
-        object-fit: contain;
-        border-bottom: 3px solid #004a8f;
-        transition: transform 0.3s ease;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 10px;
-    }
-
-    .time-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .card-body {
-        text-align: center;
-        padding: 25px;
+    /* Conteúdo do Card */
+    .card-content {
+        padding: 2rem;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        background: linear-gradient(to top, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.6));
     }
 
-    .card-body h5 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: #fff;
-        font-weight: bold;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
-    .card-info {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        font-size: 0.95rem;
-        margin-bottom: 20px;
-        color: #b0b0b0;
-        padding: 15px;
-        border-radius: 8px;
-        background: rgba(0, 0, 0, 0.2);
+    .card-stats {
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
     }
 
-    .card-info-row {
+    .stat-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 5px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .card-info-row:last-child {
-        border-bottom: none;
-    }
-
-    .info-label {
-        color: #66aaff;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
-    .info-label::after {
-        content: ":";
-        margin-right: 5px;
-        color: #66aaff;
-    }
-
-    .info-value {
-        color: #fff;
-        font-size: 0.9rem;
-        margin-left: 5px;
-    }
-
-    .btn-primary {
-        background: linear-gradient(45deg, #004a8f, #0066cc);
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
+        padding: 0.75rem;
+        background: rgba(255,255,255,.03);
+        border-radius: 10px;
+        border-left: 3px solid rgba(102,170,255,.3);
         transition: all 0.3s ease;
-        text-transform: uppercase;
+    }
+
+    .stat-row:hover {
+        background: rgba(255,255,255,.05);
+        border-left-color: #66AAFF;
+        transform: translateX(5px);
+    }
+
+    .stat-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #8D99AE;
         font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        color: #66AAFF;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    /* Footer do Card */
+    .card-footer {
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(102,170,255,.1);
+    }
+
+    .btn-ver-detalhes {
+        width: 100%;
+        padding: 0.875rem 1.5rem;
+        background: linear-gradient(135deg, #66AAFF, #1d4ed8);
+        border: none;
+        border-radius: 12px;
         color: white;
-        position: relative;
-        overflow: hidden;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        text-align: center;
     }
 
-    .btn-primary:hover {
-        background: linear-gradient(45deg, #003366, #004a8f);
+    .btn-ver-detalhes:hover {
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 74, 143, 0.4);
+        box-shadow: 0 10px 30px rgba(102,170,255,.5);
     }
 
-    .btn-primary::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(45deg) translate(-100%, -100%);
-        transition: transform 0.3s ease;
-    }
-
-    .btn-primary:hover::after {
-        transform: rotate(45deg) translate(50%, 50%);
-    }
-
+    /* Mensagem Sem Resultados */
     .no-results {
         text-align: center;
-        padding: 40px;
-        background: rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-        margin: 20px 0;
-        color: #b0b0b0;
-        font-size: 1.1rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, rgba(15,23,42,.95), rgba(30,41,59,.98));
+        border-radius: 20px;
+        border: 1px solid rgba(102,170,255,.2);
+        margin: 2rem 0;
     }
 
+    .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+        color: #EDF2F4;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+        color: #8D99AE;
+        font-size: 1.1rem;
+    }
+
+    /* Responsivo */
     @media (max-width: 1200px) {
         .times-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         }
     }
 
     @media (max-width: 768px) {
-        .hero-section {
-            padding: 60px 0;
-            margin-top: 48px;
+        .times-container {
+            padding: 0 1rem 4rem;
         }
 
-        .hero-section h1 {
-            font-size: 2.5rem;
-        }
-
-        .hero-section p {
-            font-size: 1rem;
-        }
-
-        .filter-input {
+        .filtros-container {
             grid-template-columns: 1fr;
         }
 
         .times-grid {
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
 
-        .time-card img {
-            height: 300px;
+        .card-image-wrapper {
+            height: 280px;
+        }
+
+        .card-content {
+            padding: 1.5rem;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <h1>Times Históricos</h1>
-        <p>Conheça os clubes que fizeram história no futebol mundial</p>
-    </div>
-</section>
+<div class="times-page">
+    <!-- Estrelas de Fundo -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
 
-<div class="container">
-    <!-- Filtros -->
-    <div class="filter-section">
-        <div class="filter-input">
-            <input type="text" id="nome" placeholder="Nome do Time...">
-            <input type="text" id="pais" placeholder="País...">
-            <input type="text" id="fundacao" placeholder="Ano de Fundação...">
-            <button id="clearFilters" class="btn-primary">Limpar Filtros</button>
+    <!-- Hero Section -->
+    <section class="hero-times">
+        <div class="container">
+            <h1>TIMES HISTÓRICOS</h1>
+            <p>Explore os grandes clubes que marcaram história no futebol mundial</p>
         </div>
-    </div>
+    </section>
 
-    <!-- Listagem de Times -->
-    <div class="times-grid" id="times-container">
-        {% for time in times %}
-            <div class="time-card">
-                {% if time.imagem %}
-                    <img src="{{ time.imagem.url }}" alt="{{ time.nome }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5>{{ time.nome }}</h5>
-                    <div class="card-info">
-                        <div class="card-info-row">
-                            <span class="info-label">País</span>
-                            <span class="info-value">{{ time.pais }}</span>
+    <div class="container times-container">
+        <!-- Filtros Modernos -->
+        <div class="filtros-modernos">
+            <div class="filtros-container">
+                <div class="search-box">
+                    <input type="text" id="filtroNome" placeholder="Buscar time...">
+                </div>
+                <select class="filter-select" id="filtroRegiao">
+                    <option value="">Todas as Regiões</option>
+                    <option value="Europa">Europa</option>
+                    <option value="América do Sul">América do Sul</option>
+                    <option value="América Central">América Central</option>
+                    <option value="África">África</option>
+                    <option value="Ásia">Ásia</option>
+                </select>
+                <select class="filter-select" id="ordenarPor">
+                    <option value="nome">Ordenar: Nome</option>
+                    <option value="titulos">Ordenar: Títulos</option>
+                    <option value="fundacao">Ordenar: Fundação</option>
+                </select>
+                <button class="btn-limpar" id="limparFiltros">Limpar</button>
+            </div>
+            <div class="results-counter" id="resultCount">
+                Mostrando <span class="count">0</span> times
+            </div>
+        </div>
+
+        <!-- Grid de Times -->
+        <div class="times-grid" id="timesGrid">
+            {% for time in times %}
+                <div class="time-card-modern" 
+                     data-nome="{{ time.nome|lower }}" 
+                     data-regiao="{{ time.regiao }}"
+                     data-titulos="{{ time.titulos }}"
+                     data-fundacao="{{ time.fundacao|date:'Y' }}"
+                     style="--item-index: {{ forloop.counter0 }};">
+
+                    <!-- Imagem -->
+                    <div class="card-image-wrapper">
+                        {% if time.imagem %}
+                            <img src="{{ time.imagem.url }}" alt="{{ time.nome }}" loading="lazy">
+                        {% else %}
+                            <div style="font-size: 4rem; opacity: 0.3;">
+                                ⚽
+                            </div>
+                        {% endif %}
+                        {% if time.regiao == 'Europa' %}
+                            <span class="region-badge badge-europa">{{ time.regiao }}</span>
+                        {% elif time.regiao == 'América do Sul' %}
+                            <span class="region-badge badge-america-do-sul">{{ time.regiao }}</span>
+                        {% elif time.regiao == 'América Central' %}
+                            <span class="region-badge badge-america-central">{{ time.regiao }}</span>
+                        {% elif time.regiao == 'África' %}
+                            <span class="region-badge badge-africa">{{ time.regiao }}</span>
+                        {% elif time.regiao == 'Ásia' %}
+                            <span class="region-badge badge-asia">{{ time.regiao }}</span>
+                        {% else %}
+                            <span class="region-badge badge-europa">{{ time.regiao }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Conteúdo -->
+                    <div class="card-content">
+                        <h3 class="card-title">{{ time.nome }}</h3>
+                        
+                        <div class="card-stats">
+                            <div class="stat-row">
+                                <span class="stat-label">
+                                    <span>📅</span>
+                                    <span>Fundação</span>
+                                </span>
+                                <span class="stat-value">{{ time.fundacao|date:"Y" }}</span>
+                            </div>
+                            
+                            <div class="stat-row">
+                                <span class="stat-label">
+                                    <span>🏆</span>
+                                    <span>Títulos</span>
+                                </span>
+                                <span class="stat-value">{{ time.titulos }}</span>
+                            </div>
                         </div>
-                        <div class="card-info-row">
-                            <span class="info-label">Fundação</span>
-                            <span class="info-value">{{ time.fundacao }}</span>
-                        </div>
-                        <div class="card-info-row">
-                            <span class="info-label">Estádio</span>
-                            <span class="info-value">{{ time.estadio }}</span>
+
+                        <div class="card-footer">
+                            <a href="{% url 'time_detail' time_id=time.id %}" class="btn-ver-detalhes">
+                                Ver Detalhes →
+                            </a>
                         </div>
                     </div>
-                    <a href="{% url 'time_detail' time_id=time.id %}" class="btn-primary">Ver Detalhes</a>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
 
-    <!-- Mensagem sem resultados -->
-    <div id="noResults" class="no-results" style="display: none;">
-        Nenhum time encontrado com os filtros selecionados.
+        <!-- Mensagem Sem Resultados -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>Nenhum time encontrado</h3>
+            <p>Tente ajustar os filtros de busca</p>
+        </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const nomeInput = document.getElementById('nome');
-        const paisInput = document.getElementById('pais');
-        const fundacaoInput = document.getElementById('fundacao');
-        const clearFiltersBtn = document.getElementById('clearFilters');
-        const timesContainer = document.getElementById('times-container');
-        const noResultsDiv = document.getElementById('noResults');
-        const timeCards = document.querySelectorAll('.time-card');
+(function() {
+    'use strict';
 
-        function aplicarFiltros() {
-            const nome = nomeInput.value.toLowerCase();
-            const pais = paisInput.value.toLowerCase();
-            const fundacao = fundacaoInput.value.toLowerCase();
-            let encontrouResultados = false;
+    const cards = document.querySelectorAll('.time-card-modern');
+    const filtroNome = document.getElementById('filtroNome');
+    const filtroRegiao = document.getElementById('filtroRegiao');
+    const ordenarPor = document.getElementById('ordenarPor');
+    const limparFiltros = document.getElementById('limparFiltros');
+    const resultCount = document.getElementById('resultCount');
+    const noResults = document.getElementById('noResults');
+    const grid = document.getElementById('timesGrid');
 
-            timeCards.forEach(card => {
-                const nomeTime = card.querySelector('h5').textContent.toLowerCase();
-                const paisTime = card.querySelector('.card-info-row:nth-child(1) .info-value').textContent.toLowerCase();
-                const fundacaoTime = card.querySelector('.card-info-row:nth-child(2) .info-value').textContent.toLowerCase();
-
-                const matchNome = nomeTime.includes(nome);
-                const matchPais = paisTime.includes(pais);
-                const matchFundacao = fundacaoTime.includes(fundacao);
-
-                if (matchNome && matchPais && matchFundacao) {
-                    card.style.display = 'flex';
-                    encontrouResultados = true;
-                } else {
-                    card.style.display = 'none';
-                }
+    // Animações de entrada sequenciais
+    function initAnimations() {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
             });
 
-            atualizarMensagemSemResultados(encontrouResultados);
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        } else {
+            cards.forEach(card => card.classList.add('visible'));
         }
+    }
 
-        function atualizarMensagemSemResultados(encontrouResultados) {
-            if (encontrouResultados) {
-                noResultsDiv.style.display = 'none';
-            } else {
-                noResultsDiv.style.display = 'block';
-            }
-        }
+    // Aplicar filtros
+    function aplicarFiltros() {
+        const nome = filtroNome.value.toLowerCase().trim();
+        const regiao = filtroRegiao.value;
+        let visiveis = [];
 
-        function limparFiltros() {
-            nomeInput.value = '';
-            paisInput.value = '';
-            fundacaoInput.value = '';
+        cards.forEach(card => {
+            const nomeTime = card.dataset.nome || '';
+            const regiaoTime = card.dataset.regiao || '';
+            
+            const matchNome = !nome || nomeTime.includes(nome);
+            const matchRegiao = !regiao || regiaoTime === regiao;
 
-            timeCards.forEach(card => {
+            if (matchNome && matchRegiao) {
                 card.style.display = 'flex';
-            });
+                visiveis.push(card);
+            } else {
+                card.style.display = 'none';
+            }
+        });
 
-            noResultsDiv.style.display = 'none';
-        }
+        // Ordenação
+        const ordem = ordenarPor.value;
+        visiveis.sort((a, b) => {
+            if (ordem === 'nome') {
+                return (a.dataset.nome || '').localeCompare(b.dataset.nome || '');
+            } else if (ordem === 'titulos') {
+                return parseInt(b.dataset.titulos || 0) - parseInt(a.dataset.titulos || 0);
+            } else if (ordem === 'fundacao') {
+                return parseInt(a.dataset.fundacao || 0) - parseInt(b.dataset.fundacao || 0);
+            }
+            return 0;
+        });
 
-        // Event Listeners
-        nomeInput.addEventListener('input', aplicarFiltros);
-        paisInput.addEventListener('input', aplicarFiltros);
-        fundacaoInput.addEventListener('input', aplicarFiltros);
-        clearFiltersBtn.addEventListener('click', limparFiltros);
+        // Reordenar no DOM
+        visiveis.forEach(card => grid.appendChild(card));
+
+        // Atualizar contador
+        const count = visiveis.length;
+        resultCount.innerHTML = `Mostrando <span class="count">${count}</span> time${count !== 1 ? 's' : ''}`;
+        noResults.style.display = count === 0 ? 'block' : 'none';
+    }
+
+    // Limpar filtros
+    function limpar() {
+        filtroNome.value = '';
+        filtroRegiao.value = '';
+        ordenarPor.value = 'nome';
+        aplicarFiltros();
+    }
+
+    // Event Listeners
+    filtroNome.addEventListener('input', aplicarFiltros);
+    filtroRegiao.addEventListener('change', aplicarFiltros);
+    ordenarPor.addEventListener('change', aplicarFiltros);
+    limparFiltros.addEventListener('click', limpar);
+
+    // Click nos cards (exceto botão)
+    cards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-ver-detalhes')) {
+                return;
+            }
+            const link = this.querySelector('.btn-ver-detalhes');
+            if (link) {
+                window.location.href = link.href;
+            }
+        });
     });
+
+    // Inicializar
+    initAnimations();
+    aplicarFiltros();
+})();
 </script>
 {% endblock %}

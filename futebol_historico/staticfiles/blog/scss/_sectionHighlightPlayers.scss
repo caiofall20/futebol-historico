@@ -1,0 +1,170 @@
+.highlight-players {
+    position: relative;
+    background: $background-gradient;
+
+//     .shadow {
+//         position: absolute;
+//         width: 100%;
+//         height: 4rem;
+//         left: 27rem;
+//         bottom: 1.5rem;
+//         z-index: 2;
+//         background: radial-gradient(circle at top right, #FFD600 20%, #AF5829 60%, #FF004D);
+//         filter: blur(50px);
+//         border-radius: 50%;
+//         opacity: 0.5;
+//         transition: opacity 0.3s ease-in-out;
+//    }
+    
+
+    &--content{
+        display: flex;
+        z-index: 5;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        flex-direction: row;
+        position: relative;
+        gap: 3rem;
+        padding: 3.5rem;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+
+        &-header {
+            max-width: 416px;
+            min-width: 416px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+
+                
+            @media (max-width: 768px) {
+                min-width: 100%;
+                margin: 0 auto;
+            }
+                
+        }
+        &-title{
+            font-family: "Chakra Petch", sans-serif;
+            font-size: 2.5rem;
+            line-height: 3.125rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            mix-blend-mode: difference;
+            color: $secondary-color;
+
+            span{
+                color:$hover-menu-color;
+            }
+           
+        }
+        &-text{
+            margin-top: 1rem;
+            font-size: 1.125rem;
+            line-height: 1.875rem;
+        }
+        &-seeMore{
+            position: relative;
+            display: flex;
+            width: 100%;
+            margin-top: 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .875rem;
+            text-align: center;
+            text-transform: uppercase;
+            color: white;
+            background-color: #091932;
+            align-items: center;
+            justify-content: center;
+
+            span{
+                display: block;
+                background-color: #091932;
+                padding: 1rem;
+                border-radius: 30px;
+            }
+
+            &:before{
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                inset: -3px;
+                z-index: -1;
+                border-radius: 30px;
+                background: linear-gradient(to right, #865CD8, #0D2347, #865CD8, #0D2347, #865CD8);
+                background-size: 400%;
+                animation: gradientAnimation 20s linear infinite;
+            }
+        }
+
+        &-list-cards{
+            article{
+                margin: 0 .625rem;
+                height: 500px; // Altura fixa para padronizar (aumentada para não cortar)
+                min-height: 500px;
+                max-height: 500px;
+                
+                @media (max-width: 768px) {
+                    height: 400px; // Altura menor em mobile
+                    min-height: 400px;
+                    max-height: 400px;
+                }
+                
+                .highlight-player-item {
+                    height: 100%;
+                    width: 100%;
+                }
+                
+                .highlight-players-card {
+                    height: 100%;
+                    width: 100%;
+                    overflow: hidden;
+                    border-radius: 9px;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+                    
+                    .highlight-players--content-card-link {
+                        display: flex;
+                        width: 100%;
+                        height: 100%;
+                        align-items: center;
+                        justify-content: center;
+                        
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain; // Usar contain para não cortar as imagens
+                            object-position: center;
+                            border-radius: 9px;
+                            padding: 20px;
+                            transition: transform 0.3s ease;
+                        }
+                        
+                        &:hover img {
+                            transform: scale(1.05);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Animations
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0 0
+    }
+
+    100% {
+        background-position: 400% 0
+    }
+}

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Francesa</title>
+    <link rel="stylesheet" href="styles-franca.css">
+    <link rel="icon" type="image/svg+xml" href="imagens/franca/france-national-football-team-logo.svg">
+</head>
+<body>
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="imagens/franca/france-national-football-team-logo.svg" alt="França" class="logo-franca">
+            <h1 class="titulo-principal">Histoire des Champions</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Francesa</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Commencer l'Expérience</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Michel Platini -->
+        <section class="secao-jogador" data-jogador="platini">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/platini_1984.jpg" alt="Michel Platini" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Michel Platini</h2>
+                <p class="periodo">1976 - 1987</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="41">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="72">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Michel Platini foi um dos maiores jogadores da história do futebol francês. Capitão da seleção, foi eleito o melhor jogador da Europa três vezes consecutivas (1983, 1984, 1985). Conquistou a Eurocopa de 1984 como artilheiro e melhor jogador. Marcou 41 gols em 72 jogos pela seleção.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Lilian Thuram -->
+        <section class="secao-jogador" data-jogador="thuram">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/platini_1984.jpg" alt="Michel Platini" class="img-jogador img-anterior">
+                <img src="imagens/franca/thuram_1998.jpg" alt="Lilian Thuram" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Lilian Thuram</h2>
+                <p class="periodo">1994 - 2008</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="142">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Lilian Thuram é o jogador com mais partidas pela seleção francesa (142 jogos). Campeão mundial em 1998 e europeu em 2000, foi um dos melhores zagueiros da história do futebol. Marcou os dois gols decisivos na semifinal da Copa de 1998 contra a Croácia, levando a França à final.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Claude Makelele -->
+        <section class="secao-jogador" data-jogador="makelele">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/thuram_1998.jpg" alt="Lilian Thuram" class="img-jogador img-anterior">
+                <img src="imagens/franca/makelele_2000.jpg" alt="Claude Makelele" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Claude Makelele</h2>
+                <p class="periodo">1995 - 2008</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="71">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Claude Makelele foi um dos melhores volantes defensivos da história do futebol. Campeão mundial em 1998 e europeu em 2000, foi fundamental na proteção da defesa francesa. Sua posição de campo ficou conhecida como "posição Makelele" devido à sua importância tática.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Patrick Vieira -->
+        <section class="secao-jogador" data-jogador="vieira">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/makelele_2000.jpg" alt="Claude Makelele" class="img-jogador img-anterior">
+                <img src="imagens/franca/viera_2000.jpg" alt="Patrick Vieira" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Patrick Vieira</h2>
+                <p class="periodo">1997 - 2009</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="6">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="107">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Patrick Vieira foi um dos melhores meio-campistas da história do futebol francês. Campeão mundial em 1998 e europeu em 2000, foi fundamental no meio-campo da seleção. Com sua força física, técnica e liderança, foi um dos pilares da equipe francesa durante mais de uma década.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Zinedine Zidane -->
+        <section class="secao-jogador" data-jogador="zidane">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/viera_2000.jpg" alt="Patrick Vieira" class="img-jogador img-anterior">
+                <img src="imagens/franca/zidane_2006.jpg" alt="Zinedine Zidane" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Zinedine Zidane</h2>
+                <p class="periodo">1994 - 2006</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="31">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="108">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Zinedine Zidane é considerado um dos maiores jogadores da história do futebol. Campeão mundial em 1998 e europeu em 2000, foi eleito o melhor jogador do mundo três vezes. Marcou dois gols na final da Copa de 1998 e foi fundamental na conquista do título. Sua técnica, visão de jogo e elegância o tornaram um ícone do futebol mundial.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Thierry Henry -->
+        <section class="secao-jogador" data-jogador="henry">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/zidane_2006.jpg" alt="Zinedine Zidane" class="img-jogador img-anterior">
+                <img src="imagens/franca/henry_2006.jpg" alt="Thierry Henry" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Thierry Henry</h2>
+                <p class="periodo">1997 - 2010</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="51">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="123">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Thierry Henry é o maior artilheiro da história da seleção francesa (51 gols). Campeão mundial em 1998 e europeu em 2000, foi um dos melhores atacantes da história do futebol. Com sua velocidade, técnica e capacidade de finalização, foi fundamental no ataque francês durante mais de uma década.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Paul Pogba -->
+        <section class="secao-jogador" data-jogador="pogba">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/henry_2006.jpg" alt="Thierry Henry" class="img-jogador img-anterior">
+                <img src="imagens/franca/pogba_2018.jpg" alt="Paul Pogba" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Paul Pogba</h2>
+                <p class="periodo">2013 - 2022</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="11">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="91">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Paul Pogba foi um dos melhores meio-campistas da geração atual. Campeão mundial em 2018, foi fundamental no meio-campo francês. Com sua técnica, força física e capacidade de criar jogadas, foi um dos pilares da equipe que conquistou o bicampeonato mundial em 2018.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Antoine Griezmann -->
+        <section class="secao-jogador" data-jogador="griezmann">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/pogba_2018.jpg" alt="Paul Pogba" class="img-jogador img-anterior">
+                <img src="imagens/franca/griezamann_2018.jpg" alt="Antoine Griezmann" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Antoine Griezmann</h2>
+                <p class="periodo">2014 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="44">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="127">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Antoine Griezmann é um dos jogadores mais importantes da seleção francesa atual. Campeão mundial em 2018, foi eleito o melhor jogador da Copa do Mundo. Com sua versatilidade, técnica e capacidade de decidir jogos importantes, é um dos pilares da equipe francesa.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Kylian Mbappé -->
+        <section class="secao-jogador" data-jogador="mbappe">
+            <div class="imagem-parallax">
+                <img src="imagens/franca/griezamann_2018.jpg" alt="Antoine Griezmann" class="img-jogador img-anterior">
+                <img src="imagens/franca/mbappe_2022.jpg" alt="Kylian Mbappé" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Kylian Mbappé</h2>
+                <p class="periodo">2017 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="46">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="77">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Kylian Mbappé é uma das maiores promessas do futebol mundial. Campeão mundial em 2018, foi fundamental na conquista do título. Na Copa de 2022, marcou hat-trick na final e foi o artilheiro do torneio. Com sua velocidade, técnica e capacidade de finalização, é considerado um dos melhores jogadores do mundo.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Adicione aqui o arquivo de música francesa em formato MP3 -->
+        <source src="Copa de 82 - Voa Canarinho.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="script-franca.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+.nations-of-world {
+    position: relative;
+    overflow: visible; // Permitir que o card apareça
+    
+    &-header {
+        font-family: "Chakra Petch", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #chartdiv{
+        pointer-events: none;
+    }
+
+    &-icons {
+        text-align: center;
+        margin-top: 20px;
+
+        .icon {
+            display: inline-block;
+            margin: 0 10px;
+
+            img {
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+
+    &-card {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+
+        button{
+            #btnCloseInfoCard{
+                &:hover{
+                    color: $hover-menu-color;
+                }
+            }
+        }
+    }
+}

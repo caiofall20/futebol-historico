@@ -1,0 +1,694 @@
+// ===========================================
+// CARD MODERNO - NAÇÕES CAMPEÃS DO MUNDO
+// ===========================================
+
+.nations-of-world-card {
+    background: linear-gradient(135deg, 
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(30, 41, 59, 0.98) 50%,
+        rgba(15, 23, 42, 0.95) 100%
+    );
+    border-radius: 24px;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 580px;
+    width: 100%;
+    // Calcular altura máxima baseado no espaço disponível
+    // Considerando que a seção tem header, icons, chartdiv (~500px) e padding
+    max-height: calc(100vh - 450px); // Altura dinâmica que não ultrapassa a viewport
+    overflow-y: auto;
+    box-sizing: border-box;
+    z-index: 1000;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: none;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    z-index: 1000;
+    
+    &.show {
+        display: block;
+        animation: cardSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // ===========================================
+    // HEADER DO CARD
+    // ===========================================
+    .card-header {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+        );
+        padding: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 100%
+            );
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .country-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .country-flag {
+            width: 60px;
+            height: 40px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            
+            .flag-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .country-details {
+            flex: 1;
+            
+            .country-name {
+                color: #ffffff;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin: 0 0 4px 0;
+                line-height: 1.2;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            
+            .country-subtitle {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.9rem;
+                margin: 0;
+                line-height: 1.4;
+            }
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: #ffffff;
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    // ===========================================
+    // CORPO DO CARD
+    // ===========================================
+    .card-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    // ===========================================
+    // SEÇÃO DE TROFÉUS
+    // ===========================================
+    .trophy-section {
+        background: linear-gradient(135deg, 
+            rgba(255, 215, 0, 0.1) 0%,
+            rgba(255, 193, 7, 0.05) 100%
+        );
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        text-align: center;
+
+        .trophy-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+
+            .trophy-icon {
+                font-size: 2.5rem;
+                filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3));
+            }
+
+            .trophy-info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+
+                .trophy-number {
+                    color: #ffd700;
+                    font-size: 2rem;
+                    font-weight: 800;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                }
+
+                .trophy-label {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    // ===========================================
+    // ESTATÍSTICAS PRINCIPAIS
+    // ===========================================
+    .main-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+
+        .stat-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%
+            );
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.08) 0%,
+                    rgba(255, 255, 255, 0.04) 100%
+                );
+                transform: translateY(-2px);
+            }
+
+            .stat-icon {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            .stat-content {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                .stat-value {
+                    color: #ffffff;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                }
+
+                .stat-label {
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+    }
+
+    // ===========================================
+    // ESTATÍSTICAS DETALHADAS
+    // ===========================================
+    .detailed-stats {
+        .stats-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+
+            .stat-item {
+                background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.03) 0%,
+                    rgba(255, 255, 255, 0.01) 100%
+                );
+                border-radius: 10px;
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.06) 0%,
+                        rgba(255, 255, 255, 0.02) 100%
+                    );
+                }
+
+                .stat-icon {
+                    font-size: 1.2rem;
+                    width: 20px;
+                    text-align: center;
+                }
+
+                .stat-label {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    flex: 1;
+                }
+
+                .stat-value {
+                    color: #ffffff;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    // ===========================================
+    // INFORMAÇÕES IMPORTANTES
+    // ===========================================
+    .important-info {
+        .info-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .info-item {
+                background: linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.03) 0%,
+                    rgba(255, 255, 255, 0.01) 100%
+                );
+                border-radius: 10px;
+                padding: 12px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.06) 0%,
+                        rgba(255, 255, 255, 0.02) 100%
+                    );
+                }
+
+                .info-icon {
+                    font-size: 1.2rem;
+                    width: 20px;
+                    text-align: center;
+                }
+
+                .info-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+                    flex: 1;
+
+                    .info-label {
+                        color: rgba(255, 255, 255, 0.8);
+                        font-size: 0.8rem;
+                        font-weight: 500;
+                    }
+
+                    .info-value {
+                        color: #ffffff;
+                        font-size: 0.85rem;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    // ===========================================
+    // SEÇÃO DE RANKING
+    // ===========================================
+    .ranking-section {
+        display: flex;
+        gap: 12px;
+
+        .ranking-item {
+            background: linear-gradient(135deg, 
+                rgba(59, 130, 246, 0.1) 0%,
+                rgba(59, 130, 246, 0.05) 100%
+            );
+            border-radius: 12px;
+            padding: 16px;
+            flex: 1;
+            text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: linear-gradient(135deg, 
+                    rgba(59, 130, 246, 0.15) 0%,
+                    rgba(59, 130, 246, 0.08) 100%
+                );
+            }
+
+            .ranking-icon {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            .ranking-content {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                .ranking-label {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .ranking-value {
+                    color: #60a5fa;
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    // ===========================================
+    // FOOTER DO CARD
+    // ===========================================
+    .card-footer {
+        padding: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.02) 0%,
+            rgba(255, 255, 255, 0.01) 100%
+        );
+
+        .see-more-btn {
+            width: 100%;
+            background: linear-gradient(135deg, 
+                #3b82f6 0%,
+                #1d4ed8 100%
+            );
+            border: none;
+            color: #ffffff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &:hover {
+                background: linear-gradient(135deg, 
+                    #2563eb 0%,
+                    #1e40af 100%
+                );
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        .parallax-btn {
+            background: linear-gradient(135deg, 
+                #ffd700 0%,
+                #ffa500 100%
+            ) !important;
+            color: #1a1a1a !important;
+            font-weight: 700 !important;
+
+            &:hover {
+                background: linear-gradient(135deg, 
+                    #ffed4e 0%,
+                    #ffb347 100%
+                ) !important;
+                box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4) !important;
+                color: #000000 !important;
+            }
+        }
+    }
+
+    // ===========================================
+    // ANIMAÇÕES
+    // ===========================================
+    @keyframes cardSlideIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+    }
+
+    // ===========================================
+    // SCROLLBAR PERSONALIZADA
+    // ===========================================
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        
+        &:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+}
+
+// ===========================================
+// RESPONSIVIDADE
+// ===========================================
+
+// Mobile (até 768px)
+@media (max-width: 768px) {
+    .nations-of-world-card {
+        max-width: 95vw !important;
+        max-height: 75vh !important;
+        right: 2.5vw;
+        top: 7.5vh;
+        border-radius: 20px;
+        
+        .card-header {
+            padding: 20px;
+            
+            .country-info {
+                gap: 12px;
+            }
+            
+            .country-flag {
+                width: 50px;
+                height: 35px;
+            }
+            
+            .country-details {
+                .country-name {
+                    font-size: 1.3rem;
+                }
+                
+                .country-subtitle {
+                    font-size: 0.85rem;
+                }
+            }
+        }
+        
+        .card-body {
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .main-stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            
+            .stat-card {
+                padding: 12px;
+                
+                .stat-icon {
+                    font-size: 1.3rem;
+                }
+                
+                .stat-content {
+                    .stat-value {
+                        font-size: 1.1rem;
+                    }
+                    
+                    .stat-label {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
+        
+        .detailed-stats {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                
+                .stat-item {
+                    padding: 10px;
+                }
+            }
+        }
+        
+        .important-info {
+            .info-list {
+                gap: 10px;
+                
+                .info-item {
+                    padding: 10px;
+                }
+            }
+        }
+        
+        .ranking-section {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .card-footer {
+            padding: 20px;
+        }
+    }
+}
+
+// Tablet (768px a 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nations-of-world-card {
+        max-width: 50vw;
+        max-height: 550px;
+        
+        .main-stats {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .detailed-stats {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+}
+
+// Desktop (acima de 1024px)
+@media (min-width: 1025px) {
+    .nations-of-world-card {
+        max-width: 580px;
+        max-height: 600px;
+    }
+}
+
+// ===========================================
+// TEMAS POR PAÍS (OPCIONAL)
+// ===========================================
+
+.nations-of-world-card[data-country="BR"] {
+    .trophy-section {
+        background: linear-gradient(135deg, 
+            rgba(0, 155, 58, 0.15) 0%,
+            rgba(255, 223, 0, 0.1) 100%
+        );
+        border-color: rgba(0, 155, 58, 0.3);
+    }
+    
+    .country-name {
+        background: linear-gradient(45deg, #009b3a, #ffdf00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+.nations-of-world-card[data-country="DE"] {
+    .trophy-section {
+        background: linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.15) 0%,
+            rgba(221, 0, 0, 0.1) 50%,
+            rgba(255, 206, 0, 0.1) 100%
+        );
+        border-color: rgba(221, 0, 0, 0.3);
+    }
+}
+
+.nations-of-world-card[data-country="AR"] {
+    .trophy-section {
+        background: linear-gradient(135deg, 
+            rgba(116, 172, 223, 0.15) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(116, 172, 223, 0.15) 100%
+        );
+        border-color: rgba(116, 172, 223, 0.3);
+    }
+}
+
+

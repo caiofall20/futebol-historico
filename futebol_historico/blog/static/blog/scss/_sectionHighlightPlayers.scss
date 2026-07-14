@@ -102,13 +102,101 @@
             }
         }
 
+        &-carousel {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+
+            > .slick-prev,
+            > .slick-next {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 100;
+                width: 2.5rem;
+                height: 2.5rem;
+                padding: 0;
+                border: none;
+                background-color: transparent;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 1.1rem auto;
+                text-indent: -9999px;
+                font-size: 0;
+                line-height: 0;
+                cursor: pointer;
+
+                &::before {
+                    content: none !important;
+                    display: none !important;
+                    opacity: 0 !important;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            > .slick-prev {
+                left: -0.5rem;
+                background-image: url('../images/arrow-left.svg');
+            }
+
+            > .slick-next {
+                right: -0.5rem;
+                background-image: url('../images/arrow-right.svg');
+            }
+        }
+
         &-list-cards{
             article{
                 margin: 0 .625rem;
-                // height: 25rem;
-                > div{
-                    img{
-                        border-radius: 9px;
+                height: 500px; // Altura fixa para padronizar (aumentada para não cortar)
+                min-height: 500px;
+                max-height: 500px;
+                
+                @media (max-width: 768px) {
+                    height: 400px; // Altura menor em mobile
+                    min-height: 400px;
+                    max-height: 400px;
+                }
+                
+                .highlight-player-item {
+                    height: 100%;
+                    width: 100%;
+                }
+                
+                .highlight-players-card {
+                    height: 100%;
+                    width: 100%;
+                    overflow: hidden;
+                    border-radius: 9px;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+                    
+                    .highlight-players--content-card-link {
+                        display: flex;
+                        width: 100%;
+                        height: 100%;
+                        align-items: center;
+                        justify-content: center;
+                        
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain; // Usar contain para não cortar as imagens
+                            object-position: center;
+                            border-radius: 9px;
+                            padding: 20px;
+                            transition: transform 0.3s ease;
+                        }
+                        
+                        &:hover img {
+                            transform: scale(1.05);
+                        }
                     }
                 }
             }

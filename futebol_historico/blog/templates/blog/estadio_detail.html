@@ -1,145 +1,428 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load i18n %}
 
-{% block title %}{{ estadio.nome }} - Futebol Histórico{% endblock %}
+{% block title %}{{ estadio.nome }} - {% trans "Futebol Histórico" %}{% endblock %}
 
 {% block extra_head %}
-<style>
-    .hero-section {
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 60px 0;
-        margin-bottom: 40px;
-    }
+    {{ block.super }}
+    <style>
+        .estadio-detail-page {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            color: #EDF2F4;
+            font-family: 'Georama', 'Poppins', sans-serif;
+            padding-top: 80px;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .hero-section h1 {
-        font-size: 3.5rem;
-        margin: 0;
-    }
+        .estadio-detail-page #stars, .estadio-detail-page #stars2, .estadio-detail-page #stars3 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    .location {
-        color: #8D99AE;
-        font-size: 1.2rem;
-        margin-top: 10px;
-    }
+        .estadio-detail-page #stars {
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+            animation: none;
+        }
 
-    .estadio-content {
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 15px;
-        padding: 30px;
-        margin-bottom: 40px;
-        color: white;
-    }
+        .estadio-detail-page #stars2 {
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+            animation: none;
+        }
 
-    .estadio-image {
-        width: 100%;
-        max-height: 400px;
-        object-fit: cover;
-        border-radius: 10px;
-        margin-bottom: 30px;
-    }
+        .estadio-detail-page #stars3 {
+            width: 3px;
+            height: 3px;
+            background: transparent;
+            box-shadow: 0 0 1px #fff;
+            animation: none;
+        }
 
-    .info-section {
-        margin-bottom: 30px;
-    }
+        /* Hero Section com Imagem de Fundo */
+        .hero-estadio-detail {
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4rem;
+            overflow: hidden;
+            z-index: 10;
+        }
 
-    .info-section h2 {
-        color: #EF233C;
-        font-size: 2rem;
-        margin-bottom: 20px;
-        border-bottom: 3px solid #EF233C;
-        padding-bottom: 10px;
-        display: inline-block;
-    }
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102,170,255,.15) 0%, rgba(74,144,226,.1) 100%);
+            z-index: 1;
+        }
 
-    .info-item {
-        background: rgba(43, 45, 66, 0.5);
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{% if estadio.imagem %}{{ estadio.imagem.url }}{% endif %}") center/cover no-repeat;
+            opacity: 0.15;
+            filter: blur(20px);
+            z-index: -1;
+        }
 
-    .info-item strong {
-        color: #EDF2F4;
-        display: block;
-        margin-bottom: 5px;
-    }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .info-item span {
-        color: #8D99AE;
-    }
+        .hero-image-wrapper {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
 
-    .back-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background: #EF233C;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 20px;
-    }
+        .hero-image-wrapper img {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,.6);
+            border: 3px solid rgba(102,170,255,.3);
+            background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+            padding: 1rem;
+        }
 
-    .back-button:hover {
-        background: #D90429;
-        color: white;
-        text-decoration: none;
-    }
-</style>
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 1rem 0;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(102,170,255,.3);
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-subtitle {
+            color: #8D99AE;
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        /* Container */
+        .estadio-detail-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        /* Estatísticas Expandidas */
+        .stats-expanded {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(102,170,255,.2);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102,170,255,.4);
+            box-shadow: 0 25px 50px rgba(102,170,255,.2);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: #66AAFF;
+            margin: 0.5rem 0;
+            letter-spacing: 2px;
+        }
+
+        .stat-label {
+            color: #8D99AE;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Seção de História */
+        .history-section {
+            background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(102,170,255,.2);
+            box-shadow: 0 18px 40px rgba(0,0,0,.35);
+            backdrop-filter: blur(20px);
+        }
+
+        .history-section h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #66AAFF, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 2rem 0;
+            letter-spacing: 2px;
+            border-bottom: 2px solid rgba(102,170,255,.3);
+            padding-bottom: 1rem;
+        }
+
+        .history-section .descricao {
+            color: #EDF2F4;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .history-section .descricao p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Botão Voltar */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, rgba(102,170,255,.2) 0%, rgba(74,144,226,.15) 100%);
+            border: 2px solid rgba(102,170,255,.4);
+            color: #66AAFF;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, rgba(102,170,255,.3) 0%, rgba(74,144,226,.25) 100%);
+            border-color: rgba(102,170,255,.6);
+            color: #87CEEB;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102,170,255,.3);
+            text-decoration: none;
+        }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-estadio-detail {
+                min-height: 400px;
+            }
+
+            .hero-image-wrapper img {
+                max-width: 100%;
+            }
+
+            .stats-expanded {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .history-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .estadio-detail-container {
+                padding: 0 1rem 2rem;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class="hero-section">
-    <div class="container">
-        <h1>{{ estadio.nome }}</h1>
-        <div class="location">
-            <i class="fas fa-map-marker-alt"></i> {{ estadio.cidade }}, {{ estadio.pais }}
-        </div>
-    </div>
-</div>
+<div class="estadio-detail-page">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
 
-<div class="container">
-    <div class="estadio-content">
-        {% if estadio.imagem %}
-            <img src="{{ estadio.imagem.url }}" class="estadio-image" alt="{{ estadio.nome }}">
-        {% else %}
-            <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" class="estadio-image" alt="{{ estadio.nome }}">
-        {% endif %}
-
-        <div class="info-section">
-            <h2>Informações Gerais</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="info-item">
-                        <strong>Capacidade</strong>
-                        <span>{{ estadio.capacidade|intcomma }} espectadores</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="info-item">
-                        <strong>Cidade</strong>
-                        <span>{{ estadio.cidade }}</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="info-item">
-                        <strong>País</strong>
-                        <span>{{ estadio.pais }}</span>
-                    </div>
-                </div>
+    <section class="hero-estadio-detail">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-image-wrapper">
+                {% if estadio.imagem %}
+                    <img src="{{ estadio.imagem.url }}" alt="{{ estadio.nome }}">
+                {% else %}
+                    <img src="{% static 'blog/images/stadium-placeholder.jpg' %}" alt="{{ estadio.nome }}">
+                {% endif %}
+            </div>
+            <h1 class="hero-title">{{ estadio.nome }}</h1>
+            <div class="hero-subtitle">
+                <span>📍</span>
+                <span>{{ estadio.cidade }}, {{ estadio.pais }}</span>
             </div>
         </div>
+    </section>
 
-        <div class="info-section">
+    <div class="estadio-detail-container">
+        <!-- Estatísticas Expandidas -->
+        <div class="stats-expanded">
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div class="stat-value">{{ estadio.capacidade|intcomma }}</div>
+                <div class="stat-label">Capacidade</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🏙️</span>
+                <div class="stat-value">{{ estadio.cidade }}</div>
+                <div class="stat-label">Cidade</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🌍</span>
+                <div class="stat-value">{{ estadio.pais }}</div>
+                <div class="stat-label">País</div>
+            </div>
+            {% if estadio.continente %}
+            <div class="stat-card">
+                <span class="stat-icon">🗺️</span>
+                <div class="stat-value">
+                    {% if estadio.continente == 'SA' %}América do Sul
+                    {% elif estadio.continente == 'NA' %}América do Norte
+                    {% elif estadio.continente == 'EU' %}Europa
+                    {% elif estadio.continente == 'AF' %}África
+                    {% elif estadio.continente == 'AS' %}Ásia
+                    {% elif estadio.continente == 'OC' %}Oceania
+                    {% else %}{{ estadio.continente }}{% endif %}
+                </div>
+                <div class="stat-label">Continente</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Seção de História -->
+        {% if estadio.descricao %}
+        <div class="history-section">
             <h2>História</h2>
             <div class="descricao">
                 {{ estadio.descricao|safe }}
             </div>
         </div>
+        {% endif %}
 
+        <!-- Botão Voltar -->
         <a href="{% url 'estadio_list' %}" class="back-button">
-            <i class="fas fa-arrow-left"></i> Voltar para Estádios
+            <span>←</span>
+            <span>Voltar para Estádios</span>
         </a>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gerar estrelas no background
+        function createStars() {
+            const stars = document.getElementById('stars');
+            const stars2 = document.getElementById('stars2');
+            const stars3 = document.getElementById('stars3');
+            
+            const count = 50;
+            const count2 = 30;
+            const count3 = 20;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '1px';
+                star.style.height = '1px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff';
+                stars.appendChild(star);
+            }
+            
+            for (let i = 0; i < count2; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '2px';
+                star.style.height = '2px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff, 0 0 2px #fff';
+                stars2.appendChild(star);
+            }
+            
+            for (let i = 0; i < count3; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '3px';
+                star.style.height = '3px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.background = 'transparent';
+                star.style.boxShadow = '0 0 1px #fff';
+                stars3.appendChild(star);
+            }
+        }
+        
+        createStars();
+    });
+</script>
 {% endblock %}

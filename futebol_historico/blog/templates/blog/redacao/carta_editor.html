@@ -1,0 +1,380 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de carta — {{ rascunho.nome }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/css/card-creator.css' %}?v=23">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="card-creator-page">
+    <div id="card-creator-config"
+         data-save-url="{% url 'redacao_api_carta' pk=rascunho.pk %}"
+         data-revisar-url="{{ revisar_url }}"
+         data-crest-lookup-url="{{ crest_lookup_url }}"
+         data-crest-proxy-url="{{ crest_proxy_url }}"
+         data-rascunho-nacionalidade="{{ rascunho.nacionalidade|default:'' }}"
+         data-rascunho-imagem="{% if rascunho.imagem %}{{ rascunho.imagem.url }}{% endif %}"
+         hidden></div>
+
+    <script type="application/json" id="card-creator-initial-state">{{ design_json|safe }}</script>
+
+    <header class="card-creator-header">
+        <h1>Editor de carta — {{ rascunho.nome }}</h1>
+        <div class="card-creator-header__actions">
+            <a href="{{ revisar_url }}" class="card-creator-btn">← Voltar à revisão</a>
+            <button type="button" id="cc-btn-save" class="card-creator-btn card-creator-btn--success">Salvar carta no portal</button>
+        </div>
+    </header>
+
+    <div class="card-creator-layout">
+        <aside class="card-creator-preview-pane">
+            <div class="fut-creator-card-shadow">
+                <div id="fut-creator-card" class="fut-creator-card fut-creator-card--official style-icon_gold">
+                    <div class="fut-creator-card__photo-clip">
+                        <div class="fut-creator-card__photo-wrap">
+                            <div class="fut-creator-card__meta">
+                                <div class="fut-creator-card__rating">88</div>
+                                <div class="fut-creator-card__position">MEI</div>
+                            </div>
+                            <div class="fut-creator-card__photo-mover">
+                                <img class="fut-creator-card__photo" src="" alt="" crossorigin="anonymous">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fut-creator-card__name-band">
+                        <div class="fut-creator-card__name-fade" aria-hidden="true"></div>
+                        <div class="fut-creator-card__name">JOGADOR</div>
+                    </div>
+                    <div class="fut-creator-card__stats">
+                        <div class="fut-creator-card__stats-labels"></div>
+                        <div class="fut-creator-card__stats-values"></div>
+                    </div>
+                    <div class="fut-creator-card__crests" aria-hidden="true">
+                        <div class="fut-creator-card__crest fut-creator-card__crest--nation">
+                            <img class="fut-creator-card__crest-img" data-crest="nation" alt="" crossorigin="anonymous">
+                        </div>
+                        <div class="fut-creator-card__crest fut-creator-card__crest--league">
+                            <img class="fut-creator-card__crest-img" data-crest="league" alt="" crossorigin="anonymous">
+                        </div>
+                        <div class="fut-creator-card__crest fut-creator-card__crest--club">
+                            <img class="fut-creator-card__crest-img" data-crest="club" alt="" crossorigin="anonymous">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="card-creator-hint card-creator-hint--drag">Arraste a foto inteira na carta (ex.: subir para mostrar peito e rosto)</p>
+            <p class="card-creator-hint" style="margin-top:0.35rem;text-align:center;">Prévia ao vivo — igual ao PNG salvo</p>
+        </aside>
+
+        <div class="card-creator-controls" id="card-creator-controls">
+            {% csrf_token %}
+
+            <section class="card-creator-section">
+                <h3>Estilo da carta</h3>
+                <div class="card-creator-templates">
+                    {% for t in card_templates %}
+                    <button type="button" class="card-creator-tpl-btn" data-tpl="{{ t.id }}">{{ t.label }}</button>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Modelo da carta (FIFA 26)</h3>
+                {% if fifa_card_styles %}
+                <div class="card-creator-field">
+                    <label for="cc-fifa-filter">Filtrar modelos</label>
+                    <input type="search" id="cc-fifa-filter" placeholder="Ex.: TOTY, Icon, Gold…">
+                </div>
+                <div class="card-creator-fifa-grid" id="cc-fifa-styles">
+                    {% for s in fifa_card_styles %}
+                    <button type="button"
+                            class="card-creator-fifa-btn"
+                            data-bg="fifa26:{{ s.id }}"
+                            data-bg-url="{% static 'blog/card_assets/fifarosters/' %}{{ s.static_file }}"
+                            title="{{ s.label }}">
+                        <img src="{% static 'blog/card_assets/fifarosters/' %}{{ s.static_file }}" alt="{{ s.label }}" loading="lazy">
+                        <span>{{ s.label }}</span>
+                    </button>
+                    {% endfor %}
+                </div>
+                {% elif not fifarosters_imported %}
+                <p class="card-creator-subhint card-creator-subhint--warn">
+                    Modelos FIFA 26 ainda não importados. No servidor, execute:
+                    <code>python manage.py importar_assets_fifarosters</code>
+                </p>
+                {% endif %}
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Imagem do jogador</h3>
+                <fieldset class="card-creator-radio-group">
+                    <legend class="sr-only">Origem da imagem</legend>
+                    <label class="card-creator-radio">
+                        <input type="radio" name="cc-photo-source" value="rascunho" checked>
+                        Usar foto do rascunho
+                    </label>
+                    <label class="card-creator-radio">
+                        <input type="radio" name="cc-photo-source" value="url">
+                        Informar URL da imagem
+                    </label>
+                    <label class="card-creator-radio">
+                        <input type="radio" name="cc-photo-source" value="upload">
+                        Enviar imagem (upload)
+                    </label>
+                </fieldset>
+                <p class="card-creator-subhint">
+                    Arraste a imagem na carta para reposicionar.
+                    <button type="button" id="cc-btn-reset-photo" class="card-creator-link-btn">Resetar tamanho, zoom e posição</button>
+                </p>
+
+                <div id="panel-photo-rascunho" class="card-creator-photo-panel">
+                    <button type="button" id="cc-btn-sync-photo" class="card-creator-btn">Carregar foto do rascunho</button>
+                </div>
+                <div id="panel-photo-url" class="card-creator-photo-panel" hidden>
+                    <div class="card-creator-field">
+                        <label for="cc-photo-url">URL da imagem (PNG sem fundo)</label>
+                        <input type="url" id="cc-photo-url" class="card-creator-input-wide" placeholder="https://...">
+                    </div>
+                </div>
+                <div id="panel-photo-upload" class="card-creator-photo-panel" hidden>
+                    <div class="card-creator-field">
+                        <label for="cc-photo-upload">Arquivo</label>
+                        <input type="file" id="cc-photo-upload" accept="image/png,image/webp,image/jpeg">
+                    </div>
+                </div>
+
+                <div class="card-creator-inline-row">
+                    <div class="card-creator-inline-field">
+                        <label for="cc-photo-scale">Tamanho</label>
+                        <input type="number" id="cc-photo-scale" min="40" max="200" value="100" step="1">
+                        <span class="card-creator-suffix">%</span>
+                    </div>
+                    <div class="card-creator-inline-field">
+                        <label for="cc-photo-zoom">Zoom</label>
+                        <input type="number" id="cc-photo-zoom" min="50" max="250" value="100" step="1">
+                        <span class="card-creator-suffix">%</span>
+                    </div>
+                </div>
+                <p class="card-creator-subhint">Tamanho e zoom ajustam a escala; arraste a foto na prévia para enquadrar (peito para cima, rosto, etc.).</p>
+
+                <div class="card-creator-field">
+                    <span class="card-creator-field-label">Desvanecimento (fade)</span>
+                    <div class="card-creator-btn-group" role="group" aria-label="Fade da imagem">
+                        <label class="card-creator-chip"><input type="radio" name="cc-photo-fade" value="none" checked> Sem fade</label>
+                        <label class="card-creator-chip"><input type="radio" name="cc-photo-fade" value="soft"> Fade suave</label>
+                        <label class="card-creator-chip"><input type="radio" name="cc-photo-fade" value="strong"> Fade forte</label>
+                    </div>
+                </div>
+
+                <button type="button" id="cc-btn-remove-bg" class="card-creator-btn">Remover fundo da foto</button>
+                <p id="cc-remove-bg-status" class="card-creator-subhint" hidden></p>
+                <div class="card-creator-grid-3">
+                    <div class="card-creator-field">
+                        <label for="cc-photo-brightness">Brilho</label>
+                        <input type="range" id="cc-photo-brightness" min="50" max="150" value="100">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-photo-contrast">Contraste</label>
+                        <input type="range" id="cc-photo-contrast" min="50" max="150" value="100">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-photo-saturation">Saturação</label>
+                        <input type="range" id="cc-photo-saturation" min="0" max="200" value="100">
+                    </div>
+                </div>
+                <div class="card-creator-field">
+                    <label><input type="checkbox" id="cc-photo-grayscale"> Preto e branco</label>
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Dados do jogador</h3>
+                <div class="card-creator-field">
+                    <label for="cc-name">Nome</label>
+                    <input type="text" id="cc-name" maxlength="28">
+                </div>
+                <div class="card-creator-field">
+                    <span class="card-creator-field-label">Fade na faixa do nome</span>
+                    <div class="card-creator-btn-group" role="group" aria-label="Fade na faixa do nome">
+                        <label class="card-creator-chip"><input type="radio" name="cc-name-fade" value="none" checked> Sem fade</label>
+                        <label class="card-creator-chip"><input type="radio" name="cc-name-fade" value="soft"> Fade suave</label>
+                        <label class="card-creator-chip"><input type="radio" name="cc-name-fade" value="strong"> Fade forte</label>
+                    </div>
+                </div>
+                <div id="panel-name-fade-options" class="card-creator-name-fade-panel" hidden>
+                    <div class="card-creator-field">
+                        <label for="cc-name-fade-intensity">Intensidade <output id="cc-name-fade-intensity-val" for="cc-name-fade-intensity">35</output>%</label>
+                        <input type="range" id="cc-name-fade-intensity" min="0" max="100" value="35" step="1">
+                        <p class="card-creator-subhint">0% quase invisível; 100% no máximo do tipo escolhido (suave ou forte).</p>
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-name-fade-color">Cor do fade</label>
+                        <input type="color" id="cc-name-fade-color" value="#ffffff">
+                        <p class="card-creator-subhint">Use a cor da faixa da carta (ex.: branco ou creme).</p>
+                    </div>
+                </div>
+                <div class="card-creator-grid-2">
+                    <div class="card-creator-field">
+                        <label for="cc-overall">Overall</label>
+                        <input type="number" id="cc-overall" min="40" max="99">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-position">Posição</label>
+                        <input type="text" id="cc-position" maxlength="5">
+                    </div>
+                </div>
+                <div class="card-creator-field">
+                    <label for="cc-nation">Nacionalidade</label>
+                    <input type="text" id="cc-nation" placeholder="Só para ficha do jogador (não aparece na carta)">
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Escudos na carta (como FIFA)</h3>
+                <p class="card-creator-subhint">Digite o nome (em inglês funciona melhor), clique em Buscar e escolha um item da lista — só então o escudo aparece na carta.</p>
+
+                <div class="card-creator-field card-creator-crest-field">
+                    <label for="cc-crest-nation-search">Federação / bandeira</label>
+                    <div class="card-creator-crest-search-row">
+                        <input type="search" id="cc-crest-nation-search" class="card-creator-input-wide" placeholder="Ex.: Brazil, Argentina…" autocomplete="off">
+                        <button type="button" class="card-creator-btn card-creator-btn--small" data-crest-search="nation">Buscar</button>
+                    </div>
+                    <input type="hidden" id="cc-crest-nation-id">
+                    <input type="url" id="cc-crest-nation-url" class="card-creator-input-wide" placeholder="Ou cole a URL da imagem (PNG)">
+                    <div id="cc-crest-nation-results" class="card-creator-crest-results" hidden></div>
+                    <label class="card-creator-check"><input type="checkbox" id="cc-show-crest-nation" checked> Exibir na carta</label>
+                </div>
+
+                <div class="card-creator-field card-creator-crest-field">
+                    <label for="cc-crest-league-search">Ícone / liga (centro)</label>
+                    <div class="card-creator-crest-search-row">
+                        <input type="search" id="cc-crest-league-search" class="card-creator-input-wide" placeholder="Ex.: Icons, Premier League…" autocomplete="off">
+                        <button type="button" class="card-creator-btn card-creator-btn--small" data-crest-search="league">Buscar</button>
+                    </div>
+                    <input type="hidden" id="cc-crest-league-id">
+                    <input type="url" id="cc-crest-league-url" class="card-creator-input-wide" placeholder="Ou cole a URL da imagem (PNG)">
+                    <div id="cc-crest-league-results" class="card-creator-crest-results" hidden></div>
+                    <label class="card-creator-check"><input type="checkbox" id="cc-show-crest-league" checked> Exibir na carta</label>
+                </div>
+
+                <div class="card-creator-field card-creator-crest-field">
+                    <label for="cc-crest-club-search">Escudo do clube</label>
+                    <div class="card-creator-crest-search-row">
+                        <input type="search" id="cc-crest-club-search" class="card-creator-input-wide" placeholder="Ex.: Vasco, Chelsea, Barcelona…" autocomplete="off">
+                        <button type="button" class="card-creator-btn card-creator-btn--small" data-crest-search="club">Buscar</button>
+                    </div>
+                    <input type="hidden" id="cc-crest-club-id">
+                    <input type="url" id="cc-crest-club-url" class="card-creator-input-wide" placeholder="Ou cole a URL da imagem (PNG)">
+                    <div id="cc-crest-club-results" class="card-creator-crest-results" hidden></div>
+                    <label class="card-creator-check"><input type="checkbox" id="cc-show-crest-club" checked> Exibir na carta</label>
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Atributos FUT</h3>
+                <div class="card-creator-grid-6">
+                    <div class="card-creator-field"><label for="cc-pac">PAC</label><input type="number" id="cc-pac" min="40" max="99"></div>
+                    <div class="card-creator-field"><label for="cc-sho">SHO</label><input type="number" id="cc-sho" min="40" max="99"></div>
+                    <div class="card-creator-field"><label for="cc-pas">PAS</label><input type="number" id="cc-pas" min="40" max="99"></div>
+                    <div class="card-creator-field"><label for="cc-dri">DRI</label><input type="number" id="cc-dri" min="40" max="99"></div>
+                    <div class="card-creator-field"><label for="cc-def">DEF</label><input type="number" id="cc-def" min="40" max="99"></div>
+                    <div class="card-creator-field"><label for="cc-phy">PHY</label><input type="number" id="cc-phy" min="40" max="99"></div>
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Cores dos textos da carta</h3>
+                <p class="card-creator-subhint">Personalize cada elemento exibido na carta.</p>
+                <label class="card-creator-check card-creator-check--spaced">
+                    <input type="checkbox" id="cc-colors-unified"> Usar a mesma cor em todos os textos
+                </label>
+                <div id="panel-colors-unified" class="card-creator-colors-unified" hidden>
+                    <div class="card-creator-field">
+                        <label for="cc-color-unified">Cor dos textos</label>
+                        <input type="color" id="cc-color-unified" value="#5c4a1a">
+                    </div>
+                </div>
+                <div id="panel-colors-individual" class="card-creator-colors-grid">
+                    <div class="card-creator-field">
+                        <label for="cc-color-rating">Overall (GER)</label>
+                        <input type="color" id="cc-color-rating" value="#5c4a1a">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-color-position">Posição</label>
+                        <input type="color" id="cc-color-position" value="#5c4a1a">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-color-name">Nome do jogador</label>
+                        <input type="color" id="cc-color-name" value="#5c4a1a">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-stat-label-color">Siglas (PAC, SHO…)</label>
+                        <input type="color" id="cc-stat-label-color" value="#5c4a1a">
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-stat-value-color">Valores dos atributos</label>
+                        <input type="color" id="cc-stat-value-color" value="#2a2210">
+                    </div>
+                </div>
+            </section>
+
+            <section class="card-creator-section">
+                <h3>Detalhes extras</h3>
+                <div class="card-creator-grid-3">
+                    <div class="card-creator-field">
+                        <label for="cc-skill">Skill</label>
+                        <select id="cc-skill">
+                            <option value="1">1★</option><option value="2">2★</option>
+                            <option value="3">3★</option><option value="4" selected>4★</option><option value="5">5★</option>
+                        </select>
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-weak">Pé fraco</label>
+                        <select id="cc-weak">
+                            <option value="1">1★</option><option value="2">2★</option>
+                            <option value="3">3★</option><option value="4" selected>4★</option><option value="5">5★</option>
+                        </select>
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-foot">Pé</label>
+                        <select id="cc-foot"><option value="R">Destro (R)</option><option value="L">Canhoto (L)</option></select>
+                    </div>
+                </div>
+                <div class="card-creator-grid-2">
+                    <div class="card-creator-field">
+                        <label for="cc-work-att">Workrate ataque</label>
+                        <select id="cc-work-att"><option>L</option><option selected>M</option><option>H</option></select>
+                    </div>
+                    <div class="card-creator-field">
+                        <label for="cc-work-def">Workrate defesa</label>
+                        <select id="cc-work-def"><option>L</option><option selected>M</option><option>H</option></select>
+                    </div>
+                </div>
+                <div class="card-creator-field">
+                    <label for="cc-chemistry">Estilo química</label>
+                    <select id="cc-chemistry">
+                        <option value="basic">Basic</option>
+                        <option value="hunter">Hunter</option>
+                        <option value="shadow">Shadow</option>
+                        <option value="engine">Engine</option>
+                        <option value="catalyst">Catalyst</option>
+                    </select>
+                </div>
+            </section>
+
+            <button type="button" id="cc-btn-save-bottom" class="card-creator-btn card-creator-btn--primary" style="width:100%;padding:0.85rem" onclick="document.getElementById('cc-btn-save').click()">
+                Salvar carta no portal
+            </button>
+        </div>
+    </div>
+
+    <div id="card-creator-loading" class="card-creator-loading">
+        <p>Gerando PNG…</p>
+    </div>
+
+    <script src="{% static 'blog/js/card-creator.js' %}"></script>
+</body>
+</html>

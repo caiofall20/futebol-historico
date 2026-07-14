@@ -1,16 +1,52 @@
 .nations-of-world {
+    position: relative;
+    overflow: visible;
+    z-index: 3;
+    isolation: isolate;
+    
     &-header {
         font-family: "Chakra Petch", sans-serif;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        z-index: 4;
     }
 
-    #chartdiv{
-        pointer-events: none;
+    &__stage {
+        position: relative;
+        margin-top: 1.5rem;
+        min-height: 500px;
+
+        @media (max-width: 768px) {
+            min-height: 360px;
+        }
+    }
+
+    #chartdiv {
+        position: relative;
+        width: 100%;
+        min-height: 500px;
+        height: 500px;
+        margin: 0;
+        z-index: 5;
+
+        .am5-html-container,
+        .amcharts-Container,
+        .amcharts-chart-div,
+        canvas {
+            opacity: 1 !important;
+        }
+
+        @media (max-width: 768px) {
+            min-height: 360px;
+            height: 360px;
+        }
     }
 
     &-icons {
+        position: relative;
+        z-index: 4;
         text-align: center;
         margin-top: 20px;
 
@@ -31,26 +67,4 @@
         }
     }
 
-    &-card {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        width: 300px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-
-        button{
-            #btnCloseInfoCard{
-                &:hover{
-                    color: $hover-menu-color;
-                }
-            }
-        }
-    }
 }

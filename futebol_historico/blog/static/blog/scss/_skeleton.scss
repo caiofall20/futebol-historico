@@ -1,0 +1,146 @@
+// ===========================================
+// SKELETON LOADERS
+// ===========================================
+// Componentes de loading state para melhorar UX
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0px,
+        rgba(255, 255, 255, 0.1) 40px,
+        rgba(255, 255, 255, 0.05) 80px
+    );
+    background-size: 200px 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 4px;
+}
+
+// Skeleton para cards de jogadores
+.jogador-card-skeleton {
+    background: linear-gradient(135deg, 
+        rgba(15, 23, 42, 0.95) 0%,
+        rgba(30, 41, 59, 0.98) 50%,
+        rgba(15, 23, 42, 0.95) 100%
+    );
+    border-radius: 16px;
+    padding: 0;
+    overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    
+    .skeleton-image {
+        width: 100%;
+        height: 380px;
+        @extend .skeleton;
+        margin-bottom: 20px;
+    }
+    
+    .skeleton-text {
+        height: 20px;
+        @extend .skeleton;
+        margin: 10px 20px;
+        
+        &.short {
+            width: 60%;
+        }
+        
+        &.title {
+            height: 28px;
+            width: 80%;
+            margin-bottom: 15px;
+        }
+    }
+    
+    .skeleton-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 20px;
+        
+        .skeleton-stat-item {
+            height: 60px;
+            @extend .skeleton;
+            border-radius: 8px;
+        }
+    }
+}
+
+// Skeleton para cards de seleções
+.selecao-card-skeleton {
+    @extend .jogador-card-skeleton;
+    min-height: 400px;
+    
+    .skeleton-image {
+        height: 250px;
+    }
+}
+
+// Skeleton para lista de itens
+.list-skeleton {
+    .skeleton-item {
+        height: 60px;
+        @extend .skeleton;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+}
+
+// Estado de loading global
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #66AAFF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Fade in animation para conteúdo carregado
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+

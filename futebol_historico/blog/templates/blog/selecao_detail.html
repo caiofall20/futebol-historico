@@ -1,12 +1,27 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load breadcrumbs %}
+{% load i18n %}
 
-{% block title %}{{ selecao.nome }} - Futebol Histórico{% endblock %}
+{% block title %}{{ selecao.nome }} - {% trans "Futebol Histórico" %}{% endblock %}
 
 {% block extra_head %}
     <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ selecao.descricao|striptags|truncatewords:30|default:selecao.nome }} - Seleção histórica do futebol mundial.">
+    <meta name="keywords" content="{{ selecao.nome }}, seleção, futebol, copa do mundo, {{ selecao.regiao }}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ selecao.nome }} - Futebol Histórico">
+    <meta property="og:description" content="{{ selecao.descricao|striptags|truncatewords:30|default:selecao.nome }}">
+    {% if selecao.imagem %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ selecao.imagem.url }}">
+    {% endif %}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -98,28 +113,51 @@
         }
 
         .history-section {
-            background: rgba(0, 0, 0, 0.8);
-            margin: 30px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            margin-top: 20px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            line-height: 1.9;
         }
 
         .history-section h3 {
-            font-size: 2rem;
-            font-family: 'Bebas Neue', cursive;
-            color: #66aaff;
+            color: #ffd700;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 1.8rem;
         }
 
         .history-section p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: #fff;
+            line-height: 2;
+            margin-bottom: 20px;
             text-align: justify;
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .history-section strong {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .history-section ul, .history-section ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .history-section li {
+            margin-bottom: 10px;
+            line-height: 1.9;
+        }
+
+        .history-section img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 5px;
         }
 
         .achievements-section {
@@ -367,6 +405,78 @@
                 padding: 15px;
             }
         }
+
+        .outras-selecoes-section {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .outras-selecoes-section h3 {
+            color: #66aaff;
+            font-family: 'Bebas Neue', cursive;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .selecao-sugerida-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .selecao-sugerida-card:hover {
+            transform: scale(1.05);
+        }
+
+        .selecao-sugerida-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .selecao-sugerida-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .no-image-placeholder {
+            width: 100%;
+            height: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .no-image-placeholder i {
+            font-size: 3rem;
+            color: #66aaff;
+            margin-bottom: 15px;
+        }
+
+        .no-image-placeholder p {
+            color: #66aaff;
+        }
+
+        .selecao-sugerida-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .selecao-sugerida-info h5 {
+            color: #66aaff;
+            margin-bottom: 10px;
+        }
+
+        .selecao-sugerida-info p {
+            color: #b0b0b0;
+        }
     </style>
 {% endblock %}
 
@@ -381,38 +491,16 @@
     <div class="container">
         <div class="selecao-profile">
             <div class="selecao-image">
-                {% if selecao.bandeira %}
-                    <img src="{{ selecao.bandeira.url }}" alt="Bandeira de {{ selecao.nome }}">
-                {% else %}
-                    <img src="{% static 'blog/images/default_flag.png' %}" alt="Bandeira padrão">
-                {% endif %}
+                <img src="/media/{{ selecao.imagem_time }}" alt="Imagem do Time {{ selecao.nome }}">
             </div>
 
             <div class="selecao-details">
                 <div class="selecao-summary">
                     <h2>{{ selecao.nome }}</h2>
                     <div class="selecao-info">
-                        <p><span class="label">Confederação:</span> {{ selecao.confederacao }}</p>
-                        <p><span class="label">Ranking FIFA:</span> {{ selecao.ranking_fifa }}º</p>
-                        <p><span class="label">Títulos Mundiais:</span> {{ selecao.titulos_mundiais }}</p>
-                        {% if selecao.melhor_resultado_copa %}
-                            <p><span class="label">Melhor Resultado em Copas:</span> {{ selecao.melhor_resultado_copa }}</p>
-                        {% endif %}
+                        <p><span class="label">Colocação:</span> {{ selecao.colocacao }}</p>
+                        <p><span class="label">Técnico:</span> {{ selecao.tecnico }}</p>
                     </div>
-                    
-                    {% if selecao.titulos_continentais or selecao.titulos_mundiais %}
-                    <div class="achievements-section">
-                        <h4>Conquistas</h4>
-                        <ul class="achievement-list">
-                            {% if selecao.titulos_mundiais %}
-                                <li>{{ selecao.titulos_mundiais }} Copa(s) do Mundo FIFA</li>
-                            {% endif %}
-                            {% if selecao.titulos_continentais %}
-                                <li>{{ selecao.titulos_continentais }} Título(s) Continental(is)</li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -421,6 +509,34 @@
             <h3>História</h3>
             {{ selecao.historia|safe }}
         </div>
+
+        {% if selecoes_sugeridas %}
+        <div class="outras-selecoes-section">
+            <h3>Outras Seleções da {{ selecao.regiao }}</h3>
+            <div class="row">
+                {% for selecao_sugerida in selecoes_sugeridas %}
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="selecao-sugerida-card">
+                        <a href="{% url 'selecao_detail' selecao_sugerida.id %}" class="selecao-sugerida-link">
+                            {% if selecao_sugerida.imagem %}
+                                <img src="{{ selecao_sugerida.imagem.url }}" alt="{{ selecao_sugerida.nome }}">
+                            {% else %}
+                                <div class="no-image-placeholder">
+                                    <i class="fas fa-flag"></i>
+                                    <p>Sem imagem</p>
+                                </div>
+                            {% endif %}
+                            <div class="selecao-sugerida-info">
+                                <h5>{{ selecao_sugerida.nome }}</h5>
+                                <p>{{ selecao_sugerida.regiao }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
 
         <div class="comments">
             <h3>Comentários</h3>

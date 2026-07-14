@@ -1,0 +1,464 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Argentina</title>
+        {% load sass_tags %}
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_variables.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_header.scss' %}">
+    <link rel="stylesheet" href="{% static 'blog/parallax/styles-argentina.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'blog/parallax/imagens/argentina/afa-3-estrellas-seeklogo.png' %}">
+    <style>        /* Header de Navegação para Parallax - Usando o mesmo estilo do site */
+        .parallax-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .parallax-header.visivel {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .parallax-header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Ajustar espaçamento do body quando header está visível */
+        body {
+            padding-top: 0;
+        }
+        
+        body.header-visivel {
+            padding-top: 80px;
+        }
+        
+        /* Garantir que o header parallax use o mesmo estilo */
+        .parallax-header .header-principal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+        
+        /* Esconder menu de países na tela inicial */
+        .menu-paises {
+            display: none !important;
+        }
+        
+        body.header-visivel .menu-paises {
+            display: block !important;
+        }
+        
+        /* Travar scroll na tela inicial */
+        body.tela-inicial-ativa {
+            overflow: hidden;
+            height: 100vh;
+        }</style>
+</head>
+<body class="tela-inicial-ativa">
+    <!-- Header de Navegação -->
+    <header class="parallax-header hidden" id="parallaxHeader" role="banner">
+        <div class="header-principal">
+            <nav class="container header__nav" role="navigation" aria-label="Menu principal">
+                <div class="header__nav--menu-hamburguer">
+                    <label class="mobile-menu-button hamburger-icon" aria-label="Abrir menu"></label>
+                    <label class="mobile-menu-button close-icon" aria-label="Fechar menu"></label>
+                </div>
+                <div class="header__nav--menu" id="menu-principal" role="menubar">
+                    <ul class="menu-items">
+                        <li role="none">
+                            <a href="{% url 'index' %}" role="menuitem">Início</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'timeline_copas' %}" role="menuitem">Copas</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'selecoes' %}" role="menuitem">Seleções</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'times' %}" role="menuitem">Times</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'jogadores_page' %}" role="menuitem">Jogadores</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'estadio_list' %}" role="menuitem">Estádios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="{% static 'blog/parallax/Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="{% static 'blog/parallax/imagens/argentina/afa-3-estrellas-seeklogo.png' %}" alt="AFA" class="logo-argentina">
+            <h1 class="titulo-principal">Historia de los Campeones</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Argentina</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Comenzar Experiencia</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Diego Maradona -->
+        <section class="secao-jogador" data-jogador="maradona">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/maradona_1986.jpg' %}" alt="Diego Maradona" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Diego Maradona</h2>
+                <p class="periodo">1977 - 1994</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="34">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="91">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Diego Armando Maradona é considerado um dos maiores jogadores da história do futebol. Capitão da seleção argentina, conquistou a Copa do Mundo de 1986 de forma magistral, marcando gols históricos como o "Gol do Século" contra a Inglaterra. Foi eleito o melhor jogador da Copa de 1986 e é um ícone eterno do futebol mundial.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Gabriel Batistuta -->
+        <section class="secao-jogador" data-jogador="batistuta">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/maradona_1986.jpg' %}" alt="Diego Maradona" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/batistuta_1999.jpg' %}" alt="Gabriel Batistuta" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Gabriel Batistuta</h2>
+                <p class="periodo">1991 - 2002</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="56">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="78">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Gabriel Omar Batistuta, o "Batigol", foi o maior artilheiro da história da seleção argentina até ser superado por Messi. Participou de três Copas do Mundo (1994, 1998 e 2002) e marcou 56 gols em 78 jogos pela seleção. Famoso por seus chutes potentes e precisão, é um dos maiores goleadores da história do futebol argentino.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Hernán Crespo -->
+        <section class="secao-jogador" data-jogador="crespo">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/batistuta_1999.jpg' %}" alt="Gabriel Batistuta" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/crespo_2006.jpg' %}" alt="Hernán Crespo" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Hernán Crespo</h2>
+                <p class="periodo">1995 - 2007</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="35">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="64">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Hernán Crespo foi um dos maiores artilheiros da seleção argentina. Participou de três Copas do Mundo (1998, 2002 e 2006) e marcou 35 gols em 64 jogos pela seleção. Famoso por sua capacidade de finalização e movimentação, foi fundamental no ataque argentino durante os anos 2000.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Juan Pablo Sorín -->
+        <section class="secao-jogador" data-jogador="sorin">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/crespo_2006.jpg' %}" alt="Hernán Crespo" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/sorin_2002.jpg' %}" alt="Juan Pablo Sorín" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Juan Pablo Sorín</h2>
+                <p class="periodo">1995 - 2006</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="12">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="76">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Juan Pablo Sorín foi um lateral esquerdo versátil e importante para a seleção argentina. Participou de duas Copas do Mundo (2002 e 2006) e foi capitão da equipe em várias ocasiões. Com sua técnica e liderança, foi fundamental na defesa e no ataque da seleção durante os anos 2000.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Juan Román Riquelme -->
+        <section class="secao-jogador" data-jogador="riquelme">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/sorin_2002.jpg' %}" alt="Juan Pablo Sorín" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/riquelme_2006.jpg' %}" alt="Juan Román Riquelme" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Juan Román Riquelme</h2>
+                <p class="periodo">1997 - 2008</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="17">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="51">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Juan Román Riquelme foi o maestro do meio-campo argentino. Famoso por sua visão de jogo, passes precisos e controle de bola, foi fundamental na Copa de 2006. Com seu estilo único e elegante, é considerado um dos melhores camisas 10 da história do futebol argentino.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Ángel Di María -->
+        <section class="secao-jogador" data-jogador="dimaria">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/riquelme_2006.jpg' %}" alt="Juan Román Riquelme" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/di_maria.jpg' %}" alt="Ángel Di María" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Ángel Di María</h2>
+                <p class="periodo">2008 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="31">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="138">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Ángel Di María é um dos jogadores mais importantes da história recente da seleção argentina. Campeão mundial em 2022, marcou o gol decisivo na final contra a França. Com sua velocidade, técnica e capacidade de decidir jogos importantes, é um dos maiores pontas da história do futebol argentino.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Emiliano Martínez -->
+        <section class="secao-jogador" data-jogador="dibu">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/di_maria.jpg' %}" alt="Ángel Di María" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/dibu_martinez_2022.jpg' %}" alt="Emiliano Martínez" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Emiliano Martínez</h2>
+                <p class="periodo">2021 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="38">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Emiliano "Dibu" Martínez foi decisivo no título mundial de 2022. Famoso por suas defesas em pênaltis, foi fundamental nas semifinais e na final da Copa do Mundo. Com sua personalidade e qualidade técnica, tornou-se um dos maiores goleiros da história recente da seleção argentina.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Lionel Messi -->
+        <section class="secao-jogador" data-jogador="messi">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/argentina/dibu_martinez_2022.jpg' %}" alt="Emiliano Martínez" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/argentina/messi_2022.jpg' %}" alt="Lionel Messi" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Lionel Messi</h2>
+                <p class="periodo">2005 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="108">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="187">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="6">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Lionel Andrés Messi é o maior jogador da história da seleção argentina. Campeão mundial em 2022, é o maior artilheiro e o jogador com mais partidas pela seleção. Conquistou a Copa do Mundo, a Copa América e é considerado por muitos o maior jogador de todos os tempos. Com sua genialidade, técnica e liderança, levou a Argentina ao tricampeonato mundial.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <source src="{% static 'blog/parallax/imagens/argentina/Muchachos, ahora nos volvimos a ilusionar.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="{% static 'blog/parallax/script-argentina.js' %}"></script>    
+    <script>
+        // Esconder header durante scroll para baixo, mostrar ao scrollar para cima
+        (function() {
+            let lastScroll = 0;
+            const parallaxHeader = document.getElementById('parallaxHeader');
+            
+            if (parallaxHeader) {
+                window.addEventListener('scroll', function() {
+                    // Só funciona se a experiência já foi iniciada
+                    if (typeof experienciaIniciada === 'undefined' || !experienciaIniciada) {
+                        return;
+                    }
+                    
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Só esconder após passar da tela inicial
+                    if (currentScroll > 100) {
+                        if (currentScroll > lastScroll && currentScroll > 200) {
+                            // Scrollando para baixo - esconder
+                            parallaxHeader.classList.add('hidden');
+                            parallaxHeader.classList.remove('visivel');
+                        } else {
+                            // Scrollando para cima - mostrar
+                            parallaxHeader.classList.remove('hidden');
+                            parallaxHeader.classList.add('visivel');
+                        }
+                    } else {
+                        // Sempre mostrar no topo
+                        parallaxHeader.classList.remove('hidden');
+                        parallaxHeader.classList.add('visivel');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        })();
+    </script>
+    </body>
+</html>

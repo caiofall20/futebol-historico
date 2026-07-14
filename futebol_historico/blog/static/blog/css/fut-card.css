@@ -1,0 +1,146 @@
+/* Prévia da carta FUT na redação */
+.fut-card-editor {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #0f1419;
+    border-radius: 12px;
+    border: 1px solid #2d3a4d;
+}
+
+@media (max-width: 800px) {
+    .fut-card-editor {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fut-card-preview {
+    width: 240px;
+    aspect-ratio: 450 / 630;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(160deg, #1a2848 0%, #0c1020 45%, #121a30 100%);
+    clip-path: polygon(8% 2%, 92% 2%, 98% 32%, 98% 88%, 50% 98%, 2% 88%, 2% 32%);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    border: 3px solid #d4af37;
+    overflow: hidden;
+}
+
+.fut-card-preview__rating {
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #d4af37;
+    line-height: 1;
+    font-family: 'Bebas Neue', 'Poppins', sans-serif;
+}
+
+.fut-card-preview__pos {
+    position: absolute;
+    top: 22%;
+    left: 10%;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.fut-card-preview__photo {
+    position: absolute;
+    top: 22%;
+    left: 12%;
+    right: 12%;
+    bottom: 38%;
+    background-size: contain;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+.fut-card-preview__name {
+    position: absolute;
+    bottom: 28%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 8px;
+}
+
+.fut-card-preview__nat {
+    position: absolute;
+    bottom: 24%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.55rem;
+    color: #9aa5b8;
+}
+
+.fut-card-preview__stats {
+    position: absolute;
+    bottom: 6%;
+    left: 6%;
+    right: 6%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    text-align: center;
+}
+
+.fut-card-preview__stat-label {
+    font-size: 0.5rem;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.fut-card-preview__stat-val {
+    font-size: 0.75rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.fut-card-fields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.fut-card-fields .redacao-field {
+    margin-bottom: 0;
+}
+
+.fut-card-fields label {
+    font-size: 0.75rem;
+}
+
+.redacao-dados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #0f1419;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.redacao-dados-grid dt {
+    color: #6b7a8f;
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+.redacao-dados-grid dd {
+    margin: 0.15rem 0 0.5rem;
+    color: #fff;
+    font-weight: 500;
+}

@@ -1,0 +1,522 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Alemã</title>
+    <link rel="stylesheet" href="{% static 'blog/parallax/styles-alemanha.css' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'blog/parallax/imagens/alemanha/germany-national-football-team-logo.svg' %}">
+
+            {% load sass_tags %}
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_variables.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_header.scss' %}">
+    <style>        /* Header de Navegação para Parallax - Usando o mesmo estilo do site */
+        .parallax-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .parallax-header.visivel {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .parallax-header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Ajustar espaçamento do body quando header está visível */
+        body {
+            padding-top: 0;
+        }
+        
+        body.header-visivel {
+            padding-top: 80px;
+        }
+        
+        /* Garantir que o header parallax use o mesmo estilo */
+        .parallax-header .header-principal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+        
+        /* Esconder menu de países na tela inicial */
+        .menu-paises {
+            display: none !important;
+        }
+        
+        body.header-visivel .menu-paises {
+            display: block !important;
+        }
+        
+        /* Travar scroll na tela inicial */
+        body.tela-inicial-ativa {
+            overflow: hidden;
+            height: 100vh;
+        }</style>
+</head>
+<body class="tela-inicial-ativa">
+    <!-- Header de Navegação -->
+    <header class="parallax-header hidden" id="parallaxHeader" role="banner">
+        <div class="header-principal">
+            <nav class="container header__nav" role="navigation" aria-label="Menu principal">
+                <div class="header__nav--menu-hamburguer">
+                    <label class="mobile-menu-button hamburger-icon" aria-label="Abrir menu"></label>
+                    <label class="mobile-menu-button close-icon" aria-label="Fechar menu"></label>
+                </div>
+                <div class="header__nav--menu" id="menu-principal" role="menubar">
+                    <ul class="menu-items">
+                        <li role="none">
+                            <a href="{% url 'index' %}" role="menuitem">Início</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'timeline_copas' %}" role="menuitem">Copas</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'selecoes' %}" role="menuitem">Seleções</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'times' %}" role="menuitem">Times</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'jogadores_page' %}" role="menuitem">Jogadores</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'estadio_list' %}" role="menuitem">Estádios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="{% static 'blog/parallax/Gol de Ronaldo_ Brasil vs Holanda _ Semifinal Copa 98.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="{% static 'blog/parallax/imagens/alemanha/germany-national-football-team-logo.svg' %}" alt="Alemanha" class="logo-alemanha">
+            <h1 class="titulo-principal">Geschichte der Champions</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Alemã</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Erfahrung Beginnen</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Gerd Müller -->
+        <section class="secao-jogador" data-jogador="muller">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/muller_1970.jpg' %}" alt="Gerd Müller" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Gerd Müller</h2>
+                <p class="periodo">1966 - 1974</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="68">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="62">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Gerd Müller é o maior artilheiro da história da seleção alemã (68 gols em 62 jogos). Campeão mundial em 1974 e europeu em 1972, foi o artilheiro da Copa de 1970 com 10 gols. Famoso por sua capacidade de finalização dentro da área, é considerado um dos melhores atacantes da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Karl-Heinz Rummenigge -->
+        <section class="secao-jogador" data-jogador="rummenigge">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/muller_1970.jpg' %}" alt="Gerd Müller" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/Rummenigge_1980.jpg' %}" alt="Karl-Heinz Rummenigge" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Karl-Heinz Rummenigge</h2>
+                <p class="periodo">1976 - 1986</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="45">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="95">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Karl-Heinz Rummenigge foi um dos maiores atacantes da história do futebol alemão. Campeão europeu em 1980, foi vice-campeão mundial em 1982 e 1986. Foi eleito o melhor jogador da Europa duas vezes (1980 e 1981). Marcou 45 gols em 95 jogos pela seleção.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Jürgen Klinsmann -->
+        <section class="secao-jogador" data-jogador="klinsmann">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/Rummenigge_1980.jpg' %}" alt="Karl-Heinz Rummenigge" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/klinsmann_1990.jpg' %}" alt="Jürgen Klinsmann" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Jürgen Klinsmann</h2>
+                <p class="periodo">1987 - 1998</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="47">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="108">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Jürgen Klinsmann foi um dos maiores atacantes da história do futebol alemão. Campeão mundial em 1990 e europeu em 1996, foi fundamental na conquista do título mundial. Marcou 47 gols em 108 jogos pela seleção e é um dos maiores artilheiros da história alemã.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Matthias Sammer -->
+        <section class="secao-jogador" data-jogador="sammer">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/klinsmann_1990.jpg' %}" alt="Jürgen Klinsmann" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/sammer_1990.jpg' %}" alt="Matthias Sammer" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Matthias Sammer</h2>
+                <p class="periodo">1990 - 1997</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="14">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="51">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Matthias Sammer foi um dos melhores zagueiros da história do futebol alemão. Campeão europeu em 1996, foi eleito o melhor jogador da Europa em 1996. Com sua técnica, visão de jogo e capacidade de construir jogadas, foi fundamental na defesa alemã durante os anos 1990.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Lothar Matthäus -->
+        <section class="secao-jogador" data-jogador="mathaus">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/sammer_1990.jpg' %}" alt="Matthias Sammer" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/mathaus_99.jpg' %}" alt="Lothar Matthäus" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Lothar Matthäus</h2>
+                <p class="periodo">1980 - 2000</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="23">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="150">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Lothar Matthäus é o jogador com mais partidas pela seleção alemã (150 jogos). Campeão mundial em 1990, participou de cinco Copas do Mundo, recorde mundial. Foi eleito o melhor jogador do mundo em 1990 e é considerado um dos melhores meio-campistas da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Michael Ballack -->
+        <section class="secao-jogador" data-jogador="ballack">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/mathaus_99.jpg' %}" alt="Lothar Matthäus" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/ballack_2006.jpg' %}" alt="Michael Ballack" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Michael Ballack</h2>
+                <p class="periodo">1999 - 2010</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="42">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="98">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Michael Ballack foi um dos melhores meio-campistas da história do futebol alemão. Vice-campeão mundial em 2002 e europeu em 2008, foi fundamental no meio-campo alemão durante os anos 2000. Com sua técnica, força física e capacidade de chegar ao gol, foi um dos pilares da equipe alemã.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Lukas Podolski -->
+        <section class="secao-jogador" data-jogador="podolski">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/ballack_2006.jpg' %}" alt="Michael Ballack" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/podolski_2006.jpg' %}" alt="Lukas Podolski" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Lukas Podolski</h2>
+                <p class="periodo">2004 - 2017</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="49">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="130">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Lukas Podolski é um dos maiores artilheiros da história da seleção alemã (49 gols). Campeão mundial em 2014, participou de três Copas do Mundo. Famoso por seus chutes potentes e capacidade de finalização, foi fundamental no ataque alemão durante mais de uma década.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Philipp Lahm -->
+        <section class="secao-jogador" data-jogador="lahm">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/podolski_2006.jpg' %}" alt="Lukas Podolski" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/lahn_2014.jpg' %}" alt="Philipp Lahm" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Philipp Lahm</h2>
+                <p class="periodo">2004 - 2014</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="113">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Philipp Lahm foi um dos melhores laterais da história do futebol alemão. Campeão mundial em 2014 como capitão, foi fundamental na conquista do título. Com sua técnica, inteligência tática e capacidade de liderança, é considerado um dos melhores laterais da história do futebol.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Bastian Schweinsteiger -->
+        <section class="secao-jogador" data-jogador="schweinsteiger">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/lahn_2014.jpg' %}" alt="Philipp Lahm" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/Schweinsteiger_2014.jpg' %}" alt="Bastian Schweinsteiger" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Bastian Schweinsteiger</h2>
+                <p class="periodo">2004 - 2016</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="121">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Bastian Schweinsteiger foi um dos melhores meio-campistas da história do futebol alemão. Campeão mundial em 2014, foi fundamental no meio-campo alemão durante mais de uma década. Com sua técnica, visão de jogo e capacidade de liderança, foi um dos pilares da equipe alemã.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Manuel Neuer -->
+        <section class="secao-jogador" data-jogador="neuer">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/alemanha/Schweinsteiger_2014.jpg' %}" alt="Bastian Schweinsteiger" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/alemanha/neuer_2014.jpg' %}" alt="Manuel Neuer" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Manuel Neuer</h2>
+                <p class="periodo">2009 - Presente</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="117">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Manuel Neuer é considerado um dos melhores goleiros da história do futebol. Campeão mundial em 2014, revolucionou a posição de goleiro com seu estilo ofensivo e capacidade de jogar com os pés. Com sua técnica, reflexos e liderança, é um dos maiores goleiros da história do futebol.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Adicione aqui o arquivo de música alemã em formato MP3 -->
+        <source src="{% static 'blog/parallax/Copa de 82 - Voa Canarinho.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="{% static 'blog/parallax/script-alemanha.js' %}"></script>    
+    <script>
+        // Esconder header durante scroll para baixo, mostrar ao scrollar para cima
+        (function() {
+            let lastScroll = 0;
+            const parallaxHeader = document.getElementById('parallaxHeader');
+            
+            if (parallaxHeader) {
+                window.addEventListener('scroll', function() {
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Só esconder após passar da tela inicial
+                    if (currentScroll > 100) {
+                        if (currentScroll > lastScroll && currentScroll > 200) {
+                            // Scrollando para baixo - esconder
+                            parallaxHeader.classList.add('hidden');
+                        } else {
+                            // Scrollando para cima - mostrar
+                            parallaxHeader.classList.remove('hidden');
+                        }
+                    } else {
+                        // Sempre mostrar no topo
+                        parallaxHeader.classList.remove('hidden');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        })();
+    </script>
+    </body>
+</html>

@@ -2,11 +2,19 @@
 
 @import '_variables';
 @import '_functions';
+@import '_components';
+@import '_responsive';
+@import '_superTrunfo';
 @import '_header';
 @import '_sectionHome';
 @import '_sectionOptionsContent';
 @import '_sectionHighlightPlayers';
 @import '_sectionNationsOfWorld';
+@import '_nationsCard';
+@import '_jogadorDetail';
+@import '_skeleton';
+@import '_empty-states';
+@import '_accessibility';
 
 
 // Estilos para as estrelas
@@ -41,7 +49,6 @@ html {
         text-align: center;
         background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)!important;
         color: $secondary-color !important;
-        box-sizing: border-box;
 
         a {
             color: $secondary-color !important;
@@ -119,7 +126,6 @@ html {
         }
 
         footer{
-            // background-color: #0D1117;
             font-family: 'Poppins', sans-serif;
             color: #6e6d7a;
             font-size: .8rem;
@@ -173,28 +179,31 @@ html {
     &.slick-initialized {
         display: block;
     }
-    // .slick-list {
-    //     margin-left: -15px;
-    //     margin-right: -15px;
-    // }
-    // .slick-slide {
-    //   padding-right: 15px;
-    //   padding-left: 15px;
-    // }
     
     .slick-arrow {
         position: absolute;
-        width: 17px;
-        height: 1.8rem;
+        width: 2.5rem;
+        height: 2.5rem;
         top: 50%;
         background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 1.1rem auto;
         border: none;
         -webkit-appearance: none;
         padding: 0;
         z-index: 100;
         transform: translateY(-50%);
         overflow: hidden;
-        text-indent: 1000px;
+        text-indent: -9999px;
+        font-size: 0;
+        line-height: 0;
+
+        &::before {
+            content: none !important;
+            display: none !important;
+            opacity: 0 !important;
+        }
 
         &:hover {
             cursor: pointer;
@@ -203,12 +212,15 @@ html {
             outline: none;
         }
     }
+
     .slick-prev {
-      background-image: url('../images/arrow-left.svg');
+        left: -2.25rem;
+        background-image: url('../images/arrow-left.svg');
     }
-    
+
     .slick-next {
-      background-image: url('../images/arrow-right.svg');
+        right: -2.25rem;
+        background-image: url('../images/arrow-right.svg');
     }
     
   }
@@ -226,28 +238,24 @@ html {
     gap: 15px;
 }
 
-.filter-input input {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 30px;
-    background-color: #2b2e33;
-    /* Fundo mais claro para melhorar contraste */
-    color: #FFD700;
-    /* Cor dourada para um bom contraste */
-    outline: none;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+.filter-input input.form-control {
+    color: $text-primary;
+    -webkit-text-fill-color: $text-primary;
+    caret-color: $accent;
+    background-color: rgba(15, 23, 42, 0.75);
 
-.filter-input input:focus {
-    background-color: #333740;
-    box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8);
-    /* Brilho ao redor do campo */
-}
+    &:focus {
+        color: $text-primary;
+        -webkit-text-fill-color: $text-primary;
+        background-color: rgba(15, 23, 42, 0.9);
+        box-shadow: 0 0 0 3px rgba(102, 170, 255, 0.2);
+    }
 
-.filter-input input::placeholder {
-    color: #FFD700;
-    /* Placeholder com uma cor clara visível */
+    &::placeholder {
+        color: rgba(237, 242, 244, 0.55);
+        -webkit-text-fill-color: rgba(237, 242, 244, 0.55);
+        opacity: 1;
+    }
 }
 
 /* Adicionar display flex para alinhar as cards uniformemente */

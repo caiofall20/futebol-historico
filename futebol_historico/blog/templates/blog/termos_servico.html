@@ -1,0 +1,256 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Termos de Serviço" %} - {% trans "Futebol Histórico" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .terms-page {
+        min-height: 100vh;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        color: #EDF2F4;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        padding-top: 100px;
+        padding-bottom: 4rem;
+    }
+
+    .terms-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .terms-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .terms-header h1 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+    }
+
+    .terms-header p {
+        color: #8D99AE;
+        font-size: 1.1rem;
+    }
+
+    .terms-content {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .terms-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .terms-section h2 {
+        color: #66AAFF;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-family: 'Bebas Neue', cursive;
+    }
+
+    .terms-section h3 {
+        color: #EDF2F4;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .terms-section p {
+        color: #8D99AE;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .terms-section ul {
+        color: #8D99AE;
+        line-height: 1.8;
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .terms-section li {
+        margin-bottom: 0.5rem;
+    }
+
+    .last-updated {
+        text-align: center;
+        color: #8D99AE;
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(102,170,255,.2);
+    }
+
+    @media (max-width: 768px) {
+        .terms-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .terms-container {
+            padding: 0 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="terms-page">
+    <div class="terms-container">
+        <div class="terms-header">
+            <h1>{% trans "Termos de Serviço" %}</h1>
+            <p>{% trans "Última atualização:" %} {{ "now"|date:"d/m/Y" }}</p>
+        </div>
+
+        <div class="terms-content">
+            <div class="terms-section">
+                <h2>1. {% trans "Aceitação dos Termos" %}</h2>
+                <p>
+                    {% trans "Ao acessar e usar o site Futebol Histórico ('Site', 'nós', 'nosso'), você aceita e concorda em ficar vinculado a estes Termos de Serviço. Se você não concordar com qualquer parte destes termos, não deve usar nosso site." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>2. {% trans "Uso do Site" %}</h2>
+                
+                <h3>2.1 {% trans "Uso Permitido" %}</h3>
+                <p>{% trans "Você pode usar nosso site para:" %}</p>
+                <ul>
+                    <li>{% trans "Visualizar e navegar pelo conteúdo" %}</li>
+                    <li>{% trans "Compartilhar conteúdo através de links" %}</li>
+                    <li>{% trans "Fazer comentários e interagir com o conteúdo" %}</li>
+                </ul>
+
+                <h3>2.2 {% trans "Uso Proibido" %}</h3>
+                <p>{% trans "Você NÃO pode:" %}</p>
+                <ul>
+                    <li>{% trans "Copiar, reproduzir ou distribuir conteúdo sem autorização" %}</li>
+                    <li>{% trans "Usar o site para fins ilegais ou não autorizados" %}</li>
+                    <li>{% trans "Tentar acessar áreas restritas do site" %}</li>
+                    <li>{% trans "Interferir ou interromper o funcionamento do site" %}</li>
+                    <li>{% trans "Enviar spam, vírus ou código malicioso" %}</li>
+                    <li>{% trans "Usar bots ou scripts automatizados sem permissão" %}</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>3. {% trans "Propriedade Intelectual" %}</h2>
+                <p>
+                    {% trans "Todo o conteúdo do site, incluindo textos, imagens, logos, gráficos e software, é propriedade do Futebol Histórico ou de seus licenciadores e está protegido por leis de direitos autorais e outras leis de propriedade intelectual." %}
+                </p>
+                <p>
+                    {% trans "Você não pode usar, reproduzir, distribuir ou criar obras derivadas do conteúdo sem nossa autorização prévia por escrito." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>4. {% trans "Comentários e Conteúdo do Usuário" %}</h2>
+                <p>
+                    {% trans "Ao enviar comentários ou conteúdo para nosso site, você concede ao Futebol Histórico uma licença não exclusiva, livre de royalties e perpétua para usar, modificar, publicar e distribuir esse conteúdo." %}
+                </p>
+                <p>
+                    {% trans "Você é responsável por garantir que seu conteúdo:" %}
+                </p>
+                <ul>
+                    <li>{% trans "Não viole direitos de terceiros" %}</li>
+                    <li>{% trans "Não seja difamatório, ofensivo ou ilegal" %}</li>
+                    <li>{% trans "Não contenha spam ou conteúdo promocional não autorizado" %}</li>
+                </ul>
+                <p>
+                    {% trans "Reservamo-nos o direito de remover qualquer conteúdo que consideremos inadequado, sem aviso prévio." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>5. {% trans "Links para Sites de Terceiros" %}</h2>
+                <p>
+                    {% trans "Nosso site pode conter links para sites de terceiros. Não somos responsáveis pelo conteúdo, políticas de privacidade ou práticas de sites de terceiros." %}
+                </p>
+                <p>
+                    {% trans "Recomendamos que você leia os termos e políticas de privacidade de qualquer site de terceiros que visitar." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>6. {% trans "Isenção de Garantias" %}</h2>
+                <p>
+                    {% trans "O site é fornecido 'como está' e 'conforme disponível'. Não garantimos que:" %}
+                </p>
+                <ul>
+                    <li>{% trans "O site estará sempre disponível ou livre de erros" %}</li>
+                    <li>{% trans "O conteúdo será preciso, completo ou atualizado" %}</li>
+                    <li>{% trans "O site atenderá às suas necessidades específicas" %}</li>
+                </ul>
+            </div>
+
+            <div class="terms-section">
+                <h2>7. {% trans "Limitação de Responsabilidade" %}</h2>
+                <p>
+                    {% trans "Em nenhuma circunstância o Futebol Histórico será responsável por quaisquer danos diretos, indiretos, incidentais, especiais ou consequenciais resultantes do uso ou incapacidade de usar o site." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>8. {% trans "Indenização" %}</h2>
+                <p>
+                    {% trans "Você concorda em indenizar e isentar o Futebol Histórico de quaisquer reivindicações, danos, obrigações, perdas, responsabilidades, custos ou dívidas decorrentes do seu uso do site ou violação destes Termos." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>9. {% trans "Modificações dos Termos" %}</h2>
+                <p>
+                    {% trans "Reservamo-nos o direito de modificar estes Termos de Serviço a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação no site." %}
+                </p>
+                <p>
+                    {% trans "É sua responsabilidade revisar periodicamente estes termos. O uso continuado do site após as alterações constitui aceitação dos novos termos." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>10. {% trans "Rescisão" %}</h2>
+                <p>
+                    {% trans "Reservamo-nos o direito de encerrar ou suspender seu acesso ao site, sem aviso prévio, por qualquer motivo, incluindo violação destes Termos de Serviço." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>11. {% trans "Lei Aplicável" %}</h2>
+                <p>
+                    {% trans "Estes Termos de Serviço são regidos pelas leis do Brasil. Qualquer disputa será resolvida nos tribunais competentes do Brasil." %}
+                </p>
+            </div>
+
+            <div class="terms-section">
+                <h2>12. {% trans "Contato" %}</h2>
+                <p>
+                    {% trans "Se você tiver dúvidas sobre estes Termos de Serviço, entre em contato conosco:" %}
+                </p>
+                <ul>
+                    <li>{% trans "E-mail:" %} <a href="mailto:contato@futebolhistorico.com" style="color: #66AAFF;">contato@futebolhistorico.com</a></li>
+                    <li>{% trans "Site:" %} <a href="{% url 'index' %}" style="color: #66AAFF;">{% trans "Futebol Histórico" %}</a></li>
+                </ul>
+            </div>
+
+            <div class="last-updated">
+                <p>{% trans "Última atualização:" %} {{ "now"|date:"d de F de Y" }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

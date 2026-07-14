@@ -1,0 +1,567 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Futebol Histórico 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-26 03:36+0000\n"
+"PO-Revision-Date: 2026-02-20 23:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: Español\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
+
+#: blog/templates/blog/base.html:27
+msgid "Pular para conteúdo principal"
+msgstr "Saltar al contenido principal"
+
+#: blog/templates/blog/base.html:57 blog/templates/blog/index.html:79
+msgid "Início"
+msgstr "Inicio"
+
+#: blog/templates/blog/base.html:62 blog/templates/blog/index.html:82
+msgid "Copas"
+msgstr "Copas del Mundo"
+
+#: blog/templates/blog/base.html:67 blog/templates/blog/index.html:85
+#: blog/templates/blog/selecoes.html:5
+msgid "Seleções"
+msgstr "Selecciones"
+
+#: blog/templates/blog/base.html:72 blog/templates/blog/index.html:88
+msgid "Times"
+msgstr "Clubes"
+
+#: blog/templates/blog/base.html:77 blog/templates/blog/index.html:91
+msgid "Jogadores"
+msgstr "Jugadores"
+
+#: blog/templates/blog/base.html:82 blog/templates/blog/index.html:94
+msgid "Estádios"
+msgstr "Estadios"
+
+#: blog/templates/blog/base.html:134 blog/templates/blog/index.html:9
+#: blog/templates/blog/time_detail.html:5
+msgid "Universo da Bola"
+msgstr "Universo del Fútbol"
+
+#: blog/templates/blog/base.html:134
+msgid "Todos os direitos reservados"
+msgstr "Todos los derechos reservados"
+
+#: blog/templates/blog/copa_detail.html:5
+#: blog/templates/blog/estadio_detail.html:6
+#: blog/templates/blog/jogador_detail.html:6
+#: blog/templates/blog/jogadores.html:7 blog/templates/blog/jogadores.html:19
+#: blog/templates/blog/selecao_detail.html:6
+#: blog/templates/blog/selecoes.html:5
+#, fuzzy
+#| msgid "Seleções"
+msgid "Futebol Histórico"
+msgstr "Selecciones"
+
+#: blog/templates/blog/index.html:73
+msgid "Abrir menu"
+msgstr "Abrir menú"
+
+#: blog/templates/blog/index.html:74
+msgid "Fechar menu"
+msgstr "Cerrar menú"
+
+#: blog/templates/blog/index.html:139
+#, fuzzy
+#| msgid "Universo da Bola"
+msgid "Universo"
+msgstr "Universo del Fútbol"
+
+#: blog/templates/blog/index.html:139
+msgid "da"
+msgstr "del"
+
+#: blog/templates/blog/index.html:139
+msgid "bola"
+msgstr "fútbol"
+
+#: blog/templates/blog/index.html:140
+msgid ""
+"Universo da Bola é o blog <span>para você</span>, \n"
+"                        apaixonado por esportes, e que gosta de mergulhar "
+"fundo\n"
+"                        nesse universo."
+msgstr ""
+
+#: blog/templates/blog/index.html:160
+msgid "Copas do Mundo"
+msgstr "Copas del Mundo"
+
+#: blog/templates/blog/index.html:161
+msgid ""
+"São mais de <strong>90 anos de história</strong> desde a primeira Copa do "
+"Mundo realizada em 1930, trazendo momentos inesquecíveis para o futebol "
+"mundial. Ao longo das edições, <strong>grandes seleções</strong> e "
+"<strong>lendários jogadores</strong> deixaram sua marca nos gramados, "
+"encantando torcedores e fazendo do torneio o evento esportivo mais assistido "
+"do planeta. Nesta página, você encontrará detalhes sobre as edições mais "
+"marcantes, curiosidades, estatísticas e tudo o que envolve esse grande "
+"espetáculo do futebol."
+msgstr ""
+
+#: blog/templates/blog/index.html:168 blog/templates/blog/selecoes.html:1038
+#, fuzzy
+#| msgid "Seleções"
+msgid "Seleções Históricas"
+msgstr "Selecciones"
+
+#: blog/templates/blog/index.html:169
+msgid ""
+"São <strong>centenas de seleções</strong> que participaram das Copas do "
+"Mundo, mas algumas se tornaram verdadeiras <strong>lendas do futebol</"
+"strong>. Times como o Brasil de 1970, a Argentina de 1986 e a Alemanha de "
+"2014 marcaram gerações e redefiniram o esporte com seus estilos únicos de "
+"jogo e conquistas memoráveis. Nesta página, você vai conhecer as histórias "
+"dessas <strong>seleções lendárias</strong>, seus feitos, seus craques, e o "
+"legado que deixaram para o futebol mundial."
+msgstr ""
+
+#: blog/templates/blog/index.html:176
+msgid "Times Lendários"
+msgstr "Clubes Legendarios"
+
+#: blog/templates/blog/index.html:177
+msgid ""
+"São <strong>várias gerações de times lendários</strong> que marcaram a "
+"história do futebol, desde as primeiras competições até os dias de hoje. "
+"Equipes como o <strong>Brasil de 1970</strong>, o <strong>Barcelona de "
+"Guardiola</strong>, e o <strong>Real Madrid dos Galácticos</strong> deixaram "
+"uma herança inesquecível, com suas táticas inovadoras e jogadores "
+"excepcionais. Nesta página, você vai explorar essas formações icônicas que "
+"redefiniram o esporte e influenciaram gerações de torcedores e profissionais "
+"ao redor do mundo."
+msgstr ""
+
+#: blog/templates/blog/index.html:184
+#, fuzzy
+#| msgid "Jogadores"
+msgid "Jogadores lendários"
+msgstr "Jugadores"
+
+#: blog/templates/blog/index.html:185
+msgid ""
+"São mais de <strong>100 anos de talentos</strong> que brilharam nos campos, "
+"deixando sua marca na história do futebol. Jogadores lendários como "
+"<strong>Pelé, Maradona, e Zidane</strong> emocionaram o mundo com sua "
+"habilidade e liderança, conquistando títulos e o coração de milhões de fãs. "
+"Nesta página, você vai conhecer as trajetórias dos maiores craques de todos "
+"os tempos, suas conquistas inesquecíveis, e o legado que deixaram para as "
+"futuras gerações do esporte."
+msgstr ""
+
+#: blog/templates/blog/index.html:192
+#, fuzzy
+#| msgid "Estádios"
+msgid "Estádios Renomados"
+msgstr "Estadios"
+
+#: blog/templates/blog/index.html:193
+msgid ""
+"São mais de <strong>200 estádios renomados</strong> ao redor do mundo, cada "
+"um com sua própria história e características únicas. Esses espaços não "
+"apenas abrigam <strong>grandes eventos esportivos</strong>, mas também "
+"servem como <strong>centros culturais</strong> e <strong>pontos de encontro</"
+"strong> para torcedores apaixonados. Nesta página, você encontrará "
+"informações sobre os estádios mais icônicos, suas capacidades, arquiteturas "
+"e os momentos inesquecíveis que marcaram a história do esporte."
+msgstr ""
+
+#: blog/templates/blog/index.html:203
+#, fuzzy
+#| msgid "Jogadores"
+msgid "Jogadores de"
+msgstr "Jugadores"
+
+#: blog/templates/blog/index.html:203
+msgid "Destaque"
+msgstr "Destacados"
+
+#: blog/templates/blog/index.html:205
+msgid ""
+"Confira os craques que estão dominando os campos com suas habilidades e "
+"performances incríveis."
+msgstr ""
+
+#: blog/templates/blog/index.html:207
+msgid "Veja mais"
+msgstr "Ver más"
+
+#: blog/templates/blog/index.html:226
+msgid "Nenhuma imagem disponível"
+msgstr "No hay imágenes disponibles"
+
+#: blog/templates/blog/index.html:237
+msgid "NAÇÕES CAMPEÃS DO MUNDO"
+msgstr "NACIONES CAMPEONAS DEL MUNDO"
+
+#: blog/templates/blog/index.html:290
+#, fuzzy
+#| msgid "Seleções"
+msgid "Seleção"
+msgstr "Selecciones"
+
+#: blog/templates/blog/index.html:291
+msgid "Descrição da seleção"
+msgstr "Descripción de la selección"
+
+#: blog/templates/blog/index.html:294
+msgid "Fechar card"
+msgstr "Cerrar tarjeta"
+
+#: blog/templates/blog/index.html:310
+msgid "Títulos Mundiais"
+msgstr "Títulos Mundiales"
+
+#: blog/templates/blog/index.html:321
+msgid "Participações"
+msgstr "Participaciones"
+
+#: blog/templates/blog/index.html:328
+msgid "Gols Marcados"
+msgstr "Goles Marcados"
+
+#: blog/templates/blog/index.html:335
+msgid "Partidas"
+msgstr "Partidos"
+
+#: blog/templates/blog/index.html:342
+msgid "Informações Importantes"
+msgstr "Información Importante"
+
+#: blog/templates/blog/index.html:347
+msgid "Melhor Resultado"
+msgstr "Mejor Resultado"
+
+#: blog/templates/blog/index.html:354 blog/templates/blog/jogadores.html:7
+#: blog/templates/blog/jogadores.html:19 blog/templates/blog/jogadores.html:29
+#, fuzzy
+#| msgid "Jogadores"
+msgid "Jogadores Lendários"
+msgstr "Jugadores"
+
+#: blog/templates/blog/index.html:361
+msgid "Estádio Principal"
+msgstr "Estadio Principal"
+
+#: blog/templates/blog/index.html:368
+msgid "Títulos Continentais"
+msgstr "Títulos Continentales"
+
+#: blog/templates/blog/index.html:380
+msgid "História dos Craques"
+msgstr "Historia de los Astros"
+
+#: blog/templates/blog/index.html:387
+msgid "Ver Mais Detalhes"
+msgstr "Ver Más Detalles"
+
+#: blog/templates/blog/jogadores.html:15
+msgid ""
+"Explore a galeria completa de jogadores lendários do futebol mundial. "
+"Biografias, estatísticas, títulos e histórias dos maiores craques de todos "
+"os tempos."
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:16
+msgid ""
+"jogadores de futebol, futebol histórico, craques, lendas do futebol, "
+"biografias de jogadores"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:20
+msgid "Explore a galeria completa de jogadores lendários do futebol mundial"
+msgstr ""
+"Explora la galería completa de jugadores legendarios del fútbol mundial"
+
+#: blog/templates/blog/jogadores.html:30
+msgid "Galeria completa de jogadores lendários do futebol mundial"
+msgstr "Galería completa de jugadores legendarios del fútbol mundial"
+
+#: blog/templates/blog/jogadores.html:594
+msgid "JOGADORES LENDÁRIOS"
+msgstr "JUGADORES LEGENDARIOS"
+
+#: blog/templates/blog/jogadores.html:603
+msgid "Nome do Jogador"
+msgstr "Nombre del Jugador"
+
+#: blog/templates/blog/jogadores.html:604
+msgid "Digite o nome do jogador"
+msgstr "Ingrese el nombre del jugador"
+
+#: blog/templates/blog/jogadores.html:607
+msgid "Nacionalidade"
+msgstr "Nacionalidad"
+
+#: blog/templates/blog/jogadores.html:608
+msgid "Ex: Brasil, Argentina"
+msgstr "Ej: Brasil, Argentina"
+
+#: blog/templates/blog/jogadores.html:611
+msgid "Posição"
+msgstr "Posición"
+
+#: blog/templates/blog/jogadores.html:613
+msgid "Todas as Posições"
+msgstr "Todas las Posiciones"
+
+#: blog/templates/blog/jogadores.html:614
+msgid "Atacante"
+msgstr "Delantero"
+
+#: blog/templates/blog/jogadores.html:615
+msgid "Meio-campista"
+msgstr "Mediocampista"
+
+#: blog/templates/blog/jogadores.html:616
+msgid "Defensor"
+msgstr "Defensor"
+
+#: blog/templates/blog/jogadores.html:617
+msgid "Goleiro"
+msgstr "Portero"
+
+#: blog/templates/blog/jogadores.html:621
+msgid "Época"
+msgstr "Época"
+
+#: blog/templates/blog/jogadores.html:623
+msgid "Todas as Épocas"
+msgstr "Todas las Épocas"
+
+#: blog/templates/blog/jogadores.html:638
+msgid "Carregando..."
+msgstr "Cargando..."
+
+#: blog/templates/blog/jogadores.html:639
+#: blog/templates/blog/jogadores.html:655
+msgid "Limpar Filtros"
+msgstr "Limpiar Filtros"
+
+#: blog/templates/blog/jogadores.html:645
+msgid "Filtrando jogadores..."
+msgstr "Filtrando jugadores..."
+
+#: blog/templates/blog/jogadores.html:652
+msgid "Nenhum jogador encontrado"
+msgstr "No se encontraron jugadores"
+
+#: blog/templates/blog/jogadores.html:653
+msgid "Tente ajustar os filtros para encontrar o que procura."
+msgstr "Intenta ajustar los filtros para encontrar lo que buscas."
+
+#: blog/templates/blog/jogadores.html:690
+msgid "TÍTULOS"
+msgstr "TÍTULOS"
+
+#: blog/templates/blog/jogadores.html:695
+msgid "PERÍODO DE ATIVIDADE"
+msgstr "PERÍODO DE ACTIVIDAD"
+
+#: blog/templates/blog/jogadores.html:708
+msgid "PÉ DOMINANTE"
+msgstr "PIE DOMINANTE"
+
+#: blog/templates/blog/jogadores.html:713
+msgid "NACIONALIDADE"
+msgstr "NACIONALIDAD"
+
+#: blog/templates/blog/jogadores.html:736
+msgid "BIOGRAFIA"
+msgstr "BIOGRAFÍA"
+
+#: blog/templates/blog/jogadores.html:741
+#, fuzzy
+#| msgid "Ver Mais Detalhes"
+msgid "Ver detalhes de"
+msgstr "Ver Más Detalles"
+
+#: blog/templates/blog/jogadores.html:741
+#, fuzzy
+#| msgid "Ver Mais Detalhes"
+msgid "Ver Mais"
+msgstr "Ver Más Detalles"
+
+#: blog/templates/blog/jogadores.html:750
+msgid "Navegação de páginas"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:754
+msgid "Primeira página"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:759
+msgid "Página anterior"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:786
+msgid "Próxima página"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:791
+msgid "Última página"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:805
+#, python-format
+msgid ""
+"Página %(current)s de %(total)s (%(count)s jogador%(count|pluralize:\"es\")s "
+"no total)"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:896
+msgid "Nenhum resultado encontrado"
+msgstr "No se encontraron resultados"
+
+#: blog/templates/blog/jogadores.html:899
+msgid "Mostrando"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:899
+msgid "de"
+msgstr ""
+
+#: blog/templates/blog/jogadores.html:899
+#, fuzzy
+#| msgid "Jogadores"
+msgid "jogador"
+msgstr "Jugadores"
+
+#: blog/templates/blog/jogadores.html:899
+msgid "es"
+msgstr ""
+
+#: blog/templates/blog/selecoes.html:1039
+#, fuzzy
+#| msgid "Explore a galeria completa de jogadores lendários do futebol mundial"
+msgid "Explore as maiores seleções do futebol mundial"
+msgstr ""
+"Explora las mayores selecciones del fútbol mundialExplora la galería "
+"completa de jugadores legendarios del fútbol mundial"
+
+#: blog/templates/blog/selecoes.html:1059
+#, fuzzy
+#| msgid "Seleções"
+msgid "Total de Seleções"
+msgstr "Selecciones"
+
+#: blog/templates/blog/selecoes.html:1061
+#, fuzzy
+#| msgid "Seleções"
+msgid "Seleções cadastradas"
+msgstr "Selecciones"
+
+#: blog/templates/blog/selecoes.html:1065
+#, fuzzy
+#| msgid "Seleções"
+msgid "Top Seleção"
+msgstr "Selecciones"
+
+#: blog/templates/blog/selecoes.html:1077
+msgid "Sem dados"
+msgstr "Sin datos"
+
+#: blog/templates/blog/selecoes.html:1083
+msgid "Por Região"
+msgstr "Por Región"
+
+#: blog/templates/blog/selecoes.html:1096
+msgid "Top 10 por Títulos"
+msgstr "Top 10 por Títulos"
+
+#: blog/templates/blog/selecoes.html:1111
+msgid "Top 10 em Copas"
+msgstr "Top 10 en Copas"
+
+#: blog/templates/blog/selecoes.html:1131
+#, fuzzy
+#| msgid "Descrição da seleção"
+msgid "Buscar seleção..."
+msgstr "Descripción de la selección"
+
+#: blog/templates/blog/selecoes.html:1134
+msgid "Todas"
+msgstr "Todas"
+
+#: blog/templates/blog/selecoes.html:1135
+msgid "Europa"
+msgstr "Europa"
+
+#: blog/templates/blog/selecoes.html:1136
+msgid "América"
+msgstr "América"
+
+#: blog/templates/blog/selecoes.html:1137
+msgid "África"
+msgstr "África"
+
+#: blog/templates/blog/selecoes.html:1138
+msgid "Ásia"
+msgstr "Asia"
+
+#: blog/templates/blog/selecoes.html:1139
+msgid "Oceania"
+msgstr "Oceanía"
+
+#: blog/templates/blog/selecoes.html:1147
+#, python-format
+msgid ""
+"Mostrando <strong id=\"resultCount\">%(count)s</strong> de %(count)s seleções"
+msgstr ""
+
+#: blog/templates/blog/selecoes.html:1242
+#: blog/templates/blog/selecoes.html:1361 blog/views.py:153
+msgid "Campeão"
+msgstr "Campeón"
+
+#: blog/templates/blog/selecoes.html:1251
+#: blog/templates/blog/selecoes.html:1362 blog/views.py:156
+msgid "Vice-Campeão"
+msgstr "Subcampeón"
+
+#: blog/templates/blog/selecoes.html:1260
+#: blog/templates/blog/selecoes.html:1363 blog/views.py:159
+msgid "3º Lugar"
+msgstr "3º Lugar"
+
+#: blog/templates/blog/selecoes.html:1269 blog/views.py:162
+#, fuzzy
+#| msgid "Participações"
+msgid "Participante"
+msgstr "Participaciones"
+
+#: blog/templates/blog/selecoes.html:1335
+#, fuzzy
+#| msgid "Nenhum resultado encontrado"
+msgid "Nenhuma seleção encontrada"
+msgstr "No se encontraron resultados"
+
+#: blog/templates/blog/selecoes.html:1336
+#, fuzzy
+#| msgid "Tente ajustar os filtros para encontrar o que procura."
+msgid "Tente ajustar os filtros de busca"
+msgstr "Intenta ajustar los filtros para encontrar lo que buscas."
+
+#: blog/templates/blog/selecoes.html:1345
+#, fuzzy
+#| msgid "Seleções"
+msgid "Comparar Seleções"
+msgstr "Selecciones"
+
+#: blog/templates/blog/selecoes.html:1360
+msgid "Selecione pelo menos 2 seleções para comparar"
+msgstr ""

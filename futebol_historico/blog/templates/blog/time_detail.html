@@ -1,323 +1,1281 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ time.nome }} - Futebol Histórico{% endblock %}
+{% block title %}{{ time.nome }} - {% trans "Universo da Bola" %}{% endblock %}
 
 {% block extra_head %}
-    <link rel="icon" type="image/x-icon" href="{% static 'blog/images/favicon.ico' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: url("{% static 'blog/images/star_background.png' %}") no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            line-height: 1.6;
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Georama:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    .time-detail-page {
+        min-height: 100vh;
+        background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+        color: #EDF2F4;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        padding-top: 80px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .time-detail-page #stars, .time-detail-page #stars2, .time-detail-page #stars3 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .time-detail-page #stars {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff;
+        animation: none;
+    }
+
+    .time-detail-page #stars2 {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff, 0 0 2px #fff;
+        animation: none;
+    }
+
+    .time-detail-page #stars3 {
+        width: 3px;
+        height: 3px;
+        background: transparent;
+        box-shadow: 0 0 1px #fff;
+        animation: none;
+    }
+
+    /* Hero Section com Imagem de Fundo */
+    .hero-time-detail {
+        position: relative;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4rem;
+        overflow: hidden;
+        z-index: 10;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(102,170,255,.15) 0%, rgba(74,144,226,.1) 100%);
+        z-index: 1;
+    }
+
+    .hero-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("{% if time.imagem %}{{ time.imagem.url }}{% endif %}") center/cover no-repeat;
+        opacity: 0.15;
+        filter: blur(20px);
+        z-index: -1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .hero-image-wrapper {
+        margin-bottom: 2rem;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-image-wrapper img {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.6);
+        border: 3px solid rgba(102,170,255,.3);
+        background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+        padding: 1rem;
+    }
+
+    .hero-title {
+        font-family: 'Bebas Neue', cursive;
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 0 1rem 0;
+        letter-spacing: 3px;
+        text-shadow: 0 0 30px rgba(102,170,255,.3);
+        animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-subtitle {
+        color: #8D99AE;
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin: 0;
+        animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    /* Container */
+    .time-detail-container {
+        position: relative;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem 4rem;
+    }
+
+    /* Estatísticas Expandidas */
+    .stats-expanded {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 60px rgba(102,170,255,.4);
+        border-color: rgba(102,170,255,.5);
+    }
+
+    .stat-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+
+    .stat-value {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #8D99AE;
+        font-size: 1.1rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Seção de Pilares */
+    .pilares-section {
+        margin-bottom: 3rem;
+    }
+
+    .section-title {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .title-icon {
+        font-size: 2.5rem;
+        filter: drop-shadow(0 0 10px rgba(102,170,255,.5));
+    }
+
+    .pilares-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .pilar-card {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+        transition: all 0.4s ease;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .pilar-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .pilar-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(102,170,255,.5);
+        border-color: rgba(102,170,255,.6);
+    }
+
+    .pilar-image-wrapper {
+        position: relative;
+        width: 100%;
+        min-height: 350px;
+        max-height: 500px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(102,170,255,.1), rgba(74,144,226,.05));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .pilar-image-wrapper img {
+        width: 100%;
+        height: auto;
+        max-height: 450px;
+        object-fit: contain;
+        transition: transform 0.5s ease;
+        border-radius: 10px;
+    }
+
+    .pilar-card:hover .pilar-image-wrapper img {
+        transform: scale(1.1);
+    }
+
+    .pilar-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60%;
+        background: linear-gradient(to top, rgba(15,23,42,.95) 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .pilar-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        color: rgba(102,170,255,.3);
+    }
+
+    .pilar-content {
+        padding: 2rem;
+    }
+
+    .pilar-name {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2rem;
+        color: #66AAFF;
+        margin-bottom: 1rem;
+        text-align: center;
+        letter-spacing: 1px;
+    }
+
+    .pilar-description {
+        color: #EDF2F4;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Badge de Região */
+    .region-badge-large {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 1rem 0;
+        box-shadow: 0 8px 20px rgba(0,0,0,.3);
+    }
+
+    .badge-europa { background: linear-gradient(135deg, #004a8f, #0066cc); color: #fff; }
+    .badge-america-do-sul { background: linear-gradient(135deg, #009739, #00d84f); color: #fff; }
+    .badge-america-central { background: linear-gradient(135deg, #008751, #00c96b); color: #fff; }
+    .badge-africa { background: linear-gradient(135deg, #008751, #00c96b); color: #fff; }
+    .badge-asia { background: linear-gradient(135deg, #ff6b35, #ff8c5a); color: #fff; }
+
+    /* Seção de História */
+    .history-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .history-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .history-section h2::before {
+        content: '📖';
+        font-size: 2rem;
+    }
+
+    .history-content {
+        font-size: 1.2rem;
+        line-height: 1.9;
+        color: #EDF2F4;
+    }
+
+    .history-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Momentos Históricos */
+    .momentos-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .momentos-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .momentos-section h2::before {
+        content: '📜';
+        font-size: 2rem;
+    }
+
+    .momentos-content {
+        font-size: 1.2rem;
+        line-height: 1.9;
+        color: #EDF2F4;
+    }
+
+    /* Timeline Visual */
+    .timeline-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .timeline-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .timeline-section h2::before {
+        content: '⏱️';
+        font-size: 2rem;
+    }
+
+    .timeline-container {
+        position: relative;
+        padding-left: 3rem;
+    }
+
+    .timeline-line {
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #66AAFF, #87CEEB);
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 3rem;
+        padding-left: 2rem;
+    }
+
+    .timeline-item-large {
+        margin-bottom: 4rem;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -2.5rem;
+        top: 1rem;
+        width: 1.2rem;
+        height: 1.2rem;
+        background: #66AAFF;
+        border-radius: 50%;
+        border: 4px solid rgba(15,23,42,.95);
+        box-shadow: 0 0 20px rgba(102,170,255,.6);
+        z-index: 2;
+    }
+
+    .timeline-content-wrapper {
+        background: rgba(255,255,255,.03);
+        border-radius: 15px;
+        padding: 2rem;
+        border-left: 4px solid rgba(102,170,255,.5);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-content-wrapper {
+        background: rgba(255,255,255,.05);
+        border-left-color: #66AAFF;
+        transform: translateX(5px);
+    }
+
+    .timeline-event-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .timeline-year {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #66AAFF;
+        margin: 0;
+    }
+
+    .timeline-badge {
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-champions-league,
+    .badge-libertadores,
+    .badge-campeonato {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        color: #000;
+    }
+
+    .badge-final {
+        background: linear-gradient(135deg, #C0C0C0, #808080);
+        color: #fff;
+    }
+
+    .timeline-event-title {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.8rem;
+        color: #66AAFF;
+        margin: 1rem 0;
+        letter-spacing: 1px;
+    }
+
+    .timeline-event-image {
+        margin: 1.5rem 0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    }
+
+    .timeline-event-image img {
+        width: 100%;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .timeline-item:hover .timeline-event-image img {
+        transform: scale(1.05);
+    }
+
+    .timeline-text {
+        color: #EDF2F4;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .timeline-event-details {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(102,170,255,.2);
+        flex-wrap: wrap;
+    }
+
+    .timeline-detail-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #8D99AE;
+        font-size: 0.95rem;
+    }
+
+    .detail-icon {
+        font-size: 1.2rem;
+    }
+
+    /* Curiosidades */
+    .curiosidades-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .curiosidades-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .curiosidades-section h2::before {
+        content: '💡';
+        font-size: 2rem;
+    }
+
+    .curiosidades-content {
+        font-size: 1.2rem;
+        line-height: 1.9;
+        color: #EDF2F4;
+    }
+
+    /* Legado */
+    .legado-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .legado-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .legado-section h2::before {
+        content: '🌟';
+        font-size: 2rem;
+    }
+
+    .legado-content {
+        font-size: 1.2rem;
+        line-height: 1.9;
+        color: #EDF2F4;
+    }
+
+    /* Você Sabia? */
+    .voce-sabia-card {
+        background: linear-gradient(135deg, rgba(102,170,255,.15) 0%, rgba(74,144,226,.1) 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        border: 2px solid rgba(102,170,255,.3);
+        box-shadow: 0 18px 40px rgba(102,170,255,.2);
+        backdrop-filter: blur(20px);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .voce-sabia-card::before {
+        content: '❓';
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        font-size: 8rem;
+        opacity: 0.1;
+        transform: rotate(15deg);
+    }
+
+    .voce-sabia-label {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.5rem;
+        color: #66AAFF;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .voce-sabia-text {
+        font-size: 1.3rem;
+        color: #EDF2F4;
+        line-height: 1.8;
+        font-weight: 500;
+    }
+
+    /* Navegação Relacionada */
+    .related-section {
+        margin-bottom: 3rem;
+    }
+
+    .related-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .related-card {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 15px;
+        padding: 1.5rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,.3);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+    }
+
+    .related-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(102,170,255,.4);
+        border-color: rgba(102,170,255,.5);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .related-card h3 {
+        color: #66AAFF;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .related-card p {
+        color: #8D99AE;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+
+    /* Seção de Comentários */
+    .comments-section {
+        background: linear-gradient(135deg, rgba(15,23,42,.95) 0%, rgba(30,41,59,.98) 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        border: 1px solid rgba(102,170,255,.2);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        backdrop-filter: blur(20px);
+    }
+
+    .comments-section h2 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2.5rem;
+        background: linear-gradient(45deg, #66AAFF, #87CEEB);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .comments-section h2::before {
+        content: '💬';
+        font-size: 2rem;
+    }
+
+    .comment-card {
+        background: rgba(255,255,255,.03);
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid rgba(102,170,255,.5);
+        transition: all 0.3s ease;
+    }
+
+    .comment-card:hover {
+        background: rgba(255,255,255,.05);
+        transform: translateX(5px);
+        border-left-color: #66AAFF;
+    }
+
+    .comment-author {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #66AAFF;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-body {
+        color: #EDF2F4;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-date {
+        color: #8D99AE;
+        font-size: 0.9rem;
+    }
+
+    .no-comments {
+        text-align: center;
+        padding: 3rem;
+        color: #8D99AE;
+        font-size: 1.2rem;
+        background: rgba(255,255,255,.02);
+        border-radius: 15px;
+        border: 2px dashed rgba(102,170,255,.2);
+    }
+
+    /* Formulário de Comentário */
+    .comment-form {
+        margin-top: 3rem;
+        padding-top: 3rem;
+        border-top: 1px solid rgba(102,170,255,.2);
+    }
+
+    .comment-form h3 {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 2rem;
+        color: #66AAFF;
+        margin-bottom: 1.5rem;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255,255,255,.05);
+        border: 2px solid rgba(102,170,255,.3);
+        border-radius: 12px;
+        color: #EDF2F4;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        font-family: 'Georama', sans-serif;
+    }
+
+    .comment-form input:focus,
+    .comment-form textarea:focus {
+        outline: none;
+        border-color: #66AAFF;
+        background: rgba(255,255,255,.08);
+        box-shadow: 0 0 20px rgba(102,170,255,.3);
+    }
+
+    .comment-form textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .btn-submit {
+        padding: 1rem 2.5rem;
+        background: linear-gradient(135deg, #66AAFF, #1d4ed8);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102,170,255,.5);
+    }
+
+    /* Animações */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+        .hero-time-detail {
+            min-height: 400px;
         }
 
-        .header-principal {
-            margin-top: 76px;
+        .hero-image-wrapper img {
+            max-width: 300px;
         }
 
-        .hero-section {
-            background: transparent;
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-            margin-bottom: 30px;
+        .pilares-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .pilar-image-wrapper {
+            min-height: 300px;
+            max-height: 400px;
+            padding: 1.5rem;
+        }
+        
+        .pilar-image-wrapper img {
+            max-height: 350px;
         }
 
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-family: 'Bebas Neue', cursive;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        .time-detail-container {
+            padding: 0 1rem 2rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .history-section,
+        .comments-section,
+        .momentos-section,
+        .timeline-section,
+        .curiosidades-section,
+        .legado-section {
+            padding: 2rem 1.5rem;
         }
 
-        .team-profile {
-            display: flex;
-            margin: 30px auto;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
+        .stats-expanded {
+            grid-template-columns: repeat(2, 1fr);
         }
 
-        .team-image {
-            width: 40%;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
+        .related-grid {
+            grid-template-columns: 1fr;
         }
 
-        .team-image img {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .team-image img:hover {
-            transform: scale(1.02);
-        }
-
-        .team-details {
-            width: 60%;
-            padding: 30px;
-        }
-
-        .team-summary h2 {
-            font-size: 2.5rem;
-            font-family: 'Bebas Neue', cursive;
-            color: #66aaff;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .team-info {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            line-height: 1.8;
-        }
-
-        .team-info .label {
-            font-weight: bold;
-            color: #66aaff;
-            margin-right: 10px;
-        }
-
-        .description-section {
-            background: rgba(0, 0, 0, 0.8);
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .description-section h3 {
-            font-size: 2rem;
-            font-family: 'Bebas Neue', cursive;
-            color: #66aaff;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .description-section p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: #fff;
-            text-align: justify;
-            margin-bottom: 15px;
-        }
-
-        .comments {
-            background: rgba(0, 0, 0, 0.8);
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .comments h3 {
-            font-size: 2.5rem;
-            font-family: 'Bebas Neue', cursive;
-            color: #66aaff;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .comment-card {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(102, 170, 255, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .comment-card h5 {
-            color: #66aaff;
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        .comment-card p {
-            color: #ffffff;
-            margin-bottom: 15px;
-            line-height: 1.8;
-            font-size: 1.4rem;
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        }
-
-        .comment-card small {
-            color: #b3d9ff;
-            font-size: 1.2rem;
-            display: block;
-            margin-top: 10px;
-        }
-
-        .no-comments {
-            color: #ffffff;
-            font-size: 1.4rem;
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .comment-form {
-            margin-top: 40px;
-        }
-
-        .comment-form h4 {
-            font-size: 1.8rem;
-            font-family: 'Bebas Neue', cursive;
-            color: #66aaff;
-            margin-bottom: 20px;
-        }
-
-        .comment-form textarea,
-        .comment-form input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            width: 100%;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-
-        .comment-form textarea:focus,
-        .comment-form input:focus {
-            outline: none;
-            border-color: #66aaff;
-            box-shadow: 0 0 10px rgba(102, 170, 255, 0.3);
-        }
-
-        .comment-form button {
-            background: #66aaff;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .comment-form button:hover {
-            background: #3388ff;
-        }
-
-        @media (max-width: 768px) {
-            .team-profile {
-                flex-direction: column;
-            }
-
-            .team-image,
-            .team-details {
-                width: 100%;
-            }
-
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-
-            .team-summary h2 {
-                font-size: 2rem;
-            }
-
-            .team-info {
-                font-size: 1.1rem;
-            }
-
-            .description-section p {
-                font-size: 1.1rem;
-            }
-        }
-    </style>
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="header-principal">
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <div class="container">
-            <h1>{{ time.nome }}</h1>
-        </div>
-    </div>
+<div class="time-detail-page">
+    <!-- Estrelas de Fundo -->
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
 
-    <!-- Team Profile -->
-    <div class="container">
-        <div class="team-profile">
-            <div class="team-image">
+    <!-- Hero Section -->
+    <section class="hero-time-detail">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-image-wrapper">
                 {% if time.imagem %}
-                    <img src="{{ time.imagem.url }}" alt="{{ time.nome }}">
+                    <img src="{{ time.imagem.url }}" alt="{{ time.nome }}" loading="eager">
                 {% else %}
-                    <img src="{% static 'blog/images/team-placeholder.jpg' %}" alt="Imagem não disponível">
+                    <div style="width: 500px; height: 400px; background: linear-gradient(135deg, rgba(102,170,255,.2), rgba(74,144,226,.1)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 5rem; color: rgba(102,170,255,.5); margin: 0 auto;">
+                        ⚽
+                    </div>
                 {% endif %}
             </div>
-            <div class="team-details">
-                <div class="team-summary">
-                    <h2>{{ time.nome }}</h2>
-                    <div class="team-info">
-                        <p><span class="label">Região:</span> {{ time.regiao }}</p>
-                        <p><span class="label">Fundação:</span> {{ time.fundacao|date:"d/m/Y" }}</p>
-                        <p><span class="label">Títulos:</span> {{ time.titulos }}</p>
+            <h1 class="hero-title">{{ time.nome }}</h1>
+            <p class="hero-subtitle">Um time que marcou história no futebol mundial</p>
+        </div>
+    </section>
+
+    <!-- Container Principal -->
+    <div class="time-detail-container">
+        <!-- Estatísticas Expandidas -->
+        <div class="stats-expanded">
+            <div class="stat-card">
+                <span class="stat-icon">🏆</span>
+                <div class="stat-value">{{ time.titulos }}</div>
+                <div class="stat-label">Títulos Conquistados</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">⭐</span>
+                <div class="stat-value">{{ timeline_eventos|length }}</div>
+                <div class="stat-label">Eventos Históricos</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div class="stat-value">
+                    {% if time.pilar1_nome and time.pilar2_nome and time.pilar3_nome %}3
+                    {% elif time.pilar1_nome and time.pilar2_nome %}2
+                    {% elif time.pilar1_nome %}1
+                    {% else %}0{% endif %}
+                </div>
+                <div class="stat-label">Pilares do Time</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🌍</span>
+                <div class="stat-value">
+                    {% if time.regiao == 'Europa' %}🇪🇺
+                    {% elif time.regiao == 'América do Sul' %}🇧🇷
+                    {% elif time.regiao == 'América Central' %}🇲🇽
+                    {% elif time.regiao == 'África' %}🇿🇦
+                    {% elif time.regiao == 'Ásia' %}🇯🇵
+                    {% else %}🌎{% endif %}
+                </div>
+                <div class="stat-label">{{ time.regiao }}</div>
+            </div>
+        </div>
+
+        <!-- Pilares do Time -->
+        {% if time.pilar1_nome or time.pilar2_nome or time.pilar3_nome %}
+        <div class="pilares-section">
+            <h2 class="section-title">
+                <span class="title-icon">⭐</span>
+                Pilares do Time
+            </h2>
+            <div class="pilares-grid">
+                {% if time.pilar1_nome %}
+                <div class="pilar-card" style="--delay: 0s;">
+                    <div class="pilar-image-wrapper">
+                        {% if time.pilar1_imagem %}
+                            <img src="{{ time.pilar1_imagem.url }}" alt="{{ time.pilar1_nome }}" loading="lazy">
+                        {% else %}
+                            <div class="pilar-placeholder">⚽</div>
+                        {% endif %}
+                        <div class="pilar-overlay"></div>
+                    </div>
+                    <div class="pilar-content">
+                        <h3 class="pilar-name">{{ time.pilar1_nome }}</h3>
+                        {% if time.pilar1_descricao %}
+                        <p class="pilar-description">{{ time.pilar1_descricao }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if time.pilar2_nome %}
+                <div class="pilar-card" style="--delay: 0.2s;">
+                    <div class="pilar-image-wrapper">
+                        {% if time.pilar2_imagem %}
+                            <img src="{{ time.pilar2_imagem.url }}" alt="{{ time.pilar2_nome }}" loading="lazy">
+                        {% else %}
+                            <div class="pilar-placeholder">⚽</div>
+                        {% endif %}
+                        <div class="pilar-overlay"></div>
+                    </div>
+                    <div class="pilar-content">
+                        <h3 class="pilar-name">{{ time.pilar2_nome }}</h3>
+                        {% if time.pilar2_descricao %}
+                        <p class="pilar-description">{{ time.pilar2_descricao }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if time.pilar3_nome %}
+                <div class="pilar-card" style="--delay: 0.4s;">
+                    <div class="pilar-image-wrapper">
+                        {% if time.pilar3_imagem %}
+                            <img src="{{ time.pilar3_imagem.url }}" alt="{{ time.pilar3_nome }}" loading="lazy">
+                        {% else %}
+                            <div class="pilar-placeholder">⚽</div>
+                        {% endif %}
+                        <div class="pilar-overlay"></div>
+                    </div>
+                    <div class="pilar-content">
+                        <h3 class="pilar-name">{{ time.pilar3_nome }}</h3>
+                        {% if time.pilar3_descricao %}
+                        <p class="pilar-description">{{ time.pilar3_descricao }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Badge de Região -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+            {% if time.regiao == 'Europa' %}
+                <span class="region-badge-large badge-europa">{{ time.regiao }}</span>
+            {% elif time.regiao == 'América do Sul' %}
+                <span class="region-badge-large badge-america-do-sul">{{ time.regiao }}</span>
+            {% elif time.regiao == 'América Central' %}
+                <span class="region-badge-large badge-america-central">{{ time.regiao }}</span>
+            {% elif time.regiao == 'África' %}
+                <span class="region-badge-large badge-africa">{{ time.regiao }}</span>
+            {% elif time.regiao == 'Ásia' %}
+                <span class="region-badge-large badge-asia">{{ time.regiao }}</span>
+            {% else %}
+                <span class="region-badge-large badge-europa">{{ time.regiao }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Seção de História -->
+        <div class="history-section">
+            <h2>História</h2>
+            <div class="history-content">
+                {{ time.descricao|safe }}
+            </div>
+        </div>
+
+        <!-- Momentos Históricos -->
+        {% if time.momentos_historicos %}
+        <div class="momentos-section">
+            <h2>Momentos Históricos</h2>
+            <div class="momentos-content">
+                {{ time.momentos_historicos|safe }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Timeline Visual -->
+        {% if timeline_eventos or time.fundacao %}
+        <div class="timeline-section">
+            <h2>Linha do Tempo</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <!-- Evento de Fundação -->
+                {% if time.fundacao %}
+                <div class="timeline-item timeline-item-large">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-wrapper">
+                        <div class="timeline-year">{{ time.fundacao|date:"Y" }}</div>
+                        <div class="timeline-text">Fundação do time histórico</div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Eventos da Timeline -->
+                {% for evento in timeline_eventos %}
+                <div class="timeline-item timeline-item-large">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-wrapper">
+                        <div class="timeline-event-header">
+                            <div class="timeline-year">{{ evento.ano }}</div>
+                            {% if evento.tipo_evento %}
+                            <span class="timeline-badge {% if 'champions' in evento.tipo_evento|lower or 'libertadores' in evento.tipo_evento|lower %}badge-champions-league{% elif 'final' in evento.tipo_evento|lower %}badge-final{% else %}badge-campeonato{% endif %}">
+                                {{ evento.tipo_evento }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <h3 class="timeline-event-title">{{ evento.titulo }}</h3>
+                        {% if evento.imagem %}
+                        <div class="timeline-event-image">
+                            <img src="{{ evento.imagem.url }}" alt="{{ evento.titulo }}" loading="lazy">
+                        </div>
+                        {% endif %}
+                        <div class="timeline-text">{{ evento.descricao }}</div>
+                        {% if evento.adversario or evento.resultado %}
+                        <div class="timeline-event-details">
+                            {% if evento.adversario %}
+                            <span class="timeline-detail-item">
+                                <span class="detail-icon">⚔️</span>
+                                <span>vs {{ evento.adversario }}</span>
+                            </span>
+                            {% endif %}
+                            {% if evento.resultado %}
+                            <span class="timeline-detail-item">
+                                <span class="detail-icon">📊</span>
+                                <span>{{ evento.resultado }}</span>
+                            </span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- Evento Atual -->
+                <div class="timeline-item timeline-item-large">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-wrapper">
+                        <div class="timeline-year">{% now "Y" %}</div>
+                        <div class="timeline-text">Legado que perdura até os dias atuais</div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
 
-        <!-- Description Section -->
-        <div class="description-section">
-            <h3>História</h3>
-            <div>{{ time.descricao|safe }}</div>
+        <!-- Curiosidades -->
+        {% if time.curiosidades %}
+        <div class="curiosidades-section">
+            <h2>Curiosidades</h2>
+            <div class="curiosidades-content">
+                {{ time.curiosidades|safe }}
+            </div>
         </div>
+        {% endif %}
 
-        <!-- Comments Section -->
-        <div class="comments">
-            <h3>Comentários</h3>
-            {% if time.comments.all %}
-                {% for comment in time.comments.all %}
+        <!-- Legado -->
+        {% if time.legado %}
+        <div class="legado-section">
+            <h2>Legado</h2>
+            <div class="legado-content">
+                {{ time.legado|safe }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Você Sabia? -->
+        {% if time.voce_sabia %}
+        <div class="voce-sabia-card">
+            <div class="voce-sabia-label">Você Sabia?</div>
+            <div class="voce-sabia-text">{{ time.voce_sabia }}</div>
+        </div>
+        {% endif %}
+
+
+        <!-- Navegação Relacionada -->
+        {% if time.regiao %}
+        <div class="related-section">
+            <h2>Outros Times da {{ time.regiao }}</h2>
+            <div class="related-grid">
+                {% for related_time in related_times|slice:":3" %}
+                    {% if related_time.id != time.id %}
+                    <a href="{% url 'time_detail' time_id=related_time.id %}" class="related-card">
+                        <h3>{{ related_time.nome }}</h3>
+                        <p>{{ related_time.regiao }} • {{ related_time.titulos }} título{{ related_time.titulos|pluralize }}</p>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Seção de Comentários -->
+        <div class="comments-section">
+            <h2>Comentários</h2>
+            
+            {% if comments %}
+                {% for comment in comments %}
                     <div class="comment-card">
-                        <h5>{{ comment.name }}</h5>
-                        <p>{{ comment.body }}</p>
-                        <small>{{ comment.created_on|date:"d/m/Y H:i" }}</small>
+                        <div class="comment-author">{{ comment.name }}</div>
+                        <div class="comment-body">{{ comment.body }}</div>
+                        <div class="comment-date">{{ comment.created_on|date:"d/m/Y H:i" }}</div>
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="no-comments">
-                    Nenhum comentário ainda. Seja o primeiro a comentar!
+                    <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                 </div>
             {% endif %}
 
-            <!-- Comment Form -->
+            <!-- Formulário de Comentário -->
             <div class="comment-form">
-                <h4>Deixe seu comentário</h4>
+                <h3>Deixe seu comentário</h3>
                 <form method="post">
                     {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit">Enviar Comentário</button>
+                    <input type="text" name="name" placeholder="Seu nome" required>
+                    <textarea name="body" placeholder="Seu comentário..." required></textarea>
+                    <button type="submit" class="btn-submit">Enviar Comentário</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+(function() {
+    'use strict';
+    
+    
+    // Animações de entrada para os cards de pilares
+    const pilarCards = document.querySelectorAll('.pilar-card');
+    
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.style.getPropertyValue('--delay') || '0s';
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, parseFloat(delay) * 1000);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+        
+        pilarCards.forEach(card => observer.observe(card));
+    } else {
+        pilarCards.forEach(card => card.classList.add('visible'));
+    }
+})();
+</script>
 {% endblock %}

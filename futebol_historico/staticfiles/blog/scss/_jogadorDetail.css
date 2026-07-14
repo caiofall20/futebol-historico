@@ -1,0 +1,1022 @@
+@charset "UTF-8";
+.jogador-detail-page {
+  min-height: 100vh;
+  position: relative;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  color: #EDF2F4;
+  font-family: 'Georama', 'Poppins', sans-serif;
+  overflow-x: hidden; }
+  .jogador-detail-page #stars, .jogador-detail-page #stars2, .jogador-detail-page #stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1; }
+  .jogador-detail-page #stars {
+    width: 1px;
+    height: 1px;
+    background: transparent;
+    box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #fff, 0 0 5px #fff, 0 0 6px #fff, 0 0 7px #fff, 0 0 8px #fff, 0 0 9px #fff, 0 0 10px #fff;
+    animation: none; }
+  .jogador-detail-page #stars2 {
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #fff, 0 0 5px #fff;
+    animation: none; }
+  .jogador-detail-page #stars3 {
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #fff;
+    animation: none; }
+
+@keyframes animStar {
+  from {
+    transform: translateY(0px); }
+  to {
+    transform: translateY(-2000px); } }
+  .jogador-detail-page .hero-section {
+    position: relative;
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    padding: 2rem 0;
+    overflow: hidden; }
+    .jogador-detail-page .hero-section .hero-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+    .jogador-detail-page .hero-section .hero-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(102, 170, 255, 0.05) 0%, rgba(43, 45, 66, 0.1) 50%, rgba(9, 10, 15, 0.3) 100%);
+      z-index: 1; }
+    .jogador-detail-page .hero-section .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(102, 170, 255, 0.02) 0%, transparent 70%);
+      z-index: 2; }
+    .jogador-detail-page .hero-section .container {
+      position: relative;
+      z-index: 3;
+      text-align: center; }
+    .jogador-detail-page .hero-section .hero-text {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem; }
+    .jogador-detail-page .hero-section .player-name {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #EDF2F4;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(45deg, #66AAFF, #87CEEB);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      letter-spacing: 2px; }
+      @media (max-width: 768px) {
+        .jogador-detail-page .hero-section .player-name {
+          font-size: 3rem;
+          letter-spacing: 1px; } }
+      @media (max-width: 480px) {
+        .jogador-detail-page .hero-section .player-name {
+          font-size: 2.5rem; } }
+    .jogador-detail-page .hero-section .player-subtitle {
+      font-size: 2rem;
+      color: #8D99AE;
+      margin: 0 0 1.5rem 0;
+      font-weight: 400;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px; }
+      @media (max-width: 768px) {
+        .jogador-detail-page .hero-section .player-subtitle {
+          font-size: 1.5rem;
+          margin: 0 0 2rem 0; } }
+      @media (max-width: 480px) {
+        .jogador-detail-page .hero-section .player-subtitle {
+          font-size: 1.2rem; } }
+    .jogador-detail-page .hero-section .player-badges {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap; }
+      .jogador-detail-page .hero-section .player-badges .badge {
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease; }
+        .jogador-detail-page .hero-section .player-badges .badge.career-badge {
+          background: linear-gradient(135deg, #66AAFF, #4A90E2);
+          color: white;
+          box-shadow: 0 6px 20px rgba(102, 170, 255, 0.4); }
+        .jogador-detail-page .hero-section .player-badges .badge.nationality-badge {
+          background: linear-gradient(135deg, #2B2D42, #4A4E69);
+          color: #EDF2F4;
+          border: 1px solid rgba(102, 170, 255, 0.3); }
+        .jogador-detail-page .hero-section .player-badges .badge:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(102, 170, 255, 0.5); }
+        @media (max-width: 768px) {
+          .jogador-detail-page .hero-section .player-badges .badge {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem; } }
+  .jogador-detail-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 10; }
+    @media (max-width: 768px) {
+      .jogador-detail-page .container {
+        padding: 0 1rem; } }
+  .jogador-detail-page .cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: -2rem 0 2rem 0;
+    position: relative;
+    z-index: 10; }
+    @media (max-width: 1024px) {
+      .jogador-detail-page .cards-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem; } }
+  .jogador-detail-page .player-profile-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 50%, rgba(15, 23, 42, 0.95) 100%);
+    border-radius: 24px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden; }
+    .jogador-detail-page .player-profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #66AAFF, #FFD700, #66AAFF);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease; }
+    .jogador-detail-page .player-profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(102, 170, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+      .jogador-detail-page .player-profile-card:hover::before {
+        opacity: 1; }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0; }
+  100% {
+    background-position: 200% 0; } }
+    @media (max-width: 768px) {
+      .jogador-detail-page .player-profile-card {
+        padding: 1.5rem;
+        gap: 1.5rem; } }
+    .jogador-detail-page .player-profile-card .player-image-container {
+      width: 100%;
+      position: relative; }
+      .jogador-detail-page .player-profile-card .player-image-container .image-wrapper {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        aspect-ratio: 3 / 4;
+        background: rgba(15, 23, 42, 0.3);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .jogador-detail-page .player-profile-card .player-image-container .image-wrapper::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(102, 170, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+          opacity: 0;
+          transition: opacity 0.3s ease; }
+        .jogador-detail-page .player-profile-card .player-image-container .image-wrapper:hover {
+          transform: scale(1.02);
+          box-shadow: 0 25px 50px rgba(102, 170, 255, 0.3); }
+          .jogador-detail-page .player-profile-card .player-image-container .image-wrapper:hover::after {
+            opacity: 1; }
+        .jogador-detail-page .player-profile-card .player-image-container .image-wrapper .player-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .jogador-detail-page .player-profile-card .player-image-container .image-wrapper:hover .player-image {
+          transform: scale(1.08); }
+    .jogador-detail-page .player-profile-card .info-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem; }
+      .jogador-detail-page .player-profile-card .info-section .info-title {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.6rem;
+        color: #EDF2F4;
+        margin: 0 0 1rem 0;
+        letter-spacing: 1px; }
+      .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem; }
+        .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          padding: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          position: relative;
+          overflow: hidden; }
+          .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(102, 170, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease; }
+          .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item:hover {
+            background: rgba(102, 170, 255, 0.08);
+            border-color: rgba(102, 170, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 170, 255, 0.2); }
+            .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item:hover::after {
+              width: 300px;
+              height: 300px; }
+            .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item:hover .value {
+              color: #FFD700;
+              transform: scale(1.05); }
+          .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item .label {
+            color: #8D99AE;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease; }
+          .jogador-detail-page .player-profile-card .info-section.characteristics .characteristics-grid .characteristic-item .value {
+            color: #EDF2F4;
+            font-weight: 700;
+            font-size: 1.15rem;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease; }
+      .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem; }
+        .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 12px;
+          padding: 0.9rem 1rem;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          position: relative;
+          overflow: hidden; }
+          .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), transparent);
+            transition: width 0.4s ease; }
+          .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2); }
+            .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item:hover::before {
+              width: 100%; }
+            .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item:hover .trophy-count {
+              transform: scale(1.15) rotate(5deg);
+              box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4); }
+          .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item .trophy-name {
+            color: #EDF2F4;
+            font-weight: 600;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease; }
+          .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item:hover .trophy-name {
+            color: #FFD700; }
+          .jogador-detail-page .player-profile-card .info-section.trophies .trophies-grid .trophy-item .trophy-count {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0F172A;
+            font-weight: 900;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            min-width: 2.5rem;
+            text-align: center;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3); }
+  .jogador-detail-page .player-info-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 50%, rgba(15, 23, 42, 0.95) 100%);
+    border-radius: 24px;
+    padding: 2.5rem;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden; }
+    .jogador-detail-page .player-info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FFD700, #66AAFF, #FFD700);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease; }
+    .jogador-detail-page .player-info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 215, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+      .jogador-detail-page .player-info-card:hover::before {
+        opacity: 1; }
+    @media (max-width: 768px) {
+      .jogador-detail-page .player-info-card {
+        padding: 1.5rem;
+        gap: 1.5rem; } }
+    .jogador-detail-page .player-info-card .player-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem; }
+      .jogador-detail-page .player-info-card .player-stats .stat-item {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border-radius: 16px;
+        padding: 1.25rem 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box; }
+        .jogador-detail-page .player-info-card .player-stats .stat-item:hover {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+          transform: translateX(5px); }
+        .jogador-detail-page .player-info-card .player-stats .stat-item .stat-icon {
+          font-size: 2rem;
+          width: 60px;
+          height: 60px;
+          min-width: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #66AAFF, #4A90E2);
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(102, 170, 255, 0.3);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          z-index: 1;
+          flex-shrink: 0; }
+        .jogador-detail-page .player-info-card .player-stats .stat-item:hover .stat-icon {
+          transform: rotate(5deg) scale(1.1);
+          box-shadow: 0 6px 20px rgba(102, 170, 255, 0.5); }
+        .jogador-detail-page .player-info-card .player-stats .stat-item .stat-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          flex: 1;
+          min-width: 0; }
+          .jogador-detail-page .player-info-card .player-stats .stat-item .stat-content .stat-label {
+            color: #8D99AE;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px; }
+          .jogador-detail-page .player-info-card .player-stats .stat-item .stat-content .stat-value {
+            color: #EDF2F4;
+            font-size: 1.1rem;
+            font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.3; }
+    .jogador-detail-page .player-info-card .info-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative; }
+      .jogador-detail-page .player-info-card .info-section:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border-color: rgba(102, 170, 255, 0.2);
+        transform: translateY(-2px); }
+      .jogador-detail-page .player-info-card .info-section .info-title {
+        font-family: 'Bebas Neue', cursive;
+        font-size: 1.6rem;
+        color: #EDF2F4;
+        margin: 0 0 1rem 0;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+        position: relative;
+        display: inline-block; }
+        .jogador-detail-page .player-info-card .info-section .info-title::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #66AAFF, #FFD700);
+          transition: width 0.3s ease; }
+      .jogador-detail-page .player-info-card .info-section:hover .info-title {
+        color: #FFD700; }
+        .jogador-detail-page .player-info-card .info-section:hover .info-title::after {
+          width: 100%; }
+      .jogador-detail-page .player-info-card .info-section.career .career-list ul {
+        padding-left: 1.2rem;
+        margin: 0;
+        list-style: none;
+        position: relative; }
+        .jogador-detail-page .player-info-card .info-section.career .career-list ul::before {
+          content: '';
+          position: absolute;
+          left: 0.5rem;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: linear-gradient(180deg, rgba(102, 170, 255, 0.5), transparent); }
+      .jogador-detail-page .player-info-card .info-section.career .career-list li {
+        color: #EDF2F4;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        font-size: 1.05rem;
+        padding-left: 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+        cursor: pointer; }
+        .jogador-detail-page .player-info-card .info-section.career .career-list li::before {
+          content: '▸';
+          position: absolute;
+          left: 0;
+          color: #66AAFF;
+          font-weight: bold;
+          transition: all 0.3s ease; }
+        .jogador-detail-page .player-info-card .info-section.career .career-list li:hover {
+          color: #FFD700;
+          transform: translateX(5px);
+          padding-left: 2rem; }
+          .jogador-detail-page .player-info-card .info-section.career .career-list li:hover::before {
+            color: #FFD700;
+            transform: scale(1.3); }
+        .jogador-detail-page .player-info-card .info-section.career .career-list li:last-child {
+          margin-bottom: 0; }
+  .jogador-detail-page .section-header {
+    text-align: center;
+    margin-bottom: 3rem; }
+    .jogador-detail-page .section-header .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5rem;
+      color: #EDF2F4;
+      margin: 0 0 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem; }
+      .jogador-detail-page .section-header .section-title .title-icon {
+        font-size: 2rem; }
+      @media (max-width: 768px) {
+        .jogador-detail-page .section-header .section-title {
+          font-size: 2rem; } }
+    .jogador-detail-page .section-header .title-line {
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, #66AAFF, #87CEEB);
+      margin: 0 auto;
+      border-radius: 2px; }
+  .jogador-detail-page .biography-section {
+    margin: 4rem 0;
+    position: relative;
+    z-index: 10; }
+    .jogador-detail-page .biography-section .biography-content {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 50%, rgba(15, 23, 42, 0.95) 100%);
+      border-radius: 24px;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+      @media (max-width: 768px) {
+        .jogador-detail-page .biography-section .biography-content {
+          padding: 2rem; } }
+      .jogador-detail-page .biography-section .biography-content .biography-text {
+        color: #EDF2F4;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        text-align: justify; }
+        .jogador-detail-page .biography-section .biography-content .biography-text p {
+          margin-bottom: 1.5rem;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+          .jogador-detail-page .biography-section .biography-content .biography-text p:last-child {
+            margin-bottom: 0; }
+        .jogador-detail-page .biography-section .biography-content .biography-text h1, .jogador-detail-page .biography-section .biography-content .biography-text h2, .jogador-detail-page .biography-section .biography-content .biography-text h3, .jogador-detail-page .biography-section .biography-content .biography-text h4, .jogador-detail-page .biography-section .biography-content .biography-text h5, .jogador-detail-page .biography-section .biography-content .biography-text h6 {
+          color: #66AAFF;
+          margin: 2rem 0 1rem 0;
+          font-family: 'Bebas Neue', cursive; }
+        .jogador-detail-page .biography-section .biography-content .biography-text strong {
+          color: #87CEEB;
+          font-weight: 600; }
+        .jogador-detail-page .biography-section .biography-content .biography-text em {
+          color: #8D99AE;
+          font-style: italic; }
+  .jogador-detail-page .related-players-section {
+    margin: 3rem 0 2.5rem;
+    position: relative;
+    z-index: 10; }
+  .jogador-detail-page .related-players-lead {
+    color: rgba(237, 242, 244, 0.72);
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem;
+    max-width: 42rem; }
+  .jogador-detail-page .related-players-carousel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; }
+  .jogador-detail-page .related-players-carousel__viewport {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden; }
+  .jogador-detail-page #related-players-slick.related-players-track {
+    display: none;
+    margin: 0; }
+    .jogador-detail-page #related-players-slick.related-players-track.slick-initialized {
+      display: block; }
+    .jogador-detail-page #related-players-slick.related-players-track.related-players-track--native {
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.25rem; }
+      .jogador-detail-page #related-players-slick.related-players-track.related-players-track--native::-webkit-scrollbar {
+        height: 6px; }
+      .jogador-detail-page #related-players-slick.related-players-track.related-players-track--native::-webkit-scrollbar-thumb {
+        background: rgba(102, 170, 255, 0.35);
+        border-radius: 3px; }
+    .jogador-detail-page #related-players-slick.related-players-track .slick-list {
+      margin: 0 -0.5rem;
+      overflow: hidden; }
+    .jogador-detail-page #related-players-slick.related-players-track .slick-track {
+      display: flex;
+      align-items: stretch; }
+    .jogador-detail-page #related-players-slick.related-players-track .slick-slide {
+      padding: 0 0.5rem;
+      height: auto; }
+      .jogador-detail-page #related-players-slick.related-players-track .slick-slide > div {
+        height: 100%; }
+  .jogador-detail-page .related-player-slide {
+    height: 460px;
+    scroll-snap-align: start; }
+    @media (max-width: 576px) {
+      .jogador-detail-page .related-player-slide {
+        height: 420px; } }
+  .jogador-detail-page .related-players-track--native .related-player-slide {
+    flex: 0 0 280px;
+    width: 280px;
+    max-width: 88vw; }
+    @media (max-width: 576px) {
+      .jogador-detail-page .related-players-track--native .related-player-slide {
+        flex: 0 0 82vw;
+        width: 82vw; } }
+  .jogador-detail-page .related-players-carousel__arrow {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(102, 170, 255, 0.45);
+    background: rgba(15, 23, 42, 0.92);
+    color: #66aaff;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    z-index: 2; }
+    .jogador-detail-page .related-players-carousel__arrow span {
+      display: block;
+      margin-top: -2px; }
+    .jogador-detail-page .related-players-carousel__arrow:hover:not(.slick-disabled) {
+      background: rgba(102, 170, 255, 0.2);
+      border-color: rgba(102, 170, 255, 0.7);
+      color: #9fc5f5; }
+    .jogador-detail-page .related-players-carousel__arrow.slick-disabled {
+      opacity: 0.35;
+      cursor: not-allowed; }
+    @media (max-width: 480px) {
+      .jogador-detail-page .related-players-carousel__arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.5rem; } }
+  .jogador-detail-page .related-players-carousel-dots {
+    margin: 1rem 0 0;
+    min-height: 1.25rem; }
+    .jogador-detail-page .related-players-carousel-dots .slick-dots {
+      position: static;
+      bottom: auto;
+      display: block !important;
+      margin: 0;
+      padding: 0;
+      list-style: none; }
+      .jogador-detail-page .related-players-carousel-dots .slick-dots li {
+        margin: 0 4px; }
+        .jogador-detail-page .related-players-carousel-dots .slick-dots li button:before {
+          font-size: 10px;
+          color: rgba(102, 170, 255, 0.45);
+          opacity: 1; }
+        .jogador-detail-page .related-players-carousel-dots .slick-dots li.slick-active button:before {
+          color: #66aaff; }
+  .jogador-detail-page .related-player-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+    border: 1px solid rgba(102, 170, 255, 0.22);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease; }
+    .jogador-detail-page .related-player-card:hover {
+      border-color: rgba(102, 170, 255, 0.55);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); }
+      .jogador-detail-page .related-player-card:hover .related-player-card__carta {
+        transform: scale(1.03); }
+  .jogador-detail-page .related-player-card__carta {
+    display: block;
+    width: 100%;
+    height: 320px;
+    max-height: 320px;
+    margin: 0 auto;
+    padding: 12px 12px 0;
+    object-fit: contain;
+    object-position: center bottom;
+    transition: transform 0.25s ease; }
+    @media (max-width: 576px) {
+      .jogador-detail-page .related-player-card__carta {
+        height: 280px;
+        max-height: 280px;
+        padding: 10px 10px 0; } }
+  .jogador-detail-page .related-player-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 320px;
+    font-size: 3rem;
+    opacity: 0.35; }
+    @media (max-width: 576px) {
+      .jogador-detail-page .related-player-card__placeholder {
+        height: 280px; } }
+  .jogador-detail-page .related-player-card__body {
+    flex: 1;
+    padding: 0.75rem 0.85rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-height: 0;
+    overflow: hidden; }
+  .jogador-detail-page .related-player-card__name {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff; }
+  .jogador-detail-page .related-player-card__meta {
+    margin: 0;
+    font-size: 0.78rem;
+    color: rgba(237, 242, 244, 0.7);
+    line-height: 1.35; }
+    .jogador-detail-page .related-player-card__meta .flag-icon {
+      margin-right: 0.25rem; }
+  .jogador-detail-page .related-player-card__tag {
+    display: inline-block;
+    align-self: flex-start;
+    margin-top: 0.15rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #9fc5f5;
+    background: rgba(102, 170, 255, 0.15);
+    border: 1px solid rgba(102, 170, 255, 0.25); }
+  .jogador-detail-page .related-players-more {
+    margin: 1.25rem 0 0;
+    text-align: center; }
+  .jogador-detail-page .related-players-more__link {
+    color: #66aaff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem; }
+    .jogador-detail-page .related-players-more__link:hover {
+      color: #9fc5f5;
+      text-decoration: underline; }
+  .jogador-detail-page .comments-section {
+    margin: 4rem 0;
+    position: relative;
+    z-index: 10; }
+    .jogador-detail-page .comments-section .comments-container .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 3rem; }
+    .jogador-detail-page .comments-section .comments-container .comment-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 50%, rgba(15, 23, 42, 0.95) 100%);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease; }
+      .jogador-detail-page .comments-section .comments-container .comment-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(102, 170, 255, 0.2); }
+      .jogador-detail-page .comments-section .comments-container .comment-card .comment-header {
+        margin-bottom: 1rem; }
+        .jogador-detail-page .comments-section .comments-container .comment-card .comment-header .comment-author {
+          display: flex;
+          align-items: center;
+          gap: 1rem; }
+          .jogador-detail-page .comments-section .comments-container .comment-card .comment-header .comment-author .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #66AAFF, #4A90E2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(102, 170, 255, 0.3); }
+            .jogador-detail-page .comments-section .comments-container .comment-card .comment-header .comment-author .author-avatar .avatar-text {
+              color: white;
+              font-weight: 700;
+              font-size: 1.2rem; }
+          .jogador-detail-page .comments-section .comments-container .comment-card .comment-header .comment-author .author-info .author-name {
+            color: #EDF2F4;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0; }
+          .jogador-detail-page .comments-section .comments-container .comment-card .comment-header .comment-author .author-info .comment-date {
+            color: #8D99AE;
+            font-size: 0.9rem; }
+      .jogador-detail-page .comments-section .comments-container .comment-card .comment-body p {
+        color: #EDF2F4;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+    .jogador-detail-page .comments-section .comments-container .no-comments {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.5) 0%, rgba(30, 41, 59, 0.7) 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1); }
+      .jogador-detail-page .comments-section .comments-container .no-comments .no-comments-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.7; }
+      .jogador-detail-page .comments-section .comments-container .no-comments h3 {
+        color: #EDF2F4;
+        font-size: 1.5rem;
+        margin: 0 0 0.5rem 0;
+        font-family: 'Bebas Neue', cursive; }
+      .jogador-detail-page .comments-section .comments-container .no-comments p {
+        color: #8D99AE;
+        font-size: 1rem;
+        margin: 0; }
+    .jogador-detail-page .comments-section .comments-container .comment-form-container {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 50%, rgba(15, 23, 42, 0.95) 100%);
+      border-radius: 24px;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+      @media (max-width: 768px) {
+        .jogador-detail-page .comments-section .comments-container .comment-form-container {
+          padding: 2rem; } }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .form-title {
+        color: #EDF2F4;
+        font-size: 1.8rem;
+        font-family: 'Bebas Neue', cursive;
+        margin: 0 0 2rem 0;
+        text-align: center; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-grid {
+        display: grid;
+        gap: 1.5rem;
+        margin-bottom: 2rem; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group .form-label {
+        display: block;
+        color: #EDF2F4;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group input, .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        color: #EDF2F4;
+        font-size: 1rem;
+        font-family: 'Georama', 'Poppins', sans-serif;
+        transition: all 0.3s ease; }
+        .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group input:focus, .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group textarea:focus {
+          outline: none;
+          border-color: #66AAFF;
+          box-shadow: 0 0 0 3px rgba(102, 170, 255, 0.1);
+          background: rgba(255, 255, 255, 0.08); }
+        .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group input::placeholder, .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group textarea::placeholder {
+          color: #8D99AE; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group textarea {
+        min-height: 120px;
+        resize: vertical; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .form-group .error-message {
+        color: #F44336;
+        font-size: 0.9rem;
+        margin-top: 0.5rem; }
+      .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .submit-btn {
+        background: linear-gradient(135deg, #66AAFF, #4A90E2);
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(102, 170, 255, 0.3); }
+        .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .submit-btn:hover {
+          background: linear-gradient(135deg, #4A90E2, #66AAFF);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 170, 255, 0.4); }
+        .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .submit-btn:active {
+          transform: translateY(0); }
+        .jogador-detail-page .comments-section .comments-container .comment-form-container .comment-form .submit-btn .btn-icon {
+          font-size: 1.1rem; }
+
+@media (max-width: 768px) {
+  .jogador-detail-page .hero-section {
+    min-height: 50vh;
+    margin-top: 70px; }
+    .jogador-detail-page .hero-section .player-name {
+      font-size: 2.5rem; }
+    .jogador-detail-page .hero-section .player-subtitle {
+      font-size: 1.2rem; }
+    .jogador-detail-page .hero-section .player-badges {
+      flex-direction: column;
+      align-items: center; }
+      .jogador-detail-page .hero-section .player-badges .badge {
+        width: 100%;
+        max-width: 300px;
+        text-align: center; }
+  .jogador-detail-page .player-profile-section {
+    margin: 2rem 0; }
+    .jogador-detail-page .player-profile-section .player-card {
+      padding: 1.5rem; }
+    .jogador-detail-page .player-profile-section .player-stats .stat-item {
+      padding: 1rem; }
+      .jogador-detail-page .player-profile-section .player-stats .stat-item .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem; }
+      .jogador-detail-page .player-profile-section .player-stats .stat-item .stat-content .stat-value {
+        font-size: 1rem; }
+  .jogador-detail-page .biography-section,
+  .jogador-detail-page .related-players-section,
+  .jogador-detail-page .comments-section {
+    margin: 2rem 0; }
+    .jogador-detail-page .biography-section .biography-content,
+    .jogador-detail-page .biography-section .comment-form-container,
+    .jogador-detail-page .related-players-section .biography-content,
+    .jogador-detail-page .related-players-section .comment-form-container,
+    .jogador-detail-page .comments-section .biography-content,
+    .jogador-detail-page .comments-section .comment-form-container {
+      padding: 1.5rem; } }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .jogador-detail-page .player-profile-section .player-card {
+    grid-template-columns: 1fr;
+    gap: 2rem; } }
+
+@media (min-width: 1025px) {
+  .jogador-detail-page .player-profile-section .player-card {
+    grid-template-columns: 1fr 1fr; } }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px); }
+  to {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px); }
+  to {
+    opacity: 1;
+    transform: translateX(0); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .player-card {
+    animation: fadeInUp 0.6s ease-out; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .biography-section {
+    animation: slideInLeft 0.6s ease-out; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .comments-section {
+    animation: slideInRight 0.6s ease-out; } }
+
+.jogador-detail-page::-webkit-scrollbar {
+  width: 8px; }
+
+.jogador-detail-page::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px; }
+
+.jogador-detail-page::-webkit-scrollbar-thumb {
+  background: rgba(102, 170, 255, 0.3);
+  border-radius: 4px; }
+  .jogador-detail-page::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 170, 255, 0.5); }
+
+/*# sourceMappingURL=_jogadorDetail.css.map */

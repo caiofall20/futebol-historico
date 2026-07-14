@@ -1,0 +1,93 @@
+{% extends 'blog/redacao/base.html' %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+<section class="redacao-panel">
+    <h1>Área de redação</h1>
+    <p class="redacao-lead">Crie fichas de jogadores a partir do Wikidata e da Wikipedia{% if llm_ativo %} com apoio de IA{% endif %}. Edite qualquer jogador já cadastrado no portal.</p>
+    {% if llm_ativo %}<p class="redacao-badge-llm">IA ativa no servidor</p>{% endif %}
+    <a href="{% url 'redacao_criar' %}" class="redacao-btn redacao-btn--large">Criar novo jogador</a>
+</section>
+
+<section class="redacao-panel">
+    <h2>Buscar jogadores</h2>
+    <form method="get" class="redacao-form redacao-form--inline redacao-busca-form">
+        <input type="search" name="q" value="{{ busca }}" class="redacao-input" placeholder="Nome ou nacionalidade…" autocomplete="off">
+        <button type="submit" class="redacao-btn">Buscar</button>
+        {% if busca %}
+        <a href="{% url 'redacao_home' %}" class="redacao-btn redacao-btn--secondary">Limpar</a>
+        {% endif %}
+    </form>
+    <p class="redacao-help">
+        <strong>{{ total_portal }}</strong> jogador(es) no portal ·
+        <strong>{{ total_rascunhos }}</strong> rascunho(s) na redação
+    </p>
+</section>
+
+{% if rascunhos_avulsos %}
+<section class="redacao-panel">
+    <h2>Rascunhos ainda não publicados</h2>
+    <p class="redacao-help">Fichas em andamento que ainda não têm página no portal.</p>
+    <ul class="redacao-list">
+        {% for r in rascunhos_avulsos %}
+        <li class="redacao-list__item">
+            <a href="{% url 'redacao_revisar' pk=r.pk %}" class="redacao-list__nome">{{ r.nome }}</a>
+            <span class="redacao-badge redacao-badge--{{ r.status }}">{{ r.get_status_display }}</span>
+            <span class="redacao-meta">{{ r.atualizado_em|date:"d/m/Y H:i" }}</span>
+            <span class="redacao-list__actions">
+                <a href="{% url 'redacao_revisar' pk=r.pk %}" class="redacao-btn redacao-btn--small">Editar</a>
+                <a href="{% url 'redacao_carta_editor' pk=r.pk %}" class="redacao-btn redacao-btn--small redacao-btn--secondary">Carta</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+<section class="redacao-panel">
+    <h2>Todos os jogadores do portal</h2>
+    {% if busca %}
+    <p class="redacao-help">Resultados para «{{ busca }}».</p>
+    {% endif %}
+
+    {% if jogadores_page.object_list %}
+    <ul class="redacao-list">
+        {% for j in jogadores_page %}
+        <li class="redacao-list__item">
+            <span class="redacao-list__nome">{{ j.nome }}</span>
+            <span class="redacao-meta">{{ j.nacionalidade }}</span>
+            {% if j.rascunho_pk %}
+            <span class="redacao-badge redacao-badge--publicado">Com rascunho</span>
+            {% else %}
+            <span class="redacao-badge">Só no portal</span>
+            {% endif %}
+            <span class="redacao-list__actions">
+                {% if j.rascunho_pk %}
+                <a href="{% url 'redacao_revisar' pk=j.rascunho_pk %}" class="redacao-btn redacao-btn--small">Editar</a>
+                <a href="{% url 'redacao_carta_editor' pk=j.rascunho_pk %}" class="redacao-btn redacao-btn--small redacao-btn--secondary">Carta</a>
+                {% else %}
+                <a href="{% url 'redacao_abrir_jogador' jogador_pk=j.pk %}" class="redacao-btn redacao-btn--small redacao-btn--primary">Abrir para editar</a>
+                {% endif %}
+                <a href="{% url 'jogador_detail' pk=j.pk %}" class="redacao-btn redacao-btn--small redacao-btn--secondary" target="_blank" rel="noopener">Portal</a>
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if jogadores_page.paginator.num_pages > 1 %}
+    <nav class="redacao-pagination" aria-label="Páginas">
+        {% if jogadores_page.has_previous %}
+        <a href="?page={{ jogadores_page.previous_page_number }}{% if busca %}&amp;q={{ busca|urlencode }}{% endif %}" class="redacao-btn redacao-btn--secondary">← Anterior</a>
+        {% endif %}
+        <span class="redacao-meta">Página {{ jogadores_page.number }} de {{ jogadores_page.paginator.num_pages }}</span>
+        {% if jogadores_page.has_next %}
+        <a href="?page={{ jogadores_page.next_page_number }}{% if busca %}&amp;q={{ busca|urlencode }}{% endif %}" class="redacao-btn redacao-btn--secondary">Próxima →</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <p class="redacao-help">Nenhum jogador encontrado{% if busca %} para esta busca{% endif %}.</p>
+    {% endif %}
+</section>
+{% endblock %}

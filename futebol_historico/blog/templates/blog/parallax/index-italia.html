@@ -1,0 +1,396 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História dos Craques - Seleção Italiana</title>
+    <link rel="stylesheet" href="{% static 'blog/parallax/styles-italia.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'blog/parallax/imagens/italia/italy-national-football-team-vector-logo-seeklogo/italy-national-football-team-seeklogo.png' %}">
+
+            {% load sass_tags %}
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_reset.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_variables.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_global.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/scss/_header.scss' %}">
+    <style>        /* Header de Navegação para Parallax - Usando o mesmo estilo do site */
+        .parallax-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .parallax-header.visivel {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .parallax-header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        /* Ajustar espaçamento do body quando header está visível */
+        body {
+            padding-top: 0;
+        }
+        
+        body.header-visivel {
+            padding-top: 80px;
+        }
+        
+        /* Garantir que o header parallax use o mesmo estilo */
+        .parallax-header .header-principal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+        
+        /* Esconder menu de países na tela inicial */
+        .menu-paises {
+            display: none !important;
+        }
+        
+        body.header-visivel .menu-paises {
+            display: block !important;
+        }
+        
+        /* Travar scroll na tela inicial */
+        body.tela-inicial-ativa {
+            overflow: hidden;
+            height: 100vh;
+        }</style>
+</head>
+<body class="tela-inicial-ativa">
+    <!-- Header de Navegação -->
+    <header class="parallax-header hidden" id="parallaxHeader" role="banner">
+        <div class="header-principal">
+            <nav class="container header__nav" role="navigation" aria-label="Menu principal">
+                <div class="header__nav--menu-hamburguer">
+                    <label class="mobile-menu-button hamburger-icon" aria-label="Abrir menu"></label>
+                    <label class="mobile-menu-button close-icon" aria-label="Fechar menu"></label>
+                </div>
+                <div class="header__nav--menu" id="menu-principal" role="menubar">
+                    <ul class="menu-items">
+                        <li role="none">
+                            <a href="{% url 'index' %}" role="menuitem">Início</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'timeline_copas' %}" role="menuitem">Copas</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'selecoes' %}" role="menuitem">Seleções</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'times' %}" role="menuitem">Times</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'jogadores_page' %}" role="menuitem">Jogadores</a>
+                        </li>
+                        <li role="none">
+                            <a href="{% url 'estadio_list' %}" role="menuitem">Estádios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Tela Inicial -->
+    <div id="tela-inicial" class="tela-inicial">
+        <video id="video-fundo" autoplay muted loop>
+            <source src="{% static 'blog/parallax/imagens/italia/Germany 0-2 Italy (AET) _ 2006 World Cup _ Match Highlights.mp4' %}" type="video/mp4">
+        </video>
+        <div class="overlay-video"></div>
+        <div class="conteudo-inicial">
+            <img src="{% static 'blog/parallax/imagens/italia/italy-national-football-team-vector-logo-seeklogo/italy-national-football-team-seeklogo.png' %}" alt="Itália" class="logo-italia">
+            <h1 class="titulo-principal">Storia dei Campioni</h1>
+            <p class="subtitulo">Uma jornada nostálgica pelos grandes nomes da Seleção Italiana</p>
+            <button id="btn-comecar" class="btn-comecar">
+                <span>Iniciare Esperienza</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas para Partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Controles -->
+    <div class="controles-superiores">
+        <!-- Controle de Música -->
+        <div class="controle-musica">
+            <button id="btn-musica-toggle" class="btn-musica" title="Pausar/Reproduzir música">
+                <svg id="icon-play" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
+            <input type="range" id="volume-slider" class="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+
+        <!-- Controle de Auto-Scroll -->
+        <button id="btn-auto-scroll" class="btn-auto-scroll" title="Modo apresentação automática">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path id="icon-play-auto" d="M8 5v14l11-7z"/>
+                <path id="icon-pause-auto" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+            </svg>
+            <span>Auto</span>
+        </button>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-markers"></div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <!-- Giuseppe Meazza -->
+        <section class="secao-jogador" data-jogador="meazza">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/giuseppe_meazza_1934.jpg' %}" alt="Giuseppe Meazza" class="img-jogador">
+            </div>
+            <div class="box-info">
+                <h2>Giuseppe Meazza</h2>
+                <p class="periodo">1930 - 1939</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="33">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="53">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Giuseppe Meazza foi um dos maiores jogadores da história do futebol italiano. Capitão da Azzurra, conquistou duas Copas do Mundo (1934 e 1938), sendo o primeiro bicampeão mundial da história. Foi artilheiro da Copa de 1934 e é considerado um dos maiores ídolos do futebol italiano.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Paolo Rossi -->
+        <section class="secao-jogador" data-jogador="rossi">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/giuseppe_meazza_1934.jpg' %}" alt="Giuseppe Meazza" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/italia/paulo_rossi_1982.jpg' %}" alt="Paolo Rossi" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Paolo Rossi</h2>
+                <p class="periodo">1977 - 1986</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="20">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="48">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="1">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Paolo Rossi foi o herói do tricampeonato mundial de 1982. Artilheiro da Copa com 6 gols, incluindo um hat-trick histórico contra o Brasil nas quartas de final. Foi eleito o melhor jogador da Copa de 1982 e é um dos maiores artilheiros da história da seleção italiana.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Roberto Baggio -->
+        <section class="secao-jogador" data-jogador="baggio">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/paulo_rossi_1982.jpg' %}" alt="Paolo Rossi" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/italia/baggio_italia.jpg' %}" alt="Roberto Baggio" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Roberto Baggio</h2>
+                <p class="periodo">1988 - 2004</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="27">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="56">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Roberto Baggio, o "Divino Codino", foi um dos maiores camisas 10 da história italiana. Participou de três Copas do Mundo (1990, 1994 e 1998). Na Copa de 1994, foi decisivo levando a Itália à final, onde infelizmente errou o pênalti decisivo. Foi eleito o melhor jogador do mundo em 1993.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Fabio Cannavaro -->
+        <section class="secao-jogador" data-jogador="cannavaro">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/baggio_italia.jpg' %}" alt="Roberto Baggio" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/italia/canavarro_2006.jpg' %}" alt="Fabio Cannavaro" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Fabio Cannavaro</h2>
+                <p class="periodo">1997 - 2010</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="2">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="136">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Fabio Cannavaro foi o capitão e líder da seleção italiana no tetracampeonato mundial de 2006. Zagueiro exemplar, foi eleito o melhor jogador da Copa de 2006 e melhor jogador do mundo no mesmo ano. Com 136 jogos, é o segundo jogador com mais partidas pela Azzurra.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Andrea Pirlo -->
+        <section class="secao-jogador" data-jogador="pirlo">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/canavarro_2006.jpg' %}" alt="Fabio Cannavaro" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/italia/pirlo_2006.jpg' %}" alt="Andrea Pirlo" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Andrea Pirlo</h2>
+                <p class="periodo">2002 - 2015</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="13">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="116">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="3">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Andrea Pirlo foi o maestro do meio-campo italiano. Campeão mundial em 2006, foi fundamental na conquista do tetracampeonato. Famoso por seus passes precisos e cobranças de falta, é considerado um dos melhores volantes da história do futebol. Participou de três Copas do Mundo.</p>
+            </div>
+            <button class="btn-proximo" aria-label="Próximo jogador">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Gianluigi Buffon -->
+        <section class="secao-jogador" data-jogador="buffon">
+            <div class="imagem-parallax">
+                <img src="{% static 'blog/parallax/imagens/italia/pirlo_2006.jpg' %}" alt="Andrea Pirlo" class="img-jogador img-anterior">
+                <img src="{% static 'blog/parallax/imagens/italia/buffon_2006.jpg' %}" alt="Gianluigi Buffon" class="img-jogador img-atual">
+            </div>
+            <div class="box-info">
+                <h2>Gianluigi Buffon</h2>
+                <p class="periodo">1997 - 2018</p>
+                <div class="estatisticas">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="0">0</div>
+                        <div class="stat-label">Gols</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="176">0</div>
+                        <div class="stat-label">Jogos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5">0</div>
+                        <div class="stat-label">Copas</div>
+                    </div>
+                </div>
+                <p class="descricao">Gianluigi Buffon é o jogador com mais partidas pela seleção italiana (176 jogos). Campeão mundial em 2006, é considerado um dos maiores goleiros da história do futebol. Participou de cinco Copas do Mundo e foi fundamental na conquista do tetracampeonato, sendo eleito o melhor goleiro do torneio.</p>
+            </div>
+            <!-- Último jogador, sem botão -->
+        </section>
+    </main>
+
+    <audio id="audio-musica" loop>
+        <!-- Quando adicionar a música italiana, substitua o src abaixo -->
+        <!-- Coloque o arquivo MP3 na pasta imagens/italia/ e atualize o caminho -->
+        <source src="{% static 'blog/parallax/Copa de 82 - Voa Canarinho.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <!-- Efeito sonoro de torcida (será gerado via Web Audio API) -->
+    <audio id="audio-torcida" preload="auto" style="display: none;">
+        <!-- Será gerado dinamicamente via JavaScript -->
+    </audio>
+
+    <script src="{% static 'blog/parallax/script-italia.js' %}"></script>    
+    <script>
+        // Esconder header durante scroll para baixo, mostrar ao scrollar para cima
+        (function() {
+            let lastScroll = 0;
+            const parallaxHeader = document.getElementById('parallaxHeader');
+            
+            if (parallaxHeader) {
+                window.addEventListener('scroll', function() {
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Só esconder após passar da tela inicial
+                    if (currentScroll > 100) {
+                        if (currentScroll > lastScroll && currentScroll > 200) {
+                            // Scrollando para baixo - esconder
+                            parallaxHeader.classList.add('hidden');
+                        } else {
+                            // Scrollando para cima - mostrar
+                            parallaxHeader.classList.remove('hidden');
+                        }
+                    } else {
+                        // Sempre mostrar no topo
+                        parallaxHeader.classList.remove('hidden');
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        })();
+    </script>
+    </body>
+</html>
+

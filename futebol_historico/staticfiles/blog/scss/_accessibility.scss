@@ -1,0 +1,189 @@
+// ===========================================
+// ACESSIBILIDADE (WCAG 2.1 AA)
+// ===========================================
+
+// Skip link
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 10000;
+    border-radius: 0 0 4px 0;
+    
+    &:focus {
+        top: 0;
+    }
+}
+
+// Contraste mínimo (WCAG AA)
+// Texto normal: 4.5:1
+// Texto grande (18pt+): 3:1
+
+.text-content {
+    color: #ffffff; // Contraste adequado em fundo escuro
+    background: #0f172a;
+}
+
+// Touch targets mínimos (44x44px)
+button,
+a,
+input[type="button"],
+input[type="submit"],
+.btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px 16px;
+    
+    @media (max-width: 768px) {
+        min-height: 48px; // Aumentar em mobile
+    }
+}
+
+// Focus visible
+*:focus-visible {
+    outline: 3px solid #66AAFF;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+// Remover outline apenas quando não é keyboard navigation
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+// Screen reader only
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+// ARIA labels visíveis quando necessário
+[aria-label] {
+    // Garantir que elementos com aria-label sejam acessíveis
+}
+
+// Alto contraste (modo de preferência do sistema)
+@media (prefers-contrast: high) {
+    .jogador-card,
+    .selecao-card {
+        border: 2px solid #ffffff;
+    }
+    
+    button,
+    .btn {
+        border: 2px solid currentColor;
+    }
+}
+
+// Redução de movimento (preferência do sistema)
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// Landmarks ARIA
+main[role="main"] {
+    // Já definido no HTML
+}
+
+nav[role="navigation"] {
+    // Já definido no HTML
+}
+
+footer[role="contentinfo"] {
+    // Já definido no HTML
+}
+
+// Estados de formulário acessíveis
+input:invalid,
+textarea:invalid,
+select:invalid {
+    border-color: #ef4444;
+    
+    &:focus {
+        outline-color: #ef4444;
+    }
+}
+
+input:valid,
+textarea:valid,
+select:valid {
+    border-color: #10b981;
+}
+
+// Indicadores de erro acessíveis
+.error-message {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    
+    &::before {
+        content: "⚠️ ";
+        aria-label: "Erro: ";
+    }
+}
+
+// Indicadores de sucesso
+.success-message {
+    color: #10b981;
+    
+    &::before {
+        content: "✅ ";
+        aria-label: "Sucesso: ";
+    }
+}
+
+// Tamanho de fonte ajustável
+html {
+    font-size: 16px; // Base
+    
+    @media (min-width: 1024px) {
+        font-size: 18px; // Aumentar em telas grandes
+    }
+}
+
+// Garantir que texto pode ser ampliado até 200% sem perder funcionalidade
+body {
+    min-width: 320px; // Largura mínima
+}
+
+// Contraste em imagens de fundo
+.hero-section,
+.background-image {
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); // Overlay para contraste
+        z-index: 0;
+    }
+    
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+

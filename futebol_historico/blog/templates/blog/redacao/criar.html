@@ -1,0 +1,40 @@
+{% extends 'blog/redacao/base.html' %}
+{% load static %}
+
+{% block title %}Novo jogador{% endblock %}
+
+{% block extra_head %}
+<script src="{% static 'blog/js/redacao-geracao.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="redacao-panel redacao-panel--narrow">
+    <h1>Novo jogador</h1>
+    <p class="redacao-lead">Passo 1 de 3 — Informe o nome. O sistema buscará dados no Wikidata e na Wikipedia{% if llm_ativo %} e redigirá o texto com IA{% endif %}.</p>
+
+    {% if llm_ativo %}
+    <p class="redacao-badge-llm">IA ativa — revise sempre antes de publicar</p>
+    {% else %}
+    <p class="redacao-help">IA opcional: use Groq (grátis), Ollama (local) ou OpenAI — veja <code>REDACAO_JOGADORES.md</code>. Sem chave, usa só Wikipedia/Wikidata.</p>
+    {% endif %}
+
+    <form method="post" class="redacao-form" id="redacao-form-criar" data-gerar-url="{% url 'redacao_api_gerar' %}">
+        {% csrf_token %}
+        <div class="redacao-field">
+            <label for="id_nome">{{ form.nome.label }}</label>
+            {{ form.nome }}
+            {% if form.nome.help_text %}<p class="redacao-help">{{ form.nome.help_text }}</p>{% endif %}
+            <p class="redacao-error" id="redacao-form-error" hidden></p>
+        </div>
+        <button type="submit" class="redacao-btn redacao-btn--large redacao-btn--primary" id="redacao-btn-gerar">
+            Gerar conteúdo
+        </button>
+    </form>
+
+    <div class="redacao-steps">
+        <div class="redacao-step redacao-step--active"><span>1</span> Nome</div>
+        <div class="redacao-step"><span>2</span> Revisar</div>
+        <div class="redacao-step"><span>3</span> Publicar</div>
+    </div>
+</section>
+{% endblock %}
